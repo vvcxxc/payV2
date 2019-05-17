@@ -1,0 +1,16 @@
+.icons {
+    background: url('../assets/icons.png') no-repeat;
+}
+.el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #ff1709;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background: #ff1709;
+    border-color: #999999;
+}
+.el-checkbox__inner:hover {
+    border-color: #999999;
+}
+.el-checkbox__input.is-focus .el-checkbox__inner{
+    border-color: #ff1709;
+}
