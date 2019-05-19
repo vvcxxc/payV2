@@ -147,7 +147,22 @@ export default {
             is_activities,
             result_money
           }
-          var {data} = await requestWechatPayment(params)
+          var {data} = await requestWechatPayment(params);
+          window.AlipayJSBridge.call('tradePay', {
+              tradeNO: alipayOrderSn//要改
+            }, res => {
+              if (res.resultCode === "9000") {
+                return resolve({
+                  message: 'ok'
+                })
+              } else if (res.resultCode === "4000") {
+                return reject({
+                  message: 'error',
+                  error: res
+                })
+              }
+            })
+          }
         }
       }
 
