@@ -166,9 +166,9 @@ export default {
         }
       }
 
-  },
+  }
  
-}
+
 </script>
 <style>
   .keyboard-box{
