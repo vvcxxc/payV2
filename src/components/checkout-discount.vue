@@ -4,67 +4,70 @@
         <div class="discounts">
             <header>优惠券</header>
             <div class="youhuijine">
-                您已选中优惠券1张，共可抵用¥50
+                您已选中优惠券1张，共可抵用¥{{sums}}
             </div>
-        <div class="all_coupons" ref='top'>
+        <div class="coupons-box">
+            <div class="all_coupons" ref='top'>
 
-            <!-- 最佳选择的优惠券 -->
-            <div class="best-coupons">
-                <div class="coupon" v-for="(item,idx) in best_coupon" v-bind:key=item.coupons_id  @click="BestCoupon(item)">
-                    <div class="couponleft">
-                         <div class="coupon-left">
-                            <p class="sum"><i>￥</i>{{item.money}}</p>
-                            <p class="amanjian">{{item.coupons_name}}</p>
+                <!-- 最佳选择的优惠券 -->
+                <div class="best-coupons">
+                    <div class="coupon" v-for="(item,idx) in best_coupon" v-bind:key=item.coupons_id @click="isBest(item,idx)">
+                        <div class="couponleft">
+                            <div class="coupon-left">
+                                <p class="sum"><i>￥</i>{{item.money}}</p>
+                                <p class="amanjian">{{item.coupons_name}}</p>
+                            </div>
                         </div>
-                    </div>
-                   
-                    <div class="coupon-right">
-                        <p class="coupon-shop"></p>
-                        <p class="coupon-time">{{item.expiration}}</p>
-                        <span class="best-choose" ref='choosebest'></span>
+                    
+                        <div class="coupon-right">
+                            <p class="coupon-shop"></p>
+                            <p class="coupon-time">{{item.expiration}}</p>
+                            <span class="best-choose" ref='choosebest'></span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 可以用的券 -->
-            <div class="coupons">
-                <div class="coupon" v-for="(item,idx) in spendable_list" v-bind:key=idx @click="Addcoupon(item,idx)">
-                    <div class="couponleft">
-                         <div class="coupon-left">
-                            <p class="sum"><i>￥</i>{{item.money}}</p>
-                            <p class="amanjian">{{item.coupons_name}}</p>
+                <!-- 可以用的券 -->
+                <div class="coupons">
+                    <div class="coupon" v-for="(item,idx) in spendable_list" v-bind:key=idx @click="chooseOne(item,idx)">
+                        <div class="couponleft">
+                            <div class="coupon-left">
+                                <p class="sum"><i>￥</i>{{item.money}}</p>
+                                <p class="amanjian">{{item.coupons_name}}</p>
+                            </div>
                         </div>
-                    </div>
-                   
-                    <div class="coupon-right">
-                        <p class="coupon-shop"></p>
-                        <p class="coupon-time">{{item.expiration}}</p>
-                        <span class="coupon-choose" ref='chooseone'>
+                    
+                        <div class="coupon-right">
+                            <p class="coupon-shop"></p>
+                            <p class="coupon-time">{{item.expiration}}</p>
+                            <span class="coupon-choose" ref='chooseone'>
+                                
+                            </span>
                             
-                        </span>
-                        
-                    </div>
-                </div>
-            </div>
-            <!-- 不能用的券 -->
-            <div class="unable-coupons">
-                <div class="u-coupon" v-for="(item,idx) in unusable_list" v-bind:key=item.coupons_id>
-                    <div class="couponleft">
-                         <div class="coupon-left">
-                            <p class="sum"><i>￥</i>{{item.money}}</p>
-                            <p class="amanjian">{{item.coupons_name}}</p>
                         </div>
                     </div>
-                   
-                    <div class="coupon-right">
-                        <p class="coupon-shop"></p>
-                        <p class="coupon-time">{{item.expiration}}</p>
-                        <span class="coupon-choose"></span>
-                        <p class="explain">未达到使用要求</p>
+                </div>
+                <!-- 不能用的券 -->
+                <div class="unable-coupons">
+                    <div class="u-coupon" v-for="(item,idx) in unusable_list" v-bind:key=item.coupons_id>
+                        <div class="couponleft">
+                            <div class="coupon-left">
+                                <p class="sum"><i>￥</i>{{item.money}}</p>
+                                <p class="amanjian">{{item.coupons_name}}</p>
+                            </div>
+                        </div>
+                    
+                        <div class="coupon-right">
+                            <p class="coupon-shop"></p>
+                            <p class="coupon-time">{{item.expiration}}</p>
+                            <span class="coupon-choose"></span>
+                            <p class="explain">未达到使用要求</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
 
         </div>
         <div class="confirm-box">
@@ -78,6 +81,7 @@ import { parse } from 'querystring';
 import '../styles/common.css'
 import { constants } from 'fs';
 import { isArray } from 'util';
+import { setInterval, clearInterval } from 'timers';
 export default {
    data(){
        return{
@@ -85,175 +89,185 @@ export default {
            sums:'',
            spendable_list:[],
            unusable_list:[],
-           flag:true,
            best_coupon:[],
-           checkList:[],
            id:[],
-           isok:false,
-           
-           
+           sums:''
        }
    },
-   watch:{
-       id:function(a,b){
-        console.log(a);
-        // this.isAccessTo(a)
-         if(this.id.length != 0){
-            this.$refs.nochoose.style.backgroundPositionX = 18 + 'px';
-         }
-         if(this.best_coupon.length == 0){
-            this.$refs.nochoose.style.backgroundPositionX = 0;
-         }
-       },
-   },
+   
   
    props:['couponlist','sum','spendable_coupons','recommend_coupon'],
    created(){
-       this.best_coupon = this.recommend_coupon;
-       this.spendable_list = NewArrObj(this.spendable_coupons,this.best_coupon);
-       this.id.unshift(this.best_coupon[0].coupons_id) 
-       this.list = JSON.parse(JSON.stringify(this.couponlist))
        this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
+       this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon)
+       this.best_coupon = this.recommend_coupon;
+       this.list = this.couponlist;
        
-       if(this.sum == ''){
-           this.best_coupon = []
-           this.spendable_list = [];
-           this.unusable_list = this.list;
-           this.flag = false
-       }
-
+       //默认选择最佳优惠
+       this.chooseBest();
     
    },
-   mounted(){
-       this.isThreshold()
+   watch:{
+       id:function(a,b){
+           console.log(a)
+       }
    },
    updated(){
-       let arr = [];
-       for(var i = 0; i < this.couponlist.length; i ++){
-           for(var j = 0; j < this.id.length; j ++){
-               if(this.couponlist[i].coupons_id == this.id[j]){
-                   arr.push(this.couponlist[i]);
-               }
+       for(var i = 0; i < this.spendable_list.length; i ++){
+           this.$refs.chooseone[i].style.backgroundPositionX = 18 + 'px';
+           if(this.spendable_list[i].ischecked == true){
+               this.$refs.chooseone[i].style.backgroundPositionX = 0;
            }
-       }
-       for(var a = 0; a < this.spendable_list.length; a ++){
-           for(var b = 0; b < arr.length; b ++){
-               if(this.spendable_list[a].coupons_id == arr[b].coupons_id){
-                   this.$refs.chooseone[a].style.backgroundPositionX = 0;
-               }else{
-                   this.$refs.chooseone[a].style.backgroundPositionX = 18 + 'px'
-               }
-           }
-       }
-       if(this.id.length = 0){
-           this.$refs.choosebest[0].style.backgroundPositionX = 18 + 'px'
-       }
-        for(var i = 0; i < this.spendable_list.length; i ++){
-           this.spendable_list[i].ischecked = false;
        }
    },
+
    methods:{
-    
-    // 是否选择最好那张优惠券
-    BestCoupon(item){
-        if(!item.ischecked){
-            this.$refs.choosebest[0].style.backgroundPositionX = 0;
-            this.id.push(item.coupons_id);
-            
-        }else{
-            this.$refs.choosebest[0].style.backgroundPositionX = 18 + 'px';
-            for(let a = 0; a < this.id.length; a ++){
-                    if(this.id[a] == item.coupons_id){
-                        this.id.splice(a,1)
+       //初始化的时候默认选择最佳优惠
+       chooseBest(){
+           if(this.best_coupon.length){
+                this.best_coupon[0].ischecked = true;
+                this.id.push(this.best_coupon[0].coupons_id);
+                let best = this.best_coupon[0];
+                let spendable = [...this.spendable_list];
+                let unable = [...this.unusable_list]
+                // 判断最佳优惠是否为门槛券
+                if(best.is_threshold == 2){
+                    if(spendable.length){
+                        for(var i = spendable.length-1; i >= 0; i --){
+                            if(spendable[i].is_threshold == 2){
+                                unable.unshift(spendable[i]);
+                                spendable.splice(i,1);
+                            }
+                        }
+                        this.spendable_list = spendable;
+                        this.unusable_list = unable;
+                        
                     }
                 }
-               
-        }
-        item.ischecked = !item.ischecked
-        this.isThreshold()
-    },
+                this.sums = this.best_coupon[0].money
+           }
+       },
 
-    // 判断最佳优惠是否是有门槛
-    isThreshold(){
-        if(this.best_coupon[0].is_threshold == 2){
-            for(var i = this.spendable_list.length-1; i >= 0; i --){
-                if(this.spendable_list[i].is_threshold == 2){
-                    this.unusable_list.push(this.spendable_list[i]);
-                    this.spendable_list.splice(i,1);
+        // 是否选择推荐优惠
+        isBest(item,idx){
+            let best = this.best_coupon[0];
+            let spendable = [...this.spendable_list];
+            let unable = [...this.unusable_list]
+            if(item.ischecked == false){
+                this.id.push(item.coupons_id);
+                if(best.is_threshold == 2){
+                    if(spendable.length){
+                        for(var i = spendable.length-1; i >= 0; i --){
+                            if(spendable[i].is_threshold == 2){
+                                unable.unshift(spendable[i]);
+                                spendable.splice(i,1);
+                            }
+                        }
+                        this.spendable_list = spendable;
+                        this.unusable_list = unable;
+                        
+                    }
                 }
+                this.$refs.choosebest[0].style.backgroundPositionX = 0;
+                item.ischecked = !item.ischecked;
+            }else if(item.ischecked == true){
+                let idx = this.id.indexOf(item.coupons_id);
+                if(idx >= 0){
+                    this.id.splice(idx,1);
+                }              
+                this.$refs.choosebest[0].style.backgroundPositionX = 18 + 'px';
+                this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
+                this.best_coupon = this.recommend_coupon;
+                this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
+                item.ischecked = !item.ischecked;
             }
-        }
-    },
-   
-    // 判断是否有门槛
-    Addcoupon(item,idx){
-        let spendable_coupons = [...NewArrObj(this.spendable_coupons,this.recommend_coupon)];
-        let best_coupon = this.best_coupon;
-        let unusable_list = [...NewArrObj(this.couponlist,this.spendable_coupons)];
-        if(item.ischecked == false){
-            
-            if(item.is_threshold == 2){
-                let idx = spendable_coupons.indexOf(item);
-                for(var i = spendable_coupons.length-1; i >= 0; i --){
-                    if(spendable_coupons[i].is_threshold == 2){
-                        if(spendable_coupons[i].coupons_id == item.coupons_id){
-                            spendable_coupons.splice(i,1)
+        },
+
+        // 点击选择优惠券
+        chooseOne(item,idx){
+            let best = this.best_coupon[0];
+            let spendable = [...this.spendable_list];
+            let unable = [...this.unusable_list]
+            if(item.ischecked == false){
+                if(item.is_threshold == 2){
+                    for(var i = spendable.length-1; i >= 0; i --){
+                        if(item.coupons_id == spendable[i].coupons_id){
+                            if(best.is_threshold == 2){
+                                unable.unshift(best)
+                                this.best_coupon.splice(0,1);
+                             
+                            }else{
+                               
+                                spendable.unshift(best);
+                                this.best_coupon.splice(0,1);
+                            }
+                                this.best_coupon.unshift(item);
+                                spendable.splice(i,1)
+                                this.$refs.choosebest[0].style.backgroundPositionX = 0;
+                                this.id.push(item.coupons_id)
                         }else{
-                            unusable_list.unshift(spendable_coupons[i]);
-                            spendable_coupons.splice(i,1)
+                            if(spendable[i].is_threshold == 2){
+                                spendable[i].ischecked = false;
+                                unable.unshift(spendable[i]);
+                                spendable.splice(i,1);
+                            }
+                            
                         }
                     }
-                }
-                if(best_coupon[0].is_threshold == 2){
-                    unusable_list.push(best_coupon[0]);
-                    this.id = [];
-                }else{
-                    spendable_coupons.unshift(best_coupon[0])
-                }
-               
-               
-                this.$refs.choosebest[0].style.backgroundPositionX = 0;
-                this.id.push(item.coupons_id)
-                this.unusable_list = unusable_list
-                this.spendable_list = spendable_coupons;
-                this.best_coupon = [item];
-            }else{
-                this.id.push(item.coupons_id);
-                this.$refs.chooseone[idx].style.backgroundPositionX = 0;
-            }
-            item.ischecked = !item.ischecked;
-        }else{
-            if(item.is_threshold == 2){
-                this.spendable_list = this.spendable_coupons;
-                this.best_coupon = this.recommend_coupon;
-                this.unusable_list = [...NewArrObj(this.couponlist,this.spendable_coupons)];
-                
-            }else{
-                this.$refs.chooseone[idx].style.backgroundPositionX = 18 + 'px';
-                for(let a = 0; a < this.id.length; a ++){
-                    if(this.id[a] == item.coupons_id){
-                        this.id.splice(a,1)
+                }else if(item.is_threshold == 1){
+                    for(var i = 0; i < spendable.length; i ++){
+                        if(item.coupons_id == spendable[i].coupons_id){
+                            this.$refs.chooseone[i].style.backgroundPositionX = 0;
+                        }
                     }
+                    
+                    this.id.push(item.coupons_id);
+                }
+                this.spendable_list = spendable;
+                this.unusable_list = unable;
+                item.ischecked = !item.ischecked;
+            }else{
+                if(item.is_threshold == 2){
+                    this.best_coupon = this.recommend_coupon;
+                    this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
+                    this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
+                    if(this.id.length){
+                        for(var i = 0; i < this.spendable_list.length; i ++){
+                            for(var j = 0; j < this.id.length; j ++){
+                                if(this.spendable_list[i].coupons_id == this.id[j]){
+                                    this.$refs.chooseone[i].style.backgroundPositionX = 0;
+                                    this.spendable_list[i].ischecked = true;
+                                }
+                            }
+                        }
+                        for(var a = 0; a < this.id.length; a ++){
+                            if(this.id[a] == this.best_coupon[0].coupons_id){
+                                this.$refs.choosebest[0].style.backgroundPositionX = 0;
+                                this.best_coupon[0].ischecked = true;       
+                            }
+                        }
+                    }
+                    let idxs = this.id.indexOf(item.coupons_id);
+                    this.id.splice(idxs,1);
+                }else{
+                    let idxs = this.id.indexOf(item.coupons_id);
+                    this.id.splice(idxs,1)
+                    this.$refs.chooseone[idx].style.backgroundPositionX = 18 + 'px'
                 }
                
+                item.ischecked = !item.ischecked;
             }
-             item.ischecked = !item.ischecked;
+            
+            document.querySelectorAll('.coupons-box')[0].scrollTop = 0;
+        },
+
+        //  点击确定，向父组件传值
+        Confirm(){
+            console.log(this.id)
+            this.$emit('ListenToCoupon',this.id)
         }
-        
-
-        document.querySelectorAll('.all_coupons')[0].scrollTop = 0;
-        
-
-    
-    },
-
-    // 点击确定
-    Confirm(){
-        console.log(this.id)
-        this.$emit('ListenToCoupon',this.id)
-    }
-    
    }
+   
 }
 </script>
 <style scoped>
@@ -283,6 +297,7 @@ export default {
         width: 100vw;
         background: #f6f6f6;
         max-height: 462px;
+        padding-bottom: .8rem
     }
     .checkout header{
         font-size: 15px;
@@ -311,10 +326,18 @@ export default {
         background-position: 18px 0;
        
     }
+    .coupons-box{
+        max-height: 2.8rem;
+        overflow: auto;
+        margin-bottom: .8rem;
+    }
     .all_coupons{
         overflow: auto;
-        max-height: 3.24rem;
-        margin-bottom: 10px;
+        height: auto;
+       
+    }
+    .best-coupons,.coupons,.unable-coupons{
+        overflow: hidden;
     }
     /* .coupons{
        
