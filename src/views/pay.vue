@@ -83,7 +83,7 @@ import { constants } from 'fs';
 				show_recommend:false,
 				spendable_coupons:[],
 				unable_coupons:[],
-				amount:'',
+				amount:0,
 				couponsSum:'',
 				coupon_id:[],
 				reduction_money_list:[]
@@ -103,7 +103,6 @@ import { constants } from 'fs';
 				this.moneyOff();
 				this.RecommendCoupon(newVal);
 				if(newVal == ''){
-					console.log(123)
 					this.recommend_coupon = {};
 					let num = this.couponlist.length;
 					this.coupon = num + '张可用';
@@ -159,6 +158,7 @@ import { constants } from 'fs';
 				cleansum(){
 					this.sum = '';
 					this.havesum = true;
+					this.amount = 0;
 				},
 				// 获取商店信息
 				async getStoreinfo(){
@@ -169,7 +169,6 @@ import { constants } from 'fs';
 						console.log(err)
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
-					console.log(data)
 					this.info = data
 					window.localStorage.setItem("storeid", data.id)
 				},
@@ -192,8 +191,6 @@ import { constants } from 'fs';
 								this.isshow = true;
 							}
 						}
-					}else{
-						console.log('无满减活动')
 					}
 				},
 
@@ -284,9 +281,8 @@ import { constants } from 'fs';
 								this.spendable_coupons = spendable_coupons;
 								this.amount = this.sum - this.couponsSum - this.manjian;
 								if(this.amount < 0){
-									this.amount = 0
+									this.amount = 0;
 								}
-								
 						}
 						
 						
@@ -336,15 +332,24 @@ import { constants } from 'fs';
 						this.isclose = false;
 						let coupons = this.couponlist;
 						this.couponsSum = '';
+						let sum = 0;
+						let arr = [];
 						for(var i = 0; i < coupons.length; i ++){
 							for(var j = 0; j < id.length; j ++){
 								if(coupons[i].coupons_id == id[j]){
-									this.couponsSum = this.couponsSum + coupons[i].money;
+									arr.push(coupons[i])
 								}
 							}
 							
 						}
-						this.amount = this.sum - this.couponsSum - this.manjian
+						for(var a = 0; a < arr.length; a ++){
+							sum += arr[a].money
+						}
+						this.couponsSum = sum;
+						this.amount = this.sum - this.couponsSum - this.manjian;
+						if(this.amount < 0){
+									this.amount = 0;
+								}
 					}
 				}
 
