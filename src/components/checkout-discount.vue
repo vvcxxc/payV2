@@ -49,7 +49,7 @@
                 </div>
                 <!-- 不能用的券 -->
                 <div class="unable-coupons">
-                    <div class="u-coupon" v-for="(item,idx) in unusable_list" v-bind:key=item.coupons_id>
+                    <div class="u-coupon" v-for="(item) in unusable_list" v-bind:key=item.coupons_id>
                         <div class="couponleft">
                             <div class="coupon-left">
                                 <p class="sum"><i>￥</i>{{item.money}}</p>
@@ -77,21 +77,16 @@
 </template>
 <script>
 import { NewArrObj } from '../utils/common.js'
-import { parse } from 'querystring';
-import '../styles/common.css'
-import { constants } from 'fs';
-import { isArray } from 'util';
-import { setInterval, clearInterval } from 'timers';
+import '../styles/common.css';
 export default {
-   data(){
+   data () {
        return{
            list:[],
            sums:'',
            spendable_list:[],
            unusable_list:[],
            best_coupon:[],
-           id:[],
-           sums:''
+           id:[]
        }
    },
    
@@ -107,15 +102,11 @@ export default {
        this.chooseBest();
     
    },
-   watch:{
-       id:function(a,b){
-           console.log(a)
-       }
-   },
+   
    updated(){
        for(var i = 0; i < this.spendable_list.length; i ++){
            this.$refs.chooseone[i].style.backgroundPositionX = 18 + 'px';
-           if(this.spendable_list[i].ischecked == true){
+           if (this.spendable_list[i].ischecked == true) {
                this.$refs.chooseone[i].style.backgroundPositionX = 0;
            }
        }
@@ -149,7 +140,7 @@ export default {
        },
 
         // 是否选择推荐优惠
-        isBest(item,idx){
+        isBest(item){
             let best = this.best_coupon[0];
             let spendable = [...this.spendable_list];
             let unable = [...this.unusable_list]
@@ -215,7 +206,7 @@ export default {
                         }
                     }
                 }else if(item.is_threshold == 1){
-                    for(var i = 0; i < spendable.length; i ++){
+                    for(let i = 0; i < spendable.length; i ++){
                         if(item.coupons_id == spendable[i].coupons_id){
                             this.$refs.chooseone[i].style.backgroundPositionX = 0;
                         }
@@ -232,15 +223,15 @@ export default {
                     this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
                     this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
                     if(this.id.length){
-                        for(var i = 0; i < this.spendable_list.length; i ++){
-                            for(var j = 0; j < this.id.length; j ++){
+                        for(let i = 0; i < this.spendable_list.length; i ++){
+                            for(let j = 0; j < this.id.length; j ++){
                                 if(this.spendable_list[i].coupons_id == this.id[j]){
                                     this.$refs.chooseone[i].style.backgroundPositionX = 0;
                                     this.spendable_list[i].ischecked = true;
                                 }
                             }
                         }
-                        for(var a = 0; a < this.id.length; a ++){
+                        for(let a = 0; a < this.id.length; a ++){
                             if(this.id[a] == this.best_coupon[0].coupons_id){
                                 this.$refs.choosebest[0].style.backgroundPositionX = 0;
                                 this.best_coupon[0].ischecked = true;       
@@ -263,7 +254,6 @@ export default {
 
         //  点击确定，向父组件传值
         Confirm(){
-            console.log(this.id)
             this.$emit('ListenToCoupon',this.id)
         }
    }
