@@ -63,7 +63,7 @@ export const Login = () => {
         if (token){
             return
         }else{
-            let url = window.location.href+"/ali/getZfbUserInfo";
+            let url = process.env.VUe_APP_JIEMIAN+"/pay";
             let codeid = getUrlParams().code_id
             window.location.href = baseurl+'/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url
         }
