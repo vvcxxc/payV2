@@ -12,7 +12,7 @@ import {Login} from './utils/handle_login'
 export default {
   name: 'App',
   created(){
-    Login();
+    // Login();
   }
 }
 </script>
