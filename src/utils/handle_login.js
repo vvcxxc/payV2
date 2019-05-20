@@ -61,9 +61,9 @@ export const Login = () => {
         }
     }else{
         let token = Cookie.get(_token);
-        if (token){
-            return
-        }else{
+        // if (token){
+        //     return
+        // }else{
             console.log(11111)
             let url = baseurl+"ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
@@ -71,6 +71,6 @@ export const Login = () => {
             // console.log(baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url)
             window.location.href = baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
             // window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url=http://test.api.tdianyi.com/ali/getZfbUserInfo'
-        }
+        // }
     }
 }
