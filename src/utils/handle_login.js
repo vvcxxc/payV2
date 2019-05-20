@@ -63,7 +63,7 @@ export const Login = () => {
         if (token){
             return
         }else{
-            let url = window.location.href;
+            let url = window.location.href+"/ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id
             window.location.href = baseurl+'/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url
         }
