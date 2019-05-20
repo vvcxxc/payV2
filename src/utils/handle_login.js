@@ -55,8 +55,8 @@ export const Login = () => {
             let codeid = getUrlParams().code_id;
             let url = baseurl+'/wechat/wxoauth?code_id='+codeid+'&from=onescan'
             
-            url = encodeURIComponent(url)
-            window.location.href = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE'
+            url = encodeURIComponent(url);
+            window.location.href = 'http://wxauth.tdianyi.com/index.html?redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE'
         }
     }else if(browsertype == 'alipay'){
         let token = Cookie.get(_token);

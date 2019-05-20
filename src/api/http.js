@@ -3,12 +3,13 @@ import qs from "qs"
 import { getToken } from "../utils/get_info"
 import { FETCH_OK, NOT_SIGN, NOT_FIND, SERVER_ERROR } from "../utils/global"
 import store from "../store/index"
-
+import { Cookie} from '../utils/common';
 const config = {
   baseURL: process.env.VUE_APP_BASE_DOMAIN,
   timeout: 5000,
   headers: {
-    Accept: "application/json"
+    Accept: "application/json",
+    Authorization: "Bearer "+ Cookie.get(process.env.VUE_APP_TOKEN)
   }
 }
 const instance = axios.create(config)
@@ -39,7 +40,7 @@ instance.interceptors.response.use(
   },
   err => {
     store.dispatch("ajaxAfter")
-    const { request, response } = err
+    const { response } = err
     if (response) {
       const { status, data } = response
       switch (status) {
@@ -56,8 +57,10 @@ instance.interceptors.response.use(
           break
         case NOT_FIND:
           window.console.log("HTTP: " + NOT_FIND)
+          break
         case SERVER_ERROR:
           window.console.log("HTTP: " + SERVER_ERROR)
+          break
         default:
           window.console.log(data.message)
       }
