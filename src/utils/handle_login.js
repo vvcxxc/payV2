@@ -51,6 +51,7 @@ export const Login = () => {
         let token = Cookie.get(_token);
         if (token){
           console.log('登陆成功')
+         
         }else{
             let codeid = getUrlParams().code_id;
             let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
@@ -58,14 +59,14 @@ export const Login = () => {
             url = encodeURIComponent(url);
             window.location.href = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
         }
-    }else if(browsertype == 'alipay'){
+    }else{
         let token = Cookie.get(_token);
         if (token){
             return
         }else{
             let url = baseurl+"ali/getZfbUserInfo";
-            let codeid = getUrlParams().code_id
-            window.location.href = baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url
+            let codeid = getUrlParams().code_id;
+            window.location.href = baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
         }
     }
 }
