@@ -1,6 +1,6 @@
 import { WECHAT } from './global'
 import { getBrowserType, getUrlParams } from './get_info'
-import { Cookie } from './common'
+import { Cookie } from './common';
 
 const devAuth = async (type) => {
     const { Cookie } = await import("@/utils/common");
@@ -50,13 +50,13 @@ export const Login = () => {
     if(browsertype == 'wechat'){
         let token = Cookie.get(_token);
         if (token){
-          return
+          console.log('登陆成功')
         }else{
             let codeid = getUrlParams().code_id;
-            let url = baseurl+'/wechat/wxoauth?code_id='+codeid+'&from=onescan'
+            let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
             
             url = encodeURIComponent(url);
-            window.location.href = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE'
+            window.location.href = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
         }
     }else if(browsertype == 'alipay'){
         let token = Cookie.get(_token);

@@ -1,10 +1,11 @@
 import http from "./http"
+
+import axios from "axios";
 /**
  * 获取店铺信息及优惠券活动
 */
-
 export const storeInfo = params =>
-  http({
+  axios({
     url: "v3/pay/store_info",
     method: "get",
     params
@@ -17,7 +18,7 @@ export const requestWechatPayment = params =>
   http({
     url:'v1/guest/storePay/wechatPay',
     method:'post',
-    params
+    params,
   })
 
 
@@ -30,3 +31,10 @@ export const requestAlpayPayment = params =>
     method:'post',
     params
   })
+
+/**
+ * 获取店铺信息
+ */
+// export const storeInfo = params =>{
+//   axios
+// }

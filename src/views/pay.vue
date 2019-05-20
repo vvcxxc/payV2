@@ -53,7 +53,7 @@
 
 	import XKeyboard from "../components/x-keyboard.vue";
 	import CheckoutDiscount from '../components/checkout-discount.vue'
-	import { getBrowserType, getUrlParams, getUserid, getUnionid} from '../utils/get_info.js'
+	import { getBrowserType, getUrlParams, getUserid, getUnionid, getToken} from '../utils/get_info.js'
 	import { Cookie, Compare, NewArrObj } from '../utils/common.js'
 	import { Login } from '../utils/handle_login.js'
 	import { storeInfo } from '../api/api'
@@ -130,8 +130,8 @@ import { constants } from 'fs';
 		// },
 		created(){
 			
-			this.getStoreinfo()
-		
+			this.getStoreinfo();
+			console.log(123)
 		},
 
 		mounted(){
@@ -165,6 +165,7 @@ import { constants } from 'fs';
 					let params = {
 						code_id:415
 					};
+				
 					let {data} = await storeInfo(params).catch(err => {
 						console.log(err)
 						throw Error("--- 获取店铺基本信息出错 ---")

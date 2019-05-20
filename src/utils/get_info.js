@@ -37,8 +37,8 @@ const getUrlParams = (original = window.location.href) => {
  * */   
 
 const getToken = () => {
-    const token = Cookie.get(production ? 'token_auth' : 'test_token_auth')
-    return token ? `Bearer ${token}` : ''
+    const token = Cookie.get(process.env.VUE_APP_TOKEN);
+    return token ? `Bearer ${token}` : '';
 }
 
 /**
