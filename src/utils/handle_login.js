@@ -66,8 +66,8 @@ export const Login = () => {
         }else{
             let url = baseurl+"ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
-            // window.location.href = baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
-            window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url=http://test.api.tdianyi.com/ali/getZfbUserInfo'
+            window.location.href = baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
+            // window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url=http://test.api.tdianyi.com/ali/getZfbUserInfo'
         }
     }
 }
