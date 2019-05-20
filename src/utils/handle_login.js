@@ -63,9 +63,9 @@ export const Login = () => {
         if (token){
             return
         }else{
-            let url = process.env.VUe_APP_JIEMIAN+"/pay";
+            let url = baseurl+"ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id
-            window.location.href = baseurl+'/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url
+            window.location.href = baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url
         }
     }
 }
