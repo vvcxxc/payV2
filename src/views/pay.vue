@@ -119,10 +119,11 @@ import { constants } from 'fs';
 				
 				};
 				if(this.manjian == '' && this.couponsSum == 0){
-					this.amount = 0;
+					this.amount = newVal;
 				}
+				this.amount = newVal;
+				console.log(123)
 
-				// 计算总金额
 
 			},
 			info:function(a,b){
