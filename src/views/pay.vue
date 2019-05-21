@@ -30,7 +30,11 @@
 		</div>
 		<div class="zhanwei"></div>
 		<div class="area-keyboard">
-			<x-keyboard v-on:change-sum="showSum" :sum='sum' :amount='amount' :coupon_id='coupon_id' :reduction_money_list='reduction_money_list'/>
+			<x-keyboard v-on:change-sum="showSum"
+			:sum='sum'
+			:amount='amount'
+			:coupon_id='coupon_id'
+			:is_reduction_removed='info.is_reduction_removed'/>
 		</div>
 
 		<!-- 选择优惠券 -->

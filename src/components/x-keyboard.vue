@@ -43,7 +43,7 @@ export default {
       activity:[]
     }
   },
-  props:['sum','amount','coupon_id','reduction_money_list'],
+  props:['sum','amount','coupon_id','is_reduction_removed'],
   watch:{
     sum:function(newVal,oldVal){
       this.currentValue = newVal
@@ -54,7 +54,7 @@ export default {
     coupon_id:function(a,b){
       this.id = a
     },
-    reduction_money_list:function(a,b){
+    is_reduction_removed:function(a,b){
       this.activity = a;
     }
   },
@@ -99,13 +99,7 @@ export default {
         let code_id = getUrlParams().code_id;
         let amount = this.sum;
         let result_money = this.amounts;
-        let is_activities = 0;
-       
-        if(this.activity){
-          is_activities = 1;
-        }else{
-          is_activities = 0
-        }
+        let is_activities = this.activity;
         
         let youhui_log_id = this.id.join('_')
         
