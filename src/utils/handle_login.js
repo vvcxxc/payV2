@@ -64,9 +64,9 @@ export const Login = () => {
         }
     }else{
         let token = Cookie.get(_token);
-        // if (token){
-        //     return
-        // }else{
+        if (token){
+            return
+        }else{
             console.log(11111)
             let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
