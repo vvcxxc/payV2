@@ -20,6 +20,10 @@ export default {
 <style>
 body,html{
   height: 100%;
+   -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 }
 #app{
   height: 100%;
