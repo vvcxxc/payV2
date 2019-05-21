@@ -132,7 +132,7 @@ export default {
                 } 
             });
 
-        }else if(browsertype == 'alpay'){
+        }else if(browsertype == 'alipay'){
           // 支付宝支付
           let alipayUuser = getUrlParams().alipayUuser;
           let params = {
