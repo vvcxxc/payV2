@@ -102,7 +102,9 @@ import { constants } from 'fs';
 
 		watch:{
 			sum:function(newVal,oldVal){
-				
+				if(newVal > 100000){
+					this.sum = oldVal;
+				}
 			
 				this.moneyOff();
 				this.RecommendCoupon(newVal);
