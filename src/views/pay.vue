@@ -214,116 +214,119 @@ import { constants } from 'fs';
 					let best_coupon = {};
 					let spendable_coupons = [];
 					let sort_spendable_coupons = [];
-					if(this.info.is_reduction_removed == 1){
-						
-						// 有满减的情况
-						let manjian = this.info.reduction_money_list;
-						let limits = [];
-						let limit = 0;
-						for(let key in manjian){
-							limits.push(key);
-
-						}
-						limit = limits[0];
-
-						// 满减达到要求	
-						if(newVal*1 >= limit){
-							spendable_coupons = [];
-							sort_spendable_coupons = [];
-							for(let i = 0;i < list.length; i++){
-								if(list[i].is_threshold == 1){
-									spendable_coupons.push(list[i]);
-									sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
-									best_coupon = sort_spendable_coupons[0];
-									
-									this.recommend_coupon = best_coupon;
-									this.coupon = '-￥'+best_coupon.money;
-									this.show_recommend = true;
-								}
+					if(list.length){
+							if(this.info.is_reduction_removed == 1){
+							
+							// 有满减的情况
+							let manjian = this.info.reduction_money_list;
+							let limits = [];
+							let limit = 0;
+							for(let key in manjian){
+								limits.push(key);
 
 							}
-							this.spendable_coupons = spendable_coupons;
-						}else{
-						// 未达到满减要求	
-							spendable_coupons = [];	
-							sort_spendable_coupons = [];
-							for(let i = 0; i < list.length; i++){
-								if(newVal >= list[i].full_money){
-									spendable_coupons.push(list[i]);
-								
-									sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
-									let arr = [];
-									for( let a = 0; a < sort_spendable_coupons.length; a++){
-										let money = sort_spendable_coupons[0].money
-										if(money == sort_spendable_coupons[a].money){
-											arr.push(sort_spendable_coupons[a])
-										}
+							limit = limits[0];
+
+							// 满减达到要求	
+							if(newVal*1 >= limit){
+								spendable_coupons = [];
+								sort_spendable_coupons = [];
+								for(let i = 0;i < list.length; i++){
+									if(list[i].is_threshold == 1){
+										spendable_coupons.push(list[i]);
+										sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
+										best_coupon = sort_spendable_coupons[0];
+										
+										this.recommend_coupon = best_coupon;
+										this.coupon = '-￥'+best_coupon.money;
+										this.show_recommend = true;
 									}
-									var arr1 = [];
-									for( let b = 0; b < arr.length;b++){
-										if(arr[b].is_threshold == 2){
-											arr1.push(arr[b]);
-											best_coupon = arr1.sort(Compare('full_money'))[0];
-											this.recommend_coupon = best_coupon;
-											this.coupon = '-￥'+best_coupon.money;
-											this.show_recommend = true;
-										}else{
-											best_coupon = sort_spendable_coupons[0];
-											this.recommend_coupon = best_coupon;
-											this.coupon = '-￥'+best_coupon.money;
-											this.show_recommend = true;
-										}
-									}
-								
+
 								}
-							}
-								this.coupon_id = [this.recommend_coupon.coupons_id]
-								this.couponsSum = this.recommend_coupon.money;
 								this.spendable_coupons = spendable_coupons;
-								this.amount = this.sum - this.couponsSum - this.manjian;
-								if(this.amount < 0){
-									this.amount = 0;
-								}
-						}
-						
-						
-					}else{
-						// 没有满减的情况
-							spendable_coupons = [];	
-							sort_spendable_coupons = [];
-							for(let i = 0; i < list.length; i++){
-								if(newVal >= list[i].full_money){
-									spendable_coupons.push(list[i]);
-									console.log('未达到满减要求：');
-									this.show_recommend = spendable_coupons;
-									sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
-									let arr = [];
-									for( let a = 0; a < sort_spendable_coupons.length; a++){
-										let money = sort_spendable_coupons[0].money
-										if(money == sort_spendable_coupons[a].money){
-											arr.push(sort_spendable_coupons[a])
+							}else{
+							// 未达到满减要求	
+								spendable_coupons = [];	
+								sort_spendable_coupons = [];
+								for(let i = 0; i < list.length; i++){
+									if(newVal >= list[i].full_money){
+										spendable_coupons.push(list[i]);
+									
+										sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
+										let arr = [];
+										for( let a = 0; a < sort_spendable_coupons.length; a++){
+											let money = sort_spendable_coupons[0].money
+											if(money == sort_spendable_coupons[a].money){
+												arr.push(sort_spendable_coupons[a])
+											}
 										}
-									}
-									var arr1 = [];
-									for( let b = 0; b < arr.length;b++){
-										if(arr[b].is_threshold == 2){
-											arr1.push(arr[b]);
-											best_coupon = arr1.sort(Compare('full_money'))[0];
-											this.recommend_coupon = best_coupon;
-											this.coupon = '-￥'+best_coupon.money;
-											this.show_recommend = true;
-										}else{
-											best_coupon = sort_spendable_coupons[0];
-											this.recommend_coupon = best_coupon;
-											this.coupon = '-￥'+best_coupon.money;
-											this.show_recommend = true;
+										var arr1 = [];
+										for( let b = 0; b < arr.length;b++){
+											if(arr[b].is_threshold == 2){
+												arr1.push(arr[b]);
+												best_coupon = arr1.sort(Compare('full_money'))[0];
+												this.recommend_coupon = best_coupon;
+												this.coupon = '-￥'+best_coupon.money;
+												this.show_recommend = true;
+											}else{
+												best_coupon = sort_spendable_coupons[0];
+												this.recommend_coupon = best_coupon;
+												this.coupon = '-￥'+best_coupon.money;
+												this.show_recommend = true;
+											}
 										}
+									
 									}
-								
 								}
+									this.coupon_id = [this.recommend_coupon.coupons_id]
+									this.couponsSum = this.recommend_coupon.money;
+									this.spendable_coupons = spendable_coupons;
+									this.amount = this.sum - this.couponsSum - this.manjian;
+									if(this.amount < 0){
+										this.amount = 0;
+									}
 							}
-							this.spendable_coupons = spendable_coupons;
+							
+							
+						}else{
+							// 没有满减的情况
+								spendable_coupons = [];	
+								sort_spendable_coupons = [];
+								for(let i = 0; i < list.length; i++){
+									if(newVal >= list[i].full_money){
+										spendable_coupons.push(list[i]);
+										console.log('未达到满减要求：');
+										this.show_recommend = spendable_coupons;
+										sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
+										let arr = [];
+										for( let a = 0; a < sort_spendable_coupons.length; a++){
+											let money = sort_spendable_coupons[0].money
+											if(money == sort_spendable_coupons[a].money){
+												arr.push(sort_spendable_coupons[a])
+											}
+										}
+										var arr1 = [];
+										for( let b = 0; b < arr.length;b++){
+											if(arr[b].is_threshold == 2){
+												arr1.push(arr[b]);
+												best_coupon = arr1.sort(Compare('full_money'))[0];
+												this.recommend_coupon = best_coupon;
+												this.coupon = '-￥'+best_coupon.money;
+												this.show_recommend = true;
+											}else{
+												best_coupon = sort_spendable_coupons[0];
+												this.recommend_coupon = best_coupon;
+												this.coupon = '-￥'+best_coupon.money;
+												this.show_recommend = true;
+											}
+										}
+									
+									}
+								}
+								this.spendable_coupons = spendable_coupons;
+						}
 					}
+					
 				},
 
 				// 监听从优惠券组件传回的值

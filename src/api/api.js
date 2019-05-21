@@ -1,11 +1,11 @@
 import http from "./http"
 
-import axios from "axios";
+// import axios from "axios";
 /**
  * 获取店铺信息及优惠券活动
 */
 export const storeInfo = params =>
-  axios({
+  http({
     url: "v3/pay/store_info",
     method: "get",
     params
