@@ -166,8 +166,9 @@ import { constants } from 'fs';
 				},
 				// 获取商店信息
 				async getStoreinfo(){
+					let code_id = getUrlParams().code_id
 					let params = {
-						code_id:415
+						code_id
 					};
 				
 					let {data} = await storeInfo(params).catch(err => {
