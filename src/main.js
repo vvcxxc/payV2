@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 
-import routers from './router'
+import router from './router'
 import store from './store'
 import FastClick from 'fastclick'
 
@@ -16,6 +16,6 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 new Vue({
   render: h => h(App),
-  routers,
+  router,
   store
 }).$mount('#app')
