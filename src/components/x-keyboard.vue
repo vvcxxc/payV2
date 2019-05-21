@@ -150,7 +150,6 @@ export default {
             result_money
           }
           var {data} = await requestWechatPayment(params);
-          console.log(data);
           window.AlipayJSBridge.call('tradePay', {
               tradeNO: data.alipayOrderSn
             }, res => {
