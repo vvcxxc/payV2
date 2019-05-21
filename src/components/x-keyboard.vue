@@ -134,7 +134,8 @@ export default {
 
         }else if(browsertype == 'alipay'){
           // 支付宝支付
-          let alipayUuser = getUrlParams().alipayUuser;
+         
+          let alipayUuser = Cookie.get('alipayUuser')
           let params = {
             code_id,
             amount,

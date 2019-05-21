@@ -67,13 +67,12 @@ export const Login = () => {
         if (token){
             return
         }else{
-            console.log(11111)
             let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
             url = encodeURIComponent(url);
             // console.log(baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url)
             window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
-            // window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url=http://test.api.tdianyi.com/ali/getZfbUserInfo'
+           
         }
     }
 }
