@@ -11,7 +11,7 @@
         <li v-for="(item,idx) in kb.third" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
       <ul>
-        <li style="width:1.82rem"  @click="inputNum">0</li>
+        <li style="width:1.82rem"  @touchend="inputNum">0</li>
         <li  @click="inputNum">.</li>
       </ul>
     </div>
