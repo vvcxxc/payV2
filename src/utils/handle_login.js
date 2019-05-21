@@ -74,6 +74,6 @@ export const Login = () => {
             // console.log(baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url)
             window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
             // window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url=http://test.api.tdianyi.com/ali/getZfbUserInfo'
-        // }
+        }
     }
 }
