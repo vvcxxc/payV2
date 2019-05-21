@@ -8,11 +8,9 @@
 import './utils/rem.js'
 import './styles/base.css'
 import './styles/common.css'
-import {Login} from './utils/handle_login'
 export default {
   name: 'App',
   created(){
-    // Login();
   }
 }
 </script>

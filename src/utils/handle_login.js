@@ -57,9 +57,10 @@ export const Login = () => {
             let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
             // console.log(url)
             url = encodeURIComponent(url);
-            // console.log('http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE')
-            
-            return window.location.href = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+            console.log('http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE')
+            let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+            console.log(urls)
+            return window.location.href = urls;
         }
     }else{
         let token = Cookie.get(_token);
