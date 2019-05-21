@@ -404,6 +404,7 @@ import { constants } from 'fs';
 	}
 	.area-AD img{
 		width: 100%;
+		pointer-events: none
 	}
 	.area-keyboard{
 		background: #f2f2f2;

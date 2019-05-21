@@ -204,6 +204,7 @@ export default {
   }
   .confirm li img{
     width: .26rem;
+    pointer-events: none
   }
   .queding{
     background: #ff9500;
