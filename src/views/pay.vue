@@ -171,7 +171,7 @@ import { constants } from 'fs';
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
 					this.info = data
-					window.localStorage.setItem("storeid", data.id)
+					document.title = data.store_name || '团卖物联支付';
 				},
 
 				// 判断是否有满减

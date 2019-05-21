@@ -30,7 +30,7 @@ export const requestAlpayPayment = params =>
     url:'v1/guest/storePay/alipay',
     method:'post',
     params
-  })
+  });
 
 /**
  * 获取店铺信息

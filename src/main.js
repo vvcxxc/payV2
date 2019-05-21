@@ -6,7 +6,6 @@ import Routers from './router'
 import store from './store'
 
 Vue.use(VueRouter)
-
 const router = new VueRouter({
   routes: Routers
 })

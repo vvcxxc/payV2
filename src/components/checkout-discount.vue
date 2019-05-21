@@ -97,7 +97,11 @@ export default {
        this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon)
        this.best_coupon = this.recommend_coupon;
        this.list = this.couponlist;
-       
+       if(this.sum == ''){
+           this.unusable_list = this.list;
+           this.best_coupon = [];
+           this.spendable_list = [];
+       }
        //默认选择最佳优惠
        this.chooseBest();
     
