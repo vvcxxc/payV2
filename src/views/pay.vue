@@ -1,6 +1,6 @@
 <template>
 	<div class="payment">
-		<header>{{this.info.store_name}}</header>
+		<!-- <header>{{this.info.store_name}}</header> -->
 		<div class="area-AD">
 		  <img src="../assets/ad.png" alt="">
 		</div>
