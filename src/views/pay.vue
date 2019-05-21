@@ -116,6 +116,9 @@ import { constants } from 'fs';
 					}
 				
 				};
+				if(this.manjian == '' && this.couponsSum == 0){
+					this.amount = 0;
+				}
 
 				// 计算总金额
 
