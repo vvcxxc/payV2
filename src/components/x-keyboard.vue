@@ -26,7 +26,8 @@
 <script>
 import { getUrlParams, getBrowserType } from '../utils/get_info';
 import { Cookie } from '../utils/common';
-import { requestWechatPayment, storeInfo } from '../api/api'
+import { requestWechatPayment, storeInfo } from '../api/api';
+
 export default {
   data(){
     return {
@@ -99,6 +100,7 @@ export default {
         let amount = this.sum;
         let result_money = this.amounts;
         let is_activities = 0;
+        var vConsole = new VConsole();
         if(this.activity){
           is_activities = 1;
         }else{
@@ -148,6 +150,7 @@ export default {
             result_money
           }
           var {data} = await requestWechatPayment(params);
+          console.log(data);
           window.AlipayJSBridge.call('tradePay', {
               tradeNO: data.alipayOrderSn
             }, res => {

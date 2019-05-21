@@ -4,7 +4,9 @@ import App from './App.vue'
 
 import Routers from './router'
 import store from './store'
+import vConsole from '../node_modules/vconsole/dist/vconsole.min.js';
 
+let vConsole = new VConsole()
 Vue.use(VueRouter)
 
 const router = new VueRouter({
