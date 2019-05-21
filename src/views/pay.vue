@@ -121,8 +121,8 @@ import { constants } from 'fs';
 				if(this.manjian == '' && this.couponsSum == 0){
 					this.amount = newVal;
 				}
-				this.amount = newVal;
-				console.log(123)
+				// this.amount = newVal;
+				// console.log(123)
 
 
 			},
