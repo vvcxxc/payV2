@@ -46,6 +46,7 @@ export default {
   props:['sum','amount','coupon_id','is_reduction_removed'],
   watch:{
     sum:function(newVal,oldVal){
+      
       this.currentValue = newVal
     },
     amount:function(a,b){
@@ -56,6 +57,11 @@ export default {
     },
     is_reduction_removed:function(a,b){
       this.activity = a;
+    },
+    currentValue:function(a,b){
+      if(a > 100000){
+        this.currentValue = this.currentValue;
+      }
     }
   },
   methods:{
