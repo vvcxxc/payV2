@@ -77,7 +77,7 @@ import { constants } from 'fs';
 				sum:'',
 				havesum:true,
 				info:'',
-				manjian:null,
+				manjian:0,
 				key:null,
 				isshow:false,
 				coupon:'',
@@ -88,7 +88,7 @@ import { constants } from 'fs';
 				spendable_coupons:[],
 				unable_coupons:[],
 				amount:0,
-				couponsSum:'',
+				couponsSum:0,
 				coupon_id:[],
 				reduction_money_list:[]
 			}
@@ -105,43 +105,55 @@ import { constants } from 'fs';
 				if(newVal > 100000){
 					this.sum = oldVal;
 				}
-			
+				
 				this.moneyOff();
 				this.RecommendCoupon(newVal);
 				if(newVal == ''){
 					this.recommend_coupon = {};
 					let num = this.couponlist.length;
 					this.coupon = num + '张可用';
-					console.log(this.recommend_coupon[0])
+					this.amount = 0;
 					if(this.recommend_coupon[0] == undefined){
 						this.show_recommend = false;
 					}
-				
 				};
-				if(this.manjian == '' && this.couponsSum == 0){
-					this.amount = newVal;
+				this.amount = newVal - this.manjian - this.couponsSum;
+				this.amount = this.amount.toFixed(2);
+			},
+			manjian:function(a,b){
+				console.log('manjian:'+a)
+				this.amount = this.sum*1 - a - this.couponsSum*1 
+				if(this.amount < 0){
+					this.amount = 0
 				}
-				// this.amount = newVal;
-				// console.log(123)
-
-
+				this.amount = this.amount.toFixed(2)
+				
+			},
+			couponsSum:function(a,b){
+				console.log('couponSum:'+a)
+					if(a == 0){
+						let num = this.couponlist.length;
+						this.coupon = num + '张可用';
+					}
+					console.log('couponSum:'+a)
+					this.amount = this.sum*1 - a - this.manjian;
+					this.amount = this.amount.toFixed(2);
+					if(this.amount < 0){
+						this.amount = 0
+					}
 			},
 			info:function(a,b){
 				this.couponNum()
 				this.couponlist = this.info.coupons_required_products_list;
 			},
-			manjian:function(a,b){
-				this.amount = this.sum - a;
-			}
+
+
 		},
 
-		// beforeCreate(){
-		// 	Login()
-		// },
+	
 		created(){
 			
 			this.getStoreinfo();
-			console.log(123)
 		},
 
 		mounted(){
@@ -181,14 +193,17 @@ import { constants } from 'fs';
 						console.log(err)
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
-					this.info = data
+					this.info = data;
+					// let info = {"code":200,"message":"\u83b7\u53d6\u6570\u636e\u6210\u529f\uff01","data":{"store_name":"\u5143\u6c14\u5bff\u53f8","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"\u4ece10\u5143\u589e\u503c\u523080\u5143","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"\u4ece10\u5143\u589e\u503c\u523080\u5143","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"\u4ece10\u5143\u589e\u503c\u523080\u5143","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false}]},"field_help":{"1":"store_name=\u5e97\u94fa\u540d\u79f0","2":"payment_status=\u5e97\u94fa\u72b6\u6001 0\u672a\u5f00\u901a 1\u5f85\u5ba1\u6838 2\u5df2\u62d2\u7edd 3\u6b63\u5e38","3":"ad_location=\u5e7f\u544a\u4f4d\u7f6e","4":"is_reduction_removed=\u662f\u5426\u6709\u6ee1\u51cf 1\u6709\uff08\u5982\u679c\u6709 reduction_money_list\u4e0d\u4e3a\u7a7a\uff09 0\u6ca1\u6709 ","5":"reduction_money_list=\u6ee1\u51cf\u91d1\u989d\u5217\u8868,\u4f8b\u5982\uff1a\u6ee1\u4e00\u767e\u51cf20 \u6ee1200\u51cf40","6":"coupons_required_products_list=\u4f18\u60e0\u5238\u5217\u8868\u3010coupons_id=\u4f18\u60e0\u5238ID\uff0ccoupons_name=\u4f18\u60e0\u5238\u540d\u79f0\uff0cmoney=\u4f18\u60e0\u5238\u91d1\u989d\uff0cexpiration=\u8fc7\u671f\u65f6\u95f4\uff0cis_threshold=\u662f\u5426\u6709\u95e8\u69db\uff081\u65e0\u95e8\u69db 2\u6709\u95e8\u69db\uff09full_money=\u6ee10\u5c31\u662f\u65e0\u95e8\u69db\u7684\u3011"}}
+					// this.info = info.data;
+					// console.log(this.info)
 					document.title = data.store_name || '团卖物联支付';
 				},
 
 				// 判断是否有满减
 				moneyOff(){
 					this.key = null
-					this.manjian = null
+					this.manjian = 0
 					this.isshow = false
 					if(this.info.is_reduction_removed == 1){
 
@@ -222,6 +237,9 @@ import { constants } from 'fs';
 				// 选择最佳优惠
 				RecommendCoupon(newVal){
 					let list = this.info.coupons_required_products_list;
+					for (let a = 0; a < list.length; a ++){
+						list[a].chooseable = 2;
+					}
 					let best_coupon = {};
 					let spendable_coupons = [];
 					let sort_spendable_coupons = [];
@@ -286,16 +304,17 @@ import { constants } from 'fs';
 												this.show_recommend = true;
 											}
 										}
-									
+									this.coupon_id = [this.recommend_coupon.coupons_id];
+									this.couponsSum = this.recommend_coupon.money*1;
+									this.spendable_coupons = spendable_coupons;
+
+
+									}else{
+										this.couponsSum = 0;
+										this.spendable_coupons = [];
 									}
 								}
-									this.coupon_id = [this.recommend_coupon.coupons_id]
-									this.couponsSum = this.recommend_coupon.money;
-									this.spendable_coupons = spendable_coupons;
-									this.amount = this.sum - this.couponsSum - this.manjian;
-									if(this.amount < 0){
-										this.amount = 0;
-									}
+									
 							}
 							
 							
@@ -361,10 +380,7 @@ import { constants } from 'fs';
 							sum += arr[a].money
 						}
 						this.couponsSum = sum;
-						this.amount = this.sum - this.couponsSum - this.manjian;
-						if(this.amount < 0){
-									this.amount = 0;
-								}
+
 					}
 				}
 

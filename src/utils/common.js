@@ -85,7 +85,7 @@ export let Cookie = {
 
   /**
    * 
-   * 对象中的某个键值排序
+   * 对象中的某个键值排序，从大到小
    */
   export function Compare(protopy){
     return function(a,b){
@@ -94,6 +94,18 @@ export let Cookie = {
         return value2 - value1;
     }
 }
+
+/**
+ * 对象中的某个键值排序，从小到大
+ */
+export function CompareSmall(protopy){
+  return function(a,b){
+      var value1 = a[protopy];
+      var value2 = b[protopy];
+      return value1 - value2;
+  }
+}
+
 
 /**
  * 

@@ -61,6 +61,7 @@ export default {
       if(a > 100000){
         this.currentValue = b
       }
+     
     }
 
   },
@@ -76,9 +77,13 @@ export default {
             case kb == '.' && !!~this.currentValue.indexOf('.'):
 
               break;
+            case kb == '0' && this.currentValue.length == 0:
+              this.currentValue = '0.'
+              break;
             default:
               this.currentValue += kb
           }
+          
           
           // console.log(this.currentValue)
           this.$emit('change-sum', this.currentValue , this.showSum)
