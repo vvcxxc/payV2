@@ -270,10 +270,6 @@ export default {
         bottom: 0;
         width: 100vw;
         height: auto;
-        /* overflow: hidden; */
-        /* width: 100vw;
-        height: 100vh; */
-        
     }
     .discounts::after{
         content: ".";
@@ -381,6 +377,7 @@ export default {
     }
     .coupon-left .amanjian{
         font-size: .12rem;
+        letter-spacing:1px;
     }
     .coupon-right{
         position: absolute;
