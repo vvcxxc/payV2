@@ -372,7 +372,7 @@ export default {
         font-size: .17rem;
     }
     .coupon-left .sum{
-        font-size: .35rem;
+        font-size: .31rem;
         line-height: .35rem;
     }
     .coupon-left .amanjian{
