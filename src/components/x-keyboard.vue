@@ -189,6 +189,9 @@ export default {
     margin: .05rem 0 0 .05rem;
     border-radius: .03rem;
 	}
+  li:active{
+    background: #eeeeee;
+  }
   ul::after{
     content: ".";
     clear: both;

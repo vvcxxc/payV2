@@ -24,25 +24,4 @@ var router = new VueRouter({
           }
   ]
 })
-
-
-
-// var router =new VueRouter ({
-//   mode:'history',
-//   routes:[
-//     {
-//       path:'/',
-//       redirect:'/pay'
-//     },
-//     {
-//       path:'/pay',
-//       component:Pay
-//     },
-//     {
-//       path:'/activity',
-//       component:Activity
-//     }
-//   ]
-// })
-
 export default router

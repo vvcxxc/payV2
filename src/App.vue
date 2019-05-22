@@ -20,10 +20,11 @@ export default {
 <style>
 body,html{
   height: 100%;
-   -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none; 
+  -webkit-tap-highlight-color:rgba(0,0,0,0)
 }
 #app{
   height: 100%;
