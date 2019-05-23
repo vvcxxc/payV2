@@ -16,7 +16,7 @@
 			</div>
 			<div class="discount" @click="handlecoupons" v-if="havecoupon">
 				<p style="float:left">优惠券</p>
-				<p class="discount-tuijian" v-show='show_recommend'>已选推荐优惠</p>
+				<p class="discount-tuijian" v-show='show_recommend'>{{youhui}}</p>
 				<p class="jianshao"><i style="font-size:14px"></i>{{coupon}} <img src="../assets/arro-right.png" /></p>
 			</div>
 			<div class="manjian" v-show='isshow'>
@@ -90,7 +90,8 @@ import { constants } from 'fs';
 				amount:0,
 				couponsSum:0,
 				coupon_id:[],
-				reduction_money_list:[]
+				reduction_money_list:[],
+				youhui:'已选推荐优惠'
 			}
 			
 		},
@@ -113,6 +114,8 @@ import { constants } from 'fs';
 					let num = this.couponlist.length;
 					this.coupon = num + '张可用';
 					this.amount = 0;
+					this.show_recommend = false;
+					this.couponsSum = 0;
 					if(this.recommend_coupon[0] == undefined){
 						this.show_recommend = false;
 					}
@@ -121,7 +124,6 @@ import { constants } from 'fs';
 				this.amount = this.amount.toFixed(2);
 			},
 			manjian:function(a,b){
-				console.log('manjian:'+a)
 				this.amount = this.sum*1 - a - this.couponsSum*1 
 				if(this.amount < 0){
 					this.amount = 0
@@ -194,14 +196,14 @@ import { constants } from 'fs';
 						code_id
 					};
 				
-					// let {data} = await storeInfo(params).catch(err => {
-					// 	console.log(err)
-					// 	throw Error("--- 获取店铺基本信息出错 ---")
-					// })
-					// this.info = data;
-					let info = {"code":200,"message":"获取数据成功！","data":{"store_name":"元气寿司","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"从10元增值到80元","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"从10元增值到80元","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"从10元增值到80元","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1359,"coupons_name":"","money":"30","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false},{"coupons_id":1360,"coupons_name":"","money":"20","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false}]},"field_help":{"1":"store_name=店铺名称","2":"payment_status=店铺状态 0未开通 1待审核 2已拒绝 3正常","3":"ad_location=广告位置","4":"is_reduction_removed=是否有满减 1有（如果有 reduction_money_list不为空） 0没有 ","5":"reduction_money_list=满减金额列表,例如：满一百减20 满200减40","6":"coupons_required_products_list=优惠券列表【coupons_id=优惠券ID，coupons_name=优惠券名称，money=优惠券金额，expiration=过期时间，is_threshold=是否有门槛（1无门槛 2有门槛）full_money=满0就是无门槛的】"}}
-					this.info = info.data;
-					// document.title = data.store_name || '团卖物联支付';
+					let {data} = await storeInfo(params).catch(err => {
+						console.log(err)
+						throw Error("--- 获取店铺基本信息出错 ---")
+					})
+					this.info = data;
+					// let info = {"code":200,"message":"获取数据成功！","data":{"store_name":"元气寿司","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"从10元增值到80元","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"从10元增值到80元","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"从10元增值到80元","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1359,"coupons_name":"","money":"30","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false},{"coupons_id":1360,"coupons_name":"","money":"20","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false}]},"field_help":{"1":"store_name=店铺名称","2":"payment_status=店铺状态 0未开通 1待审核 2已拒绝 3正常","3":"ad_location=广告位置","4":"is_reduction_removed=是否有满减 1有（如果有 reduction_money_list不为空） 0没有 ","5":"reduction_money_list=满减金额列表,例如：满一百减20 满200减40","6":"coupons_required_products_list=优惠券列表【coupons_id=优惠券ID，coupons_name=优惠券名称，money=优惠券金额，expiration=过期时间，is_threshold=是否有门槛（1无门槛 2有门槛）full_money=满0就是无门槛的】"}}
+					// this.info = info.data;
+					document.title = data.store_name || '团卖物联支付';
 				},
 
 				// 判断是否有满减
@@ -278,11 +280,12 @@ import { constants } from 'fs';
 									best_coupon.push(spendable_coupons[0]);
 									couponSum = best_coupon[0].money;
 									this.id.push(best_coupon[0].coupons_id)
-									console.log(this.id)
 								}
 								this.couponsSum = couponSum;
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
+								this.show_recommend = true;
+								this.youhui = '已选推荐优惠'
 							}else{
 								// 未达到满减要求
 								for(let i = 0; i < list.length; i ++){
@@ -323,6 +326,8 @@ import { constants } from 'fs';
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
 								this.couponsSum = couponSum;
+								this.show_recommend = true;
+								this.youhui = '已选推荐优惠'
 							}
 						
 						}else{
@@ -366,7 +371,8 @@ import { constants } from 'fs';
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
 								this.couponsSum = couponSum;
-
+								this.show_recommend = true;
+								this.youhui = '已选推荐优惠'
 						}
 					}
 					
@@ -378,6 +384,7 @@ import { constants } from 'fs';
 					if(id.length){
 						this.couponsSum = sums;
 						this.coupon_id = id;
+						this.youhui = '已选'+id.length+'张优惠券'
 					}
 					this.isclose = false;
 				}
@@ -493,8 +500,8 @@ import { constants } from 'fs';
 		float: left;
 		font-size: .12rem;
 		line-height: .17rem;
-		width: .76rem;
-		padding-left: .04rem;
+		width: auto;
+		padding: 0 .04rem;
 		height: .17rem;
 		border: 1px solid #de1e13;
 		border-radius: 2px;

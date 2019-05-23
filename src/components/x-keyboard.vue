@@ -49,8 +49,7 @@ export default {
       this.currentValue = newVal
     },
     amount:function(a,b){
-      console.log(a)
-      this.amounts =a;
+      this.amounts = a;
     },
     coupon_id:function(a,b){
       this.id = a
@@ -62,10 +61,7 @@ export default {
       if(a > 100000){
         this.currentValue = b
       }
-      let idx = this.currentValue.indexOf('.');
-      if(a > idx*1+2){
-        this.currentValue = this.currentValue;
-      }
+     
      
     }
 
@@ -88,8 +84,15 @@ export default {
             default:
               this.currentValue += kb
           }
+           let idx = this.currentValue.indexOf('.');
+           if(idx > 0){
+             if(this.currentValue.length > idx*1+2){
+              this.currentValue = this.currentValue.substring(0,idx*1+3);
+              console.log(this.currentValue)
+            }
           
-          
+           }
+            
           // console.log(this.currentValue)
           this.$emit('change-sum', this.currentValue , this.showSum)
       },

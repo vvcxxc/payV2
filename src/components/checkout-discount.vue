@@ -170,6 +170,8 @@ export default {
                             if(spendable[i].is_threshold == 2){
                                 spendable[i].chooseable = 0;
                             }
+                        }else{
+                            spendable[i].ischecked = true;
                         }
                     }
                 }
