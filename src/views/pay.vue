@@ -130,12 +130,12 @@ import { constants } from 'fs';
 				
 			},
 			couponsSum:function(a,b){
-				console.log('couponSum:'+a)
 					if(a == 0){
 						let num = this.couponlist.length;
 						this.coupon = num + '张可用';
+					}else{
+						this.coupon ='-￥'+ a;
 					}
-					console.log('couponSum:'+a)
 					this.amount = this.sum*1 - a - this.manjian;
 					this.amount = this.amount.toFixed(2);
 					if(this.amount < 0){
@@ -146,8 +146,6 @@ import { constants } from 'fs';
 				this.couponNum()
 				this.couponlist = this.info.coupons_required_products_list;
 			},
-
-
 		},
 
 	
@@ -194,15 +192,14 @@ import { constants } from 'fs';
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
 					this.info = data;
-					// let info = {"code":200,"message":"\u83b7\u53d6\u6570\u636e\u6210\u529f\uff01","data":{"store_name":"\u5143\u6c14\u5bff\u53f8","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"\u4ece10\u5143\u589e\u503c\u523080\u5143","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"\u4ece10\u5143\u589e\u503c\u523080\u5143","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"\u4ece10\u5143\u589e\u503c\u523080\u5143","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false}]},"field_help":{"1":"store_name=\u5e97\u94fa\u540d\u79f0","2":"payment_status=\u5e97\u94fa\u72b6\u6001 0\u672a\u5f00\u901a 1\u5f85\u5ba1\u6838 2\u5df2\u62d2\u7edd 3\u6b63\u5e38","3":"ad_location=\u5e7f\u544a\u4f4d\u7f6e","4":"is_reduction_removed=\u662f\u5426\u6709\u6ee1\u51cf 1\u6709\uff08\u5982\u679c\u6709 reduction_money_list\u4e0d\u4e3a\u7a7a\uff09 0\u6ca1\u6709 ","5":"reduction_money_list=\u6ee1\u51cf\u91d1\u989d\u5217\u8868,\u4f8b\u5982\uff1a\u6ee1\u4e00\u767e\u51cf20 \u6ee1200\u51cf40","6":"coupons_required_products_list=\u4f18\u60e0\u5238\u5217\u8868\u3010coupons_id=\u4f18\u60e0\u5238ID\uff0ccoupons_name=\u4f18\u60e0\u5238\u540d\u79f0\uff0cmoney=\u4f18\u60e0\u5238\u91d1\u989d\uff0cexpiration=\u8fc7\u671f\u65f6\u95f4\uff0cis_threshold=\u662f\u5426\u6709\u95e8\u69db\uff081\u65e0\u95e8\u69db 2\u6709\u95e8\u69db\uff09full_money=\u6ee10\u5c31\u662f\u65e0\u95e8\u69db\u7684\u3011"}}
+					// let info = {"code":200,"message":"获取数据成功！","data":{"store_name":"元气寿司","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"从10元增值到80元","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"从10元增值到80元","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"从10元增值到80元","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1359,"coupons_name":"","money":"30","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false},{"coupons_id":1360,"coupons_name":"","money":"20","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false}]},"field_help":{"1":"store_name=店铺名称","2":"payment_status=店铺状态 0未开通 1待审核 2已拒绝 3正常","3":"ad_location=广告位置","4":"is_reduction_removed=是否有满减 1有（如果有 reduction_money_list不为空） 0没有 ","5":"reduction_money_list=满减金额列表,例如：满一百减20 满200减40","6":"coupons_required_products_list=优惠券列表【coupons_id=优惠券ID，coupons_name=优惠券名称，money=优惠券金额，expiration=过期时间，is_threshold=是否有门槛（1无门槛 2有门槛）full_money=满0就是无门槛的】"}}
 					// this.info = info.data;
-					// console.log(this.info)
 					document.title = data.store_name || '团卖物联支付';
 				},
 
 				// 判断是否有满减
 				moneyOff(){
-					this.key = null
+					this.key = 0;
 					this.manjian = 0
 					this.isshow = false
 					if(this.info.is_reduction_removed == 1){
@@ -237,151 +234,145 @@ import { constants } from 'fs';
 				// 选择最佳优惠
 				RecommendCoupon(newVal){
 					let list = this.info.coupons_required_products_list;
-					for (let a = 0; a < list.length; a ++){
-						list[a].chooseable = 2;
-					}
-					let best_coupon = {};
+					let couponSum = 0;
+					this.couponsSum = 0;
+					let best_coupon = [];
 					let spendable_coupons = [];
 					let sort_spendable_coupons = [];
+					this.id = [];
+
+
 					if(list.length){
-							if(this.info.is_reduction_removed == 1){
-							
-							// 有满减的情况
-							let manjian = this.info.reduction_money_list;
-							let limits = [];
-							let limit = 0;
-							for(let key in manjian){
-								limits.push(key);
+						// 为每个优惠券添加一个属性，来判断它是否可用
+						for (let a = 0; a < list.length; a ++){
+							list[a].chooseable = 0;
+						}
+						if(this.info.is_reduction_removed == 1){
+						// 有满减的情况
+						let manjian = this.info.reduction_money_list;
+						let limits = [];
+						let limit = 0;
 
-							}
-							limit = limits[0];
+						for(let key in manjian){
+							limits.push(key);
 
-							// 满减达到要求	
+						}
+						limit = limits[0];
+
 							if(newVal*1 >= limit){
-								spendable_coupons = [];
-								sort_spendable_coupons = [];
-								for(let i = 0;i < list.length; i++){
+								// 达到满减要求
+								for(let i = 0; i < list.length; i ++){
 									if(list[i].is_threshold == 1){
-										spendable_coupons.push(list[i]);
-										sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
-										best_coupon = sort_spendable_coupons[0];
-										
-										this.recommend_coupon = best_coupon;
-										this.coupon = '-￥'+best_coupon.money;
-										this.show_recommend = true;
+										spendable_coupons.push(list[i])
 									}
-
 								}
+								if(spendable_coupons.length){
+									spendable_coupons.sort(Compare('money'));
+									best_coupon.push(spendable_coupons[0]);
+									couponSum = best_coupon[0].money;
+									this.id.push(best_coupon[0].coupons_id)
+									console.log(this.id)
+								}
+								this.couponsSum = couponSum;
+								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
 							}else{
-							// 未达到满减要求	
-								spendable_coupons = [];	
-								sort_spendable_coupons = [];
-								for(let i = 0; i < list.length; i++){
-									if(newVal >= list[i].full_money){
-										spendable_coupons.push(list[i]);
-									
-										sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
-										let arr = [];
-										for( let a = 0; a < sort_spendable_coupons.length; a++){
-											let money = sort_spendable_coupons[0].money
-											if(money == sort_spendable_coupons[a].money){
-												arr.push(sort_spendable_coupons[a])
-											}
-										}
-										var arr1 = [];
-										for( let b = 0; b < arr.length;b++){
-											if(arr[b].is_threshold == 2){
-												arr1.push(arr[b]);
-												best_coupon = arr1.sort(Compare('full_money'))[0];
-												this.recommend_coupon = best_coupon;
-												this.coupon = '-￥'+best_coupon.money;
-												this.show_recommend = true;
-											}else{
-												best_coupon = sort_spendable_coupons[0];
-												this.recommend_coupon = best_coupon;
-												this.coupon = '-￥'+best_coupon.money;
-												this.show_recommend = true;
-											}
-										}
-									this.coupon_id = [this.recommend_coupon.coupons_id];
-									this.couponsSum = this.recommend_coupon.money*1;
-									this.spendable_coupons = spendable_coupons;
-
-
+								// 未达到满减要求
+								for(let i = 0; i < list.length; i ++){
+									if(list[i].is_threshold == 1){
+										spendable_coupons.push(list[i])
 									}else{
-										this.couponsSum = 0;
-										this.spendable_coupons = [];
+										if(list[i].full_money <= newVal*1){
+											spendable_coupons.push(list[i])
+										}
 									}
 								}
-									
+								// 存在可用券
+								let arr = []; //把可用的优惠额度最高的放在这里
+								if(spendable_coupons.length){
+									spendable_coupons.sort(Compare('money'));
+									let money = spendable_coupons[0].money;
+									for(let a = 0; a < spendable_coupons.length; a ++){
+										if(money == spendable_coupons[a].money){
+											arr.push(spendable_coupons[a]);
+										}
+									}
+									if(arr.length <= 1){
+										best_coupon = arr[0];
+										couponSum = best_coupon.money;
+									}else{
+										for(let a = 0; a < arr.length; a ++){
+											if(arr[a].is_threshold == 2){
+												best_coupon = arr[a];
+												couponSum = best_coupon.money;
+											}else{
+												best_coupon = arr[a];
+												couponSum = best_coupon.money;
+											}
+										}
+									}
+									this.id.push(best_coupon.coupons_id);
+								}
+								this.recommend_coupon = best_coupon;
+								this.spendable_coupons = spendable_coupons;
+								this.couponsSum = couponSum;
 							}
-							
-							
+						
 						}else{
 							// 没有满减的情况
-								spendable_coupons = [];	
-								sort_spendable_coupons = [];
-								for(let i = 0; i < list.length; i++){
-									if(newVal >= list[i].full_money){
-										spendable_coupons.push(list[i]);
-										console.log('未达到满减要求：');
-										this.show_recommend = spendable_coupons;
-										sort_spendable_coupons = spendable_coupons.sort(Compare('money'));
-										let arr = [];
-										for( let a = 0; a < sort_spendable_coupons.length; a++){
-											let money = sort_spendable_coupons[0].money
-											if(money == sort_spendable_coupons[a].money){
-												arr.push(sort_spendable_coupons[a])
-											}
-										}
-										var arr1 = [];
-										for( let b = 0; b < arr.length;b++){
-											if(arr[b].is_threshold == 2){
-												arr1.push(arr[b]);
-												best_coupon = arr1.sort(Compare('full_money'))[0];
-												this.recommend_coupon = best_coupon;
-												this.coupon = '-￥'+best_coupon.money;
-												this.show_recommend = true;
-											}else{
-												best_coupon = sort_spendable_coupons[0];
-												this.recommend_coupon = best_coupon;
-												this.coupon = '-￥'+best_coupon.money;
-												this.show_recommend = true;
-											}
-										}
-									
+							for(let i = 0; i < list.length; i ++){
+								if(list[i].is_threshold == 1){
+									spendable_coupons.push(list[i])
+								}else{
+									if(list[i].full_money <= newVal*1){
+										spendable_coupons.push(list[i])
 									}
 								}
+							}
+
+							// 存在可用券
+							let arr = []; //把可用的优惠额度最高的放在这里
+								if(spendable_coupons.length){
+									spendable_coupons.sort(Compare('money'));
+									let money = spendable_coupons[0].money;
+									for(let a = 0; a < spendable_coupons.length; a ++){
+										if(money == spendable_coupons[a].money){
+											arr.push(spendable_coupons[a]);
+										}
+									}
+									if(arr.length <= 1){
+										best_coupon = arr[0];
+										couponSum = best_coupon.money;
+									}else{
+										for(let a = 0; a < arr.length; a ++){
+											if(arr[a].is_threshold == 2){
+												best_coupon = arr[a];
+												couponSum = best_coupon.money;
+											}else{
+												best_coupon = arr[a];
+												couponSum = best_coupon.money;
+											}
+										}
+									}
+									this.id.push(best_coupon.coupons_id);
+								}
+								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
+								this.couponsSum = couponSum;
+
 						}
 					}
 					
 				},
 
 				// 监听从优惠券组件传回的值
-				getCouponsid(id){
+				getCouponsid(id,sums){
+					console.log(id,sums)
 					if(id.length){
-						this.coupon_id = id
-						this.isclose = false;
-						let coupons = this.couponlist;
-						this.couponsSum = '';
-						let sum = 0;
-						let arr = [];
-						for(var i = 0; i < coupons.length; i ++){
-							for(var j = 0; j < id.length; j ++){
-								if(coupons[i].coupons_id == id[j]){
-									arr.push(coupons[i])
-								}
-							}
-							
-						}
-						for(var a = 0; a < arr.length; a ++){
-							sum += arr[a].money
-						}
-						this.couponsSum = sum;
-
+						this.couponsSum = sums;
+						this.coupon_id = id;
 					}
+					this.isclose = false;
 				}
 
 			
