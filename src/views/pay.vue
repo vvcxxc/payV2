@@ -385,6 +385,8 @@ import { constants } from 'fs';
 						this.couponsSum = sums;
 						this.coupon_id = id;
 						this.youhui = '已选'+id.length+'张优惠券'
+					}else{
+						this.couponsSum = 0;
 					}
 					this.isclose = false;
 				}
