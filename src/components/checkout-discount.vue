@@ -125,6 +125,10 @@ export default {
             for(let i = 0; i < this.spendable_coupons.length; i ++){
                 this.spendable_coupons[i].chooseable = 1;
             }
+            for(let i = 0; i < this.unusable_list.length; i ++){
+                this.unusable_list[i].chooseable = 0;
+                this.unusable_list[i].ischecked = false;
+            }
             this.best_coupon = this.recommend_coupon;
        }else{
             this.unusable_list = this.couponlist;

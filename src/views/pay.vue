@@ -130,6 +130,7 @@ import { constants } from 'fs';
 				
 			},
 			couponsSum:function(a,b){
+					a.toFixed(2)
 					if(a == 0){
 						let num = this.couponlist.length;
 						this.coupon = num + '张可用';
@@ -146,6 +147,11 @@ import { constants } from 'fs';
 				this.couponNum()
 				this.couponlist = this.info.coupons_required_products_list;
 			},
+			amount:function(a,b){
+				if(a < 0){
+					this.amount = 0;
+				}
+			}
 		},
 
 	

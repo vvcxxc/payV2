@@ -61,6 +61,10 @@ export default {
       if(a > 100000){
         this.currentValue = b
       }
+      let idx = this.currentValue.indexOf('.');
+      if(a > idx*1+2){
+        this.currentValue = this.currentValue;
+      }
      
     }
 
