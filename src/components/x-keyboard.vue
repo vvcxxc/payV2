@@ -49,6 +49,7 @@ export default {
       this.currentValue = newVal
     },
     amount:function(a,b){
+      console.log(a)
       this.amounts =a;
     },
     coupon_id:function(a,b){
@@ -98,7 +99,7 @@ export default {
 
         switch (true) {
           case tempCurrentValue.length == 0:
-            this.amount = '';
+            this.currentValue = '';
             break;
           default:
             tempCurrentValue.pop()

@@ -4,7 +4,7 @@
         <div class="discounts">
             <header>优惠券</header>
             <div class="youhuijine">
-                您已选中优惠券1张，共可抵用¥{{sums}}
+                您已选中优惠券{{num}}张，共可抵用¥{{sums}}
             </div>
         <div class="coupons-box">
             <div class="all_coupons" ref='top'>
@@ -86,7 +86,8 @@ export default {
            spendable_list:[],
            unusable_list:[],
            best_coupon:[],
-           id:[]
+           id:[],
+           num:0
        }
    },
    watch:{
@@ -113,6 +114,7 @@ export default {
                    }
                }
            }
+           this.num = this.id.length
        }
    },
    
@@ -124,6 +126,10 @@ export default {
             this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
             for(let i = 0; i < this.spendable_coupons.length; i ++){
                 this.spendable_coupons[i].chooseable = 1;
+                // this.spendable_list[i].ischecked = false;
+            }
+            for(let i = 0; i < this.spendable_list.length; i ++){
+                this.spendable_list[i].ischecked = false;
             }
             for(let i = 0; i < this.unusable_list.length; i ++){
                 this.unusable_list[i].chooseable = 0;
