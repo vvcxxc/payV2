@@ -6,7 +6,7 @@ const devAuth = async (type) => {
     const { Cookie } = await import("@/utils/common");
     const storeid = "775";
     const codeid = "415";
-    const openid = "oy6pQ05896O22gUAljVH4uqvCnhU";
+    // const openid = "oy6pQ05896O22gUAljVH4uqvCnhU";
     const unionid = "oH_aNw-EQhWUaNYFyTnID_7bONrw";
     const alipayUserid = "2088612960091842";
     const token = Cookie.get("test_token_auth");
@@ -41,9 +41,9 @@ export const Login = () => {
     /**
      * 开发环境模拟
      */
-    if(type = 'development'){
-        devAuth(browsertype)
-    }
+    // if(type = 'development'){
+    //     devAuth(browsertype)
+    // }
     /**
      * 判断浏览器类型并进行登录
      *  */ 

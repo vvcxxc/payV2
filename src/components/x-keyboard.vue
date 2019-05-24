@@ -125,6 +125,7 @@ export default {
         if(browsertype == 'wechat'){
           // 微信支付
           let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
+          
           let params = {
             code_id,
             amount, 
