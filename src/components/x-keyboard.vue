@@ -147,7 +147,7 @@ export default {
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                console.log('支付成功')
+                alert('支付成功')
                 this.$router.push({path:'/activity'})
                 } 
             });
