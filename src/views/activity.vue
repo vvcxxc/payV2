@@ -1,16 +1,17 @@
 <template>
     <div class="activity">
-        <header>
+        <!-- <header>
             <span class="activity-left">
                 <i class="iconfont">&#xe617;</i>
             </span>
             <span>团卖物联支付</span>
-        </header>
+        </header> -->
         <div class="order-num">
-            <div><p class="ordernum">订单号：CB78521369123124</p></div>
-            <p>订单号：CB78521369123124</p>
-            <p>订单号：CB78521369123124</p>
-            <p style="padding-bottom:5px">订单号：CB78521369123124</p>
+            <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
+            <p>店铺：{{message.store_name}}</p>
+            <p>支付方式：{{message.browsertype}}</p>
+            <p>金额：{{message.amount}}</p>
+            <p style="padding-bottom:5px">实付：{{message.result_money}}</p>
             <i class="iconfont bottom-arro">&#xe62c;</i>   
         </div>
         <div class="order-num-zhanwei"></div>
@@ -21,6 +22,10 @@
                 <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
                 <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
                 <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
+                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
+                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
+                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
+
             </div>
         
         </div>
@@ -91,9 +96,12 @@ import '../assets/iconfont/iconfont.css'
 export default {
     data(){
         return{
-
+            message:{}
         }
     },
+    created(){
+        this.message = this.$route.params.message
+    }
 }
 </script>
 <style scoped>
@@ -120,7 +128,7 @@ header{
     width: 100vw;
     height: 42px;
     overflow: hidden;
-    padding-top: 15px;
+    padding-top: 13px;
     text-align: left;
     line-height: 23px;
     padding-left: 13px;
@@ -230,7 +238,6 @@ main{
     top: .99rem;
     left: 1.22rem;
 }
-
 
 
 /* 遮罩层 */

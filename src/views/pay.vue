@@ -34,7 +34,8 @@
 			:sum='sum'
 			:amount='amount'
 			:coupon_id='coupon_id'
-			:is_reduction_removed='info.is_reduction_removed'/>
+			:is_reduction_removed='info.is_reduction_removed'
+			:storename='info.store_name'/>
 		</div>
 
 		<!-- 选择优惠券 -->

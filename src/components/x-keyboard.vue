@@ -40,10 +40,11 @@ export default {
       showSum:false,
       amounts:'',
       id:[],
-      activity:[]
+      activity:[],
+      store_name:''
     }
   },
-  props:['sum','amount','coupon_id','is_reduction_removed'],
+  props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
     sum:function(newVal,oldVal){
       this.currentValue = newVal
@@ -61,13 +62,10 @@ export default {
       if(a > 100000){
         this.currentValue = b
       }
-     
-     
+    },
+    storename:function(a,b){
+      this.store_name = a;
     }
-
-  },
-  created(){
-    console.log(this)
   },
   methods:{
       inputNum (ev) {
@@ -139,7 +137,14 @@ export default {
             result_money,
           }
           var {data} = await requestWechatPayment(params)
-
+          var order_sn = data.order_sn;
+          let message = {
+            order_sn,
+            store_name:this.store_name,
+            browsertype,
+            amount,
+            result_money
+          }
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                   "appId":data.appId,
@@ -151,7 +156,7 @@ export default {
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                _this.$router.push({path:'/activity'})
+                _this.$router.push({name:'activity',params:message})
                 console.log('支付成功')
                 } 
             });
@@ -169,11 +174,19 @@ export default {
             result_money
           }
           var {data} = await requestAlpayPayment(params);
+          var order_sn = data.order_sn;
+          let message = {
+            order_sn,
+            store_name:this.store_name,
+            browsertype,
+            amount,
+            result_money
+          }
           window.AlipayJSBridge.call('tradePay', {
               tradeNO: data.alipayOrderSn
             }, res => {
               if (res.resultCode === "9000") {
-                _this.$router.push({path:'/activity'})
+                _this.$router.push({name:'activity',params:message})
                 return resolve({
                   message: 'ok'
                   

@@ -16,10 +16,12 @@ var router = new VueRouter({
           },
           {
             path:'/pay',
+            name:'pay',
             component:Pay
           },
           {
             path:'/activity',
+            pay:'activity',
             component:Activity
           }
   ]
