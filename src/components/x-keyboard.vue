@@ -66,6 +66,9 @@ export default {
     }
 
   },
+  created(){
+    console.log(this)
+  },
   methods:{
       inputNum (ev) {
           let kb = ev.target.innerText
@@ -114,6 +117,7 @@ export default {
 
       // 点击支付
       async toPay(){
+        let _this = this
         let browsertype = getBrowserType();
         let code_id = getUrlParams().code_id;
         let amount = this.sum;
@@ -147,8 +151,8 @@ export default {
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                alert('支付成功')
-                this.$router.push({path:'/activity'})
+                _this.$router.push({path:'/activity'})
+                console.log('支付成功')
                 } 
             });
 
@@ -169,7 +173,7 @@ export default {
               tradeNO: data.alipayOrderSn
             }, res => {
               if (res.resultCode === "9000") {
-                this.$router.push({path:'/activity'})
+                _this.$router.push({path:'/activity'})
                 return resolve({
                   message: 'ok'
                   
