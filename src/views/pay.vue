@@ -197,16 +197,17 @@ import { constants } from 'fs';
 						code_id
 					};
 				
-					let {data,code} = await storeInfo(params).catch(err => {
+					let {data} = await storeInfo(params).catch(err => {
 						console.log(err)
+						if(err.status != 200){
+						Cookie.remove(process.env.VUE_APP_TOKEN,'/')
+						Login();
+					}
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
 					this.info = data;
 					document.title = data.store_name || '团卖物联支付';
-					if(code != 200){
-						Cookie.remove(process.env.VUE_APP_TOKEN,'/')
-						Login();
-					}
+				
 
 					// let info = {"code":200,"message":"获取数据成功！","data":{"store_name":"元气寿司","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"从10元增值到80元","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"从10元增值到80元","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"从10元增值到80元","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1359,"coupons_name":"","money":"30","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false},{"coupons_id":1360,"coupons_name":"","money":"20","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false}]},"field_help":{"1":"store_name=店铺名称","2":"payment_status=店铺状态 0未开通 1待审核 2已拒绝 3正常","3":"ad_location=广告位置","4":"is_reduction_removed=是否有满减 1有（如果有 reduction_money_list不为空） 0没有 ","5":"reduction_money_list=满减金额列表,例如：满一百减20 满200减40","6":"coupons_required_products_list=优惠券列表【coupons_id=优惠券ID，coupons_name=优惠券名称，money=优惠券金额，expiration=过期时间，is_threshold=是否有门槛（1无门槛 2有门槛）full_money=满0就是无门槛的】"}}
 					// this.info = info.data;
