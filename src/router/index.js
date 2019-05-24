@@ -21,7 +21,7 @@ var router = new VueRouter({
           },
           {
             path:'/activity',
-            pay:'activity',
+            name:'activity',
             component:Activity
           }
   ]

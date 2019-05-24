@@ -6,28 +6,31 @@
             </span>
             <span>团卖物联支付</span>
         </header> -->
-        <div class="order-num">
-            <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
-            <p>店铺：{{message.store_name}}</p>
-            <p>支付方式：{{message.browsertype}}</p>
-            <p>金额：{{message.amount}}</p>
-            <p style="padding-bottom:5px">实付：{{message.result_money}}</p>
-            <i class="iconfont bottom-arro">&#xe62c;</i>   
-        </div>
+            <div class="order-num" ref="order" @click="showOrder" v-if="!isshow">
+                <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
+                <i class="iconfont bottom-arro">&#xe62c;</i>   
+            </div>
+            <div class="order-num1" ref="order" @click="showOrder" v-if="isshow">
+                <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
+                <p>店铺：{{message.store_name}}</p>
+                <p>支付方式：{{message.browsertype}}</p>
+                <p>金额：{{message.amount}}</p>
+                <p style="padding-bottom:5px">实付：{{message.result_money}}</p>
+                <i class="iconfont bottom-arro">&#xe61f;</i>   
+            </div>
+
         <div class="order-num-zhanwei"></div>
 
         <!-- 文字轮播 -->
         <div class="scroll-top">
-            <div class="scroll-list">
-                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
-                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
-                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
-                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
-                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
-                <div class="scroll-item">恭喜xxx获得<i class="scroll-sum">￥20</i>无门槛红包</div>
-
+            
+            <div class="scroll-list" id="scroll">
+                <div id="marquee">
+                    恭喜1284获得￥50元无门槛红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜9098获得￥30元无门槛红红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜4727获得￥30元无门槛红包
+                </div>
+                <div id="copy">恭喜1284获得￥50元无门槛红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜9098获得￥30元无门槛红红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜4727获得￥30元无门槛红包</div>
             </div>
-        
+            <div id="node"></div>
         </div>
 
         <!-- 主题内容 -->
@@ -93,25 +96,54 @@
 </template>
 <script>
 import '../assets/iconfont/iconfont.css'
+import { setInterval, clearInterval } from 'timers';
 export default {
     data(){
         return{
-            message:{}
+            message:{},
+            isshow:false,
+
         }
     },
     created(){
-        this.message = this.$route.params.message
+        let message = this.$route.params;
+        if(message.browsertype == 'wechat'){
+            message.browsertype = '微信支付'
+        }else{
+            message.browsertype = '支付宝支付'
+        }
+        this.message = message
+    },
+    mounted(){
+        this.move();
+    },
+    methods:{
+        showOrder(){
+            this.isshow = !this.isshow;
+        },
+        // 滚动播报
+        move(){
+            // 获取文字text 的计算后宽度  （由于overflow的存在，直接获取不到，需要独立的node计算）
+            let width = document.getElementById('node').getBoundingClientRect().width 
+            let scroll = document.getElementById('scroll')
+            let copy = document.getElementById('copy')
+            let distance = 0 // 位移距离
+            setInterval(function () {
+                distance = distance - 1
+                // 如果位移超过文字宽度，则回到起点
+                if (-distance >= width) {
+                distance = 16
+                }
+                scroll.style.transform = 'translateX(' + distance + 'px)'
+            }, 20)
+        },
+        // 
+
     }
 }
 </script>
 <style scoped>
-header{
-    height: 44px;
-    font-size: 17px;
-    text-align: center;
-    line-height: 44px;
-    padding-left: 13px;
-}
+
 
 .activity-left{
     float: left;
@@ -136,7 +168,21 @@ header{
     background: #fff;
     z-index: 4;
 }
-.order-num div{
+.order-num1{
+    font-size: 13px;
+    position: absolute;
+    width: 100vw;
+    height: 135px;
+    overflow: hidden;
+    padding-top: 13px;
+    text-align: left;
+    line-height: 23px;
+    padding-left: 13px;
+    padding-right: 19px;
+    background: #fff;
+    z-index: 4;
+}
+.order-num1 div{
     height: 23px;
 }
 .ordernum{
@@ -170,7 +216,13 @@ header{
     color: #ffcf5b;
 }
 .scroll-list{
-    width: 1000px;
+    width: 1500px;
+}
+.scroll-list div{
+     float: left;
+}
+#marquee {
+   margin: 0 16px 0 0;
 }
 .scroll-item{
     padding-right: 26px;
@@ -201,6 +253,8 @@ main{
     width: 1.03rem;
     height: .78rem;
     position: absolute;
+    background:rgba(0,0,0,.4);
+    border-radius:10px;
 }
 .item1{
     top: .2rem;
@@ -237,8 +291,12 @@ main{
 .play{
     top: .99rem;
     left: 1.22rem;
+    background: none
 }
-
+.play:active{
+    background: #313131;
+    opacity: .3;
+}
 
 /* 遮罩层 */
 .mask{

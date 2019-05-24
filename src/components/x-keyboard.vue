@@ -41,7 +41,6 @@ export default {
       amounts:'',
       id:[],
       activity:[],
-      store_name:''
     }
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
@@ -63,9 +62,6 @@ export default {
         this.currentValue = b
       }
     },
-    storename:function(a,b){
-      this.store_name = a;
-    }
   },
   methods:{
       inputNum (ev) {
@@ -119,7 +115,8 @@ export default {
         let browsertype = getBrowserType();
         let code_id = getUrlParams().code_id;
         let amount = this.sum;
-        let result_money = this.amounts;
+        let result_money = this.amount;
+        console.log(this.storename)
         let is_activities = this.activity;
         
         let youhui_log_id = this.id.join('_')
@@ -140,11 +137,12 @@ export default {
           var order_sn = data.order_sn;
           let message = {
             order_sn,
-            store_name:this.store_name,
+            store_name:this.storename,
             browsertype,
             amount,
             result_money
           }
+          _this.$router.push({name:'activity',params:message})
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                   "appId":data.appId,
@@ -177,7 +175,7 @@ export default {
           var order_sn = data.order_sn;
           let message = {
             order_sn,
-            store_name:this.store_name,
+           store_name:this.storename,
             browsertype,
             amount,
             result_money
