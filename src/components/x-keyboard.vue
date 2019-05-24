@@ -142,7 +142,7 @@ export default {
             amount,
             result_money
           }
-          _this.$router.push({name:'activity',params:message})
+          // _this.$router.push({name:'activity',params:message}) //测试用的
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                   "appId":data.appId,
