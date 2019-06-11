@@ -2,7 +2,7 @@
 	<div class="payment">
 		<!-- <header>{{this.info.store_name}}</header> -->
 		<div class="area-AD">
-		  <img src="../assets/ad.png" alt="">
+			<img src="../assets/ad.png" alt="">
 		</div>
 		<div class="input">
 			<div class="input-price">
@@ -40,7 +40,7 @@
 
 		<!-- 选择优惠券 -->
 		<div class="area-mask" v-if="isclose">
-			 <div class="mask" @click="handlecoupons"></div>
+			<div class="mask" @click="handlecoupons"></div>
 			<checkout-discount 
 			:couponlist='couponlist' 
 			:sum='sum' 
@@ -58,14 +58,9 @@
 
 	import XKeyboard from "../components/x-keyboard.vue";
 	import CheckoutDiscount from '../components/checkout-discount.vue'
-	import { getBrowserType, getUrlParams, getUserid, getUnionid, getToken} from '../utils/get_info.js'
-	import { Cookie, Compare, NewArrObj } from '../utils/common.js'
-	import { Login } from '../utils/handle_login.js'
+	import { getBrowserType, getUrlParams} from '../utils/get_info.js'
+	import { Compare} from '../utils/common.js'
 	import { storeInfo } from '../api/api'
-	import axios from 'axios'
-
-const baseUrl = process.env.VUE_APP_BASE_DOMAIN;
-import { constants } from 'fs';
 	
 	
 
@@ -120,11 +115,11 @@ import { constants } from 'fs';
 					if(this.recommend_coupon[0] == undefined){
 						this.show_recommend = false;
 					}
-				};
+				}
 				this.amount = newVal - this.manjian - this.couponsSum;
 				this.amount = this.amount.toFixed(2);
 			},
-			manjian:function(a,b){
+			manjian:function(a){
 				this.amount = this.sum*1 - a - this.couponsSum*1 
 				if(this.amount < 0){
 					this.amount = 0
@@ -132,7 +127,7 @@ import { constants } from 'fs';
 				this.amount = this.amount.toFixed(2)
 				
 			},
-			couponsSum:function(a,b){
+			couponsSum:function(a){
 					a = a*1;
 					a.toFixed(2)
 					if(a == 0){
@@ -147,11 +142,11 @@ import { constants } from 'fs';
 						this.amount = 0
 					}
 			},
-			info:function(a,b){
+			info:function(){
 				this.couponNum()
 				this.couponlist = this.info.coupons_required_products_list;
 			},
-			amount:function(a,b){
+			amount:function(a){
 				if(a < 0){
 					this.amount = 0;
 				}
@@ -198,32 +193,26 @@ import { constants } from 'fs';
 					};
 				
 					let {data} = await storeInfo(params).catch(err => {
-						console.log(err)
-						if(err.status != 200){
-						let browsertype = getBrowserType();
-						if(browsertype == 'wechat'){
-							let codeid = getUrlParams().code_id;
-							let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
-							// console.log(url)
-							url = encodeURIComponent(url);
-							let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-							return window.location.href = urls;
-						}else if(browsertype == 'alipay'){
-							let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
-							let codeid = getUrlParams().code_id;
-							url = encodeURIComponent(url);
-							// console.log(baseurl+'ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url)
-							window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
+	
+						if(err.status == 401){
+							let browsertype = getBrowserType();
+							if(browsertype == 'wechat'){
+								let codeid = getUrlParams().code_id;
+								let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
+								url = encodeURIComponent(url);
+								let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+								return window.location.href = urls;
+							}else if(browsertype == 'alipay'){
+								let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
+								let codeid = getUrlParams().code_id;
+								url = encodeURIComponent(url);
+								window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
+							}
 						}
-					}
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
 					this.info = data;
 					document.title = data.store_name || '团卖物联支付';
-				
-
-					// let info = {"code":200,"message":"获取数据成功！","data":{"store_name":"元气寿司","payment_status":"3","ad_location":"www.baidu.com","is_reduction_removed":1,"reduction_money_list":{"100":"25","200":"50","300":"80"},"coupons_required_products_list":[{"coupons_id":1356,"coupons_name":"从10元增值到80元","money":"38.07","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1358,"coupons_name":"从10元增值到80元","money":"84.44","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1357,"coupons_name":"从10元增值到80元","money":"52.42","expiration":"2019-08-25 00:00:00","is_threshold":2,"full_money":10,"ischecked":false},{"coupons_id":1359,"coupons_name":"","money":"30","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false},{"coupons_id":1360,"coupons_name":"","money":"20","expiration":"2019-08-25 00:00:00","is_threshold":1,"full_money":0,"ischecked":false}]},"field_help":{"1":"store_name=店铺名称","2":"payment_status=店铺状态 0未开通 1待审核 2已拒绝 3正常","3":"ad_location=广告位置","4":"is_reduction_removed=是否有满减 1有（如果有 reduction_money_list不为空） 0没有 ","5":"reduction_money_list=满减金额列表,例如：满一百减20 满200减40","6":"coupons_required_products_list=优惠券列表【coupons_id=优惠券ID，coupons_name=优惠券名称，money=优惠券金额，expiration=过期时间，is_threshold=是否有门槛（1无门槛 2有门槛）full_money=满0就是无门槛的】"}}
-					// this.info = info.data;
 				},
 
 				// 判断是否有满减
@@ -238,7 +227,7 @@ import { constants } from 'fs';
 						for(let key in manjian){
 						
 							if(this.sum >= key*1){
-							 
+							
 								this.manjian = manjian[key];
 								this.key = key;
 								this.isshow = true;
@@ -249,10 +238,9 @@ import { constants } from 'fs';
 
 				// 判断是否有优惠券及数量
 				couponNum(){
-					let info = JSON.parse(JSON.stringify(this.info));
+					// let info = JSON.parse(JSON.stringify(this.info));
 
 					var num = this.info.coupons_required_products_list.length;
-					// console.log('num:'+num.length)
 					if(num){
 				
 						this.havecoupon = true;
@@ -267,7 +255,6 @@ import { constants } from 'fs';
 					this.couponsSum = 0;
 					let best_coupon = [];
 					let spendable_coupons = [];
-					let sort_spendable_coupons = [];
 					this.id = [];
 
 
@@ -400,7 +387,6 @@ import { constants } from 'fs';
 
 				// 监听从优惠券组件传回的值
 				getCouponsid(id,sums){
-					console.log(id,sums)
 					if(id.length){
 						this.couponsSum = sums;
 						this.coupon_id = id;

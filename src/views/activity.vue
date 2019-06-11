@@ -96,7 +96,6 @@
 </template>
 <script>
 import '../assets/iconfont/iconfont.css'
-import { setInterval, clearInterval } from 'timers';
 export default {
     data(){
         return{
@@ -126,7 +125,7 @@ export default {
             // 获取文字text 的计算后宽度  （由于overflow的存在，直接获取不到，需要独立的node计算）
             let width = document.getElementById('node').getBoundingClientRect().width 
             let scroll = document.getElementById('scroll')
-            let copy = document.getElementById('copy')
+            // let copy = document.getElementById('copy')
             let distance = 0 // 位移距离
             setInterval(function () {
                 distance = distance - 1

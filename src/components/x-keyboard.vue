@@ -26,7 +26,7 @@
 <script>
 import { getUrlParams, getBrowserType } from '../utils/get_info';
 import { Cookie } from '../utils/common';
-import { requestWechatPayment, requestAlpayPayment , storeInfo } from '../api/api';
+import { requestWechatPayment, requestAlpayPayment } from '../api/api';
 
 export default {
   data(){
@@ -45,16 +45,16 @@ export default {
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
-    sum:function(newVal,oldVal){
+    sum:function(newVal){
       this.currentValue = newVal
     },
-    amount:function(a,b){
+    amount:function(a){
       this.amounts = a;
     },
-    coupon_id:function(a,b){
+    coupon_id:function(a){
       this.id = a
     },
-    is_reduction_removed:function(a,b){
+    is_reduction_removed:function(a){
       this.activity = a;
     },
     currentValue:function(a,b){
@@ -85,7 +85,6 @@ export default {
            if(idx > 0){
              if(this.currentValue.length > idx*1+2){
               this.currentValue = this.currentValue.substring(0,idx*1+3);
-              console.log(this.currentValue)
             }
           
            }
@@ -116,7 +115,6 @@ export default {
         let code_id = getUrlParams().code_id;
         let amount = this.sum;
         let result_money = this.amount;
-        console.log(this.storename)
         let is_activities = this.activity;
         
         let youhui_log_id = this.id.join('_')
@@ -144,7 +142,7 @@ export default {
             result_money
           }
           // _this.$router.push({name:'activity',params:message}) //测试用的
-            WeixinJSBridge.invoke(
+            window.WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                   "appId":data.appId,
                   "timeStamp":data.timeStamp, 
@@ -156,7 +154,6 @@ export default {
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
                 _this.$router.push({name:'activity',params:message})
-                console.log('支付成功')
                 } 
             });
 
@@ -186,12 +183,12 @@ export default {
             }, res => {
               if (res.resultCode === "9000") {
                 _this.$router.push({name:'activity',params:message})
-                return resolve({
+                return ({
                   message: 'ok'
                   
                 })
               } else if (res.resultCode === "4000") {
-                return reject({
+                return ({
                   message: 'error',
                   error: res
                 })
