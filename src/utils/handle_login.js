@@ -47,14 +47,13 @@ export const Login = () => {
     if(browsertype == 'wechat'){
         let token = Cookie.get(_token);
         if (token){
-          console.log(123)
-         
+         return
         }else{
             let codeid = getUrlParams().code_id;
             let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
             url = encodeURIComponent(url);
             let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-            // return window.location.href = urls;
+            return window.location.href = urls;
         }
     }else{
         let token = Cookie.get(_token);

@@ -2,7 +2,7 @@
 	<div class="payment">
 		<!-- <header>{{this.info.store_name}}</header> -->
 		<div class="area-AD">
-			<img src="../assets/ad.png" alt="">
+			<img :src=ads.original alt="">
 		</div>
 		<div class="input">
 			<div class="input-price">
@@ -60,7 +60,7 @@
 	import CheckoutDiscount from '../components/checkout-discount.vue'
 	import { getBrowserType, getUrlParams} from '../utils/get_info.js'
 	import { Compare} from '../utils/common.js'
-	import { storeInfo } from '../api/api'
+	import { storeInfo, requestGetAd } from '../api/api'
 	
 	
 
@@ -87,7 +87,9 @@
 				couponsSum:0,
 				coupon_id:[],
 				reduction_money_list:[],
-				youhui:'已选推荐优惠'
+				youhui:'已选推荐优惠',
+				/**广告 */
+				ads: {}
 			}
 			
 		},
@@ -160,7 +162,8 @@
 		},
 
 		mounted(){
-			this.reduction_money_list = this.info.reduction_money_list
+			this.reduction_money_list = this.info.reduction_money_list;
+			this.getAds()
 		},
 	
 
@@ -213,6 +216,13 @@
 					})
 					this.info = data;
 					document.title = data.store_name || '团卖物联支付';
+				},
+
+				//获取广告
+				async getAds (){
+					let store_id = getUrlParams().code_id;
+					let ads = await requestGetAd({position_id: 1, store_id});
+					this.ads = ads.data;
 				},
 
 				// 判断是否有满减
