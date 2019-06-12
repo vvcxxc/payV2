@@ -71,7 +71,7 @@
 
 
             <div class="drawCoupon" v-if="is_lottery">
-                <h2>恭喜您抽中<span>{{lottery_data.store_name}}店</span>到店红包</h2>
+                <h2>恭喜您抽中<span>{{lottery_data.store_name}}</span>到店红包</h2>
                 <div class="coupon">
                     <div class="coupon-left">
                         <p class="sum"><i>￥</i>{{lottery_data.return_money}}</p>
@@ -132,7 +132,6 @@ export default {
             is_get: false,
             //  抽奖返回的数据
             lottery_data: {}
-
         }
     },
     watch: {
