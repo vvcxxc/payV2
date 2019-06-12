@@ -198,19 +198,19 @@
 					let {data} = await storeInfo(params).catch(err => {
 	
 						if(err.status == 401){
-							// let browsertype = getBrowserType();
-							// if(browsertype == 'wechat'){
-							// 	let codeid = getUrlParams().code_id;
-							// 	let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
-							// 	url = encodeURIComponent(url);
-							// 	let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-							// 	return window.location.href = urls;
-							// }else if(browsertype == 'alipay'){
-							// 	let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
-							// 	let codeid = getUrlParams().code_id;
-							// 	url = encodeURIComponent(url);
-							// 	window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
-							// }
+							let browsertype = getBrowserType();
+							if(browsertype == 'wechat'){
+								let codeid = getUrlParams().code_id;
+								let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
+								url = encodeURIComponent(url);
+								let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+								return window.location.href = urls;
+							}else if(browsertype == 'alipay'){
+								let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
+								let codeid = getUrlParams().code_id;
+								url = encodeURIComponent(url);
+								window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
+							}
 						}
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
