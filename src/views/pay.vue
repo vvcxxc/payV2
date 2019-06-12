@@ -296,7 +296,7 @@
 									spendable_coupons.sort(Compare('money'));
 									best_coupon.push(spendable_coupons[0]);
 									couponSum = best_coupon[0].money;
-									this.id.push(best_coupon[0].coupons_id)
+									this.coupon_id.push(best_coupon[0].coupons_id)
 								}
 								this.couponsSum = couponSum;
 								this.recommend_coupon = best_coupon;
@@ -328,7 +328,7 @@
 										best_coupon = arr[0];
 										couponSum = best_coupon.money;
 										// console.log(best_coupon)
-										this.id.push(best_coupon.coupons_id);
+										// this.id.push(best_coupon.coupons_id);
 									}else{
 										for(let a = 0; a < arr.length; a ++){
 											if(arr[a].is_threshold == 2){
@@ -340,7 +340,9 @@
 											}
 										}
 									}
-									this.id.push(best_coupon.coupons_id);
+									// console.log(best_coupon)
+									this.coupon_id.push(best_coupon.coupons_id);
+									console.log(this.coupon_id)
 								}
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
@@ -385,7 +387,7 @@
 											}
 										}
 									}
-									this.id.push(best_coupon.coupons_id);
+									this.coupon_id.push(best_coupon.coupons_id);
 								}
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
