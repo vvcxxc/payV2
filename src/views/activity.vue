@@ -61,7 +61,7 @@
                     <div class="coupon-right">
                         <p class="coupon-shop">洛西路店</p>
                         <p class="coupon-time">领取后6日有效</p>
-                        <span class="coupon-choose"></span>
+                        <p class="coupon-text">极速退/免预约</p>
                         
                     </div>
                 </div>
@@ -80,8 +80,7 @@
                     <div class="coupon-right">
                         <p class="coupon-shop">{{lottery_data.store_name}}店</p>
                         <p class="coupon-time">领取后{{lottery_data.expire_day}}日有效</p>
-                        <span class="coupon-choose"></span>
-                        
+                        <p class="coupon-text">极速退/免预约</p>
                     </div>
                 </div>
                 <p>可在卡包中查看</p>
@@ -96,14 +95,13 @@
 <script>
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon } from '../api/api';
-import { clearInterval } from 'timers';
 export default {
     data(){
         return{
             message:{},
             isshow:false,
             // 头顶播报定时器
-            timer: null,
+            timer5: null,
             /**抽奖列表 */
             list: [],
              // 上次停留位置 index
@@ -127,9 +125,9 @@ export default {
             //  只可进行一次抽奖
             is_one: true,
             //  显示遮罩层
-            is_show: false,
+            is_show: true,
             //  抽中奖品
-            is_lottery: false,
+            is_lottery: true,
             //  获得奖品
             is_get: false,
             //  抽奖返回的数据
@@ -212,7 +210,7 @@ export default {
             let i = this.lastIndex;
              // 执行ajax请求数据
             this.getStopIndex();
-            // console.log(this.list)
+            console.log(this.list)
             this.timer1 = setInterval(() => {
                 this.times ++;
                 i++;
@@ -294,6 +292,7 @@ export default {
                 xpoint: '113.450163',
                 ypoint: '23.107527',
                 order_sn: this.message.order_sn
+                // order_sn: '123s12s31sssfss111s11assds11'
             }
             let list = await requestLotterys(params);
             list = list.data.lottery_info;
@@ -310,7 +309,7 @@ export default {
             let scroll = document.getElementById('scroll')
             let copy = document.getElementById('copy')
             let distance = 0 // 位移距离
-            this.timer = setInterval(function () {
+            this.timer5 = setInterval(function () {
                 distance = distance - 1
                 // 如果位移超过文字宽度，则回到起点
                 if (-distance >= width) {
@@ -545,7 +544,7 @@ main{
 .mask h2{
     color: #fff;
     font-size: .18rem;
-    line-height: .15rem;
+    line-height: .28rem;
     text-align: center;
     height: .645rem;
 }
@@ -621,7 +620,14 @@ main{
         font-weight: bold;
         position: absolute;
         top: .1rem;
-        left: .5rem;
+        left: .1rem;
+    }
+    .mask .coupon-text{
+        font-size: .12rem;
+        color: #999999;
+        position: absolute;
+        left: .1rem;
+        top: .55rem;
     }
    .mask .coupon-time{
         font-size: .12rem;
