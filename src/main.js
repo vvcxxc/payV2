@@ -4,7 +4,8 @@ import App from './App.vue'
 
 import router from './router'
 import store from './store'
-import FastClick from 'fastclick'
+import FastClick from 'fastclick';
+
 
 if ('addEventListener' in document) { 
      document.addEventListener('DOMContentLoaded', function() { 

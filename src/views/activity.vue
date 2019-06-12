@@ -96,11 +96,14 @@
 <script>
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon } from '../api/api';
+import { clearInterval } from 'timers';
 export default {
     data(){
         return{
             message:{},
             isshow:false,
+            // 头顶播报定时器
+            timer: null,
             /**抽奖列表 */
             list: [],
              // 上次停留位置 index
@@ -153,11 +156,12 @@ export default {
             message.browsertype = '支付宝支付'
         }
         this.message = message;
-        this.getList();
     },
     mounted(){
-        
+        this.getList();
+        this.move();
     },
+    
     methods:{
         getStopIndex(){// 获取服务器返回的index
             requestGetResult().then(res => {
@@ -289,7 +293,7 @@ export default {
             let params = {
                 xpoint: '113.450163',
                 ypoint: '23.107527',
-                order_sn: '123123'
+                order_sn: this.message.order_sn
             }
             let list = await requestLotterys(params);
             list = list.data.lottery_info;
@@ -304,9 +308,9 @@ export default {
             // 获取文字text 的计算后宽度  （由于overflow的存在，直接获取不到，需要独立的node计算）
             let width = document.getElementById('node').getBoundingClientRect().width 
             let scroll = document.getElementById('scroll')
-            // let copy = document.getElementById('copy')
+            let copy = document.getElementById('copy')
             let distance = 0 // 位移距离
-            setInterval(function () {
+            this.timer = setInterval(function () {
                 distance = distance - 1
                 // 如果位移超过文字宽度，则回到起点
                 if (-distance >= width) {
@@ -329,6 +333,8 @@ export default {
         clearInterval(this.timer1);
         clearInterval(this.timer2);
         clearInterval(this.timer3);
+        clearInterval(this.timer);
+
     },
 }
 </script>
