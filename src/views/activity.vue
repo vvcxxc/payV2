@@ -271,7 +271,10 @@ export default {
                     this.lastIndex = this.stopIndex;
                     this.luckyTimes--;
                     // 结束后-----
-                    if(this.lottery_data.data != '谢谢参与'){
+                    if(this.lottery_data == '谢谢参与！'){
+                       return
+                    }else{
+                        // console.log(this.lottery_data)
                         this.is_show = true;
                         this.is_lottery = true;
                     }
@@ -279,7 +282,6 @@ export default {
                 }
             }, 300);
         },
-
         showOrder(){
             this.isshow = !this.isshow;
         },
