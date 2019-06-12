@@ -125,9 +125,9 @@ export default {
             //  只可进行一次抽奖
             is_one: true,
             //  显示遮罩层
-            is_show: true,
+            is_show: false,
             //  抽中奖品
-            is_lottery: true,
+            is_lottery: false,
             //  获得奖品
             is_get: false,
             //  抽奖返回的数据
