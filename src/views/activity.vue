@@ -60,7 +60,7 @@
                     </div>
                     <div class="coupon-right">
                         <p class="coupon-shop">洛西路店</p>
-                        <p class="coupon-time">领取后6日有效</p>
+                        <p class="coupon-time">领取后6日内有效</p>
                         <p class="coupon-text">极速退/免预约</p>
                         
                     </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="coupon-right">
                         <p class="coupon-shop">{{lottery_data.store_name}}店</p>
-                        <p class="coupon-time">领取后{{lottery_data.expire_day}}日有效</p>
+                        <p class="coupon-time">领取后{{lottery_data.expire_day}}日内有效</p>
                         <p class="coupon-text">极速退/免预约</p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
 </template>
 <script>
 import '../assets/iconfont/iconfont.css';
-import { requestLotterys, requestGetResult, requestGetCoupon } from '../api/api';
+import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
 export default {
     data(){
         return{
@@ -157,9 +157,21 @@ export default {
     mounted(){
         this.getList();
         this.move();
+        this.getOrderCoupon();
     },
     
     methods:{
+
+        //获取支付返券
+        async getOrderCoupon(){
+            let order_sn = this.message.order_sn;
+            let params = {
+                order_sn
+            }
+            let { data } = await requestOrderCoupons(params);
+            
+        },
+
         getStopIndex(){// 获取服务器返回的index
             requestGetResult().then(res => {
                 // console.log(res);
@@ -209,7 +221,6 @@ export default {
             let i = this.lastIndex;
              // 执行ajax请求数据
             this.getStopIndex();
-            console.log(this.list)
             this.timer1 = setInterval(() => {
                 this.times ++;
                 i++;
@@ -291,7 +302,7 @@ export default {
                 xpoint: '113.450163',
                 ypoint: '23.107527',
                 order_sn: this.message.order_sn
-                // order_sn: '123s12s31sssfss111s11assds11'
+                // order_sn: (new Date()).getTime()
             }
             let list = await requestLotterys(params);
             list = list.data.lottery_info;
@@ -306,7 +317,7 @@ export default {
             // 获取文字text 的计算后宽度  （由于overflow的存在，直接获取不到，需要独立的node计算）
             let width = document.getElementById('node').getBoundingClientRect().width 
             let scroll = document.getElementById('scroll')
-            let copy = document.getElementById('copy')
+            // let copy = document.getElementById('copy')
             let distance = 0 // 位移距离
             this.timer5 = setInterval(function () {
                 distance = distance - 1

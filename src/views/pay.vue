@@ -342,7 +342,6 @@
 									}
 									// console.log(best_coupon)
 									this.coupon_id.push(best_coupon.coupons_id);
-									console.log(this.coupon_id)
 								}
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;

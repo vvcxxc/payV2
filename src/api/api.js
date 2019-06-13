@@ -70,3 +70,13 @@ export const requestGetCoupon = () =>
     url: 'v3/Lotterys/result',
     method: 'put',
   })
+
+  /**
+   * 下单返券
+   */
+export const requestOrderCoupons = params =>
+  http({
+    url: 'v3/return_coupons',
+    method: 'get',
+    params
+  })

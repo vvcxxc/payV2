@@ -123,7 +123,6 @@ export default {
         if(browsertype == 'wechat'){
           // 微信支付
           let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
-          console.log(youhui_log_id)
           let params = {
             code_id,
             amount, 
@@ -169,8 +168,8 @@ export default {
             is_activities,
             result_money
           }
-          var {data} = await requestAlpayPayment(params);
-          var order_sn = data.order_sn;
+          let {data} = await requestAlpayPayment(params);
+          let order_sn = data.order_sn;
           let message = {
             order_sn,
            store_name:this.storename,
