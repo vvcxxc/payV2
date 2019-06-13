@@ -131,7 +131,7 @@ export default {
             is_activities,
             result_money,
           }
-          var {data} = await requestWechatPayment(params)
+          var {data} = await requestWechatPayment(params);
           var order_sn = data.order_sn;
           let message = {
             order_sn,
@@ -140,8 +140,9 @@ export default {
             amount,
             result_money
           }
-          // _this.$router.push({name:'activity',params:message}) //测试用的
-            window.WeixinJSBridge.invoke(
+
+          if(result_money){
+             window.WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                   "appId":data.appId,
                   "timeStamp":data.timeStamp, 
@@ -155,7 +156,9 @@ export default {
                 _this.$router.push({name:'activity',params:message})
                 } 
             });
-
+          }else {
+            this.$router.push({name: 'activity', params:message})
+          }
         }else if(browsertype == 'alipay'){
           // 支付宝支付
          
@@ -177,7 +180,8 @@ export default {
             amount,
             result_money
           }
-          window.AlipayJSBridge.call('tradePay', {
+          if(result_money){
+            window.AlipayJSBridge.call('tradePay', {
               tradeNO: data.alipayOrderSn
             }, res => {
               if (res.resultCode === "9000") {
@@ -193,6 +197,10 @@ export default {
                 })
               }
             })
+          }else{
+            this.$router.push({name: 'activity', params:message});
+          }
+          
           }
         }
       }
