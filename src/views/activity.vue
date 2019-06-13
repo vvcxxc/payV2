@@ -52,21 +52,21 @@
         <div class="mask" style="display:block" v-if="is_show" @touchmove.prevent>
 
             <div class="getCoupon" v-if="is_get">
-                <h2>恭喜您获得</h2>
+                <h2>恭喜您抽中<span>{{order_coupon.store_name}}</span>到店红包</h2>
                 <div class="coupon">
                     <div class="coupon-left">
-                        <p class="sum"><i>￥</i>50</p>
-                        <p class="manjian">满199可用</p>
+                        <p class="sum"><i>￥</i>{{order_coupon.return_money}}</p>
+                        <p class="manjian">满{{order_coupon.total_fee}}可用</p>
                     </div>
                     <div class="coupon-right">
-                        <p class="coupon-shop">洛西路店</p>
-                        <p class="coupon-time">领取后6日内有效</p>
+                        <p class="coupon-shop">{{order_coupon.store_name}}</p>
+                        <p class="coupon-time">领取后{{order_coupon.expire_day}}日内有效</p>
                         <p class="coupon-text">极速退/免预约</p>
                         
                     </div>
                 </div>
                 <p>可在卡包中查看</p>
-                <div class="close"></div>
+                <div class="close" @click="closeOrderCoupon"></div>
             </div>
 
 
@@ -78,7 +78,7 @@
                         <p class="manjian">满{{lottery_data.total_fee}}可用</p>
                     </div>
                     <div class="coupon-right">
-                        <p class="coupon-shop">{{lottery_data.store_name}}店</p>
+                        <p class="coupon-shop">{{lottery_data.store_name}}</p>
                         <p class="coupon-time">领取后{{lottery_data.expire_day}}日内有效</p>
                         <p class="coupon-text">极速退/免预约</p>
                     </div>
@@ -131,7 +131,9 @@ export default {
             //  获得奖品
             is_get: false,
             //  抽奖返回的数据
-            lottery_data: {}
+            lottery_data: {},
+            // 支付返券的数据
+            order_coupon: {}
         }
     },
     watch: {
@@ -169,7 +171,19 @@ export default {
                 order_sn
             }
             let { data } = await requestOrderCoupons(params);
+            if(data == []){
+                this.is_show = false;
+            }else{
+                this.order_coupon = data;
+                this.is_show = true;
+                this.is_get = true;
+            }
             
+        },
+        // 关闭支付返券
+        closeOrderCoupon(){
+            this.is_get = false;
+            this.is_show = false;
         },
 
         getStopIndex(){// 获取服务器返回的index
