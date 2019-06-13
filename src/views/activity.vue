@@ -52,7 +52,7 @@
         <div class="mask" style="display:block" v-if="is_show" @touchmove.prevent>
 
             <div class="getCoupon" v-if="is_get">
-                <h2>恭喜您抽中<span>{{order_coupon.store_name}}</span>到店红包</h2>
+                <h2>恭喜您获得<span>{{order_coupon.store_name}}</span>到店红包</h2>
                 <div class="coupon">
                     <div class="coupon-left">
                         <p class="sum"><i>￥</i>{{order_coupon.return_money}}</p>
@@ -171,7 +171,7 @@ export default {
                 order_sn
             }
             let { data } = await requestOrderCoupons(params);
-            if(data == []){
+            if( data == [] || ''){
                 this.is_show = false;
             }else{
                 this.order_coupon = data;
