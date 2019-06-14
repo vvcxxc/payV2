@@ -1,8 +1,9 @@
 <template>
     <div class="activity">
+            <div class="header"><img src='../assets/success_icon.png'> 支付完成！</div>
             <div class="order-num" ref="order" @click="showOrder" v-if="!isshow">
                 <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
-                <i class="iconfont bottom-arro">&#xe62c;</i>   
+                <i class="iconfont bottom-arro"><span class="xiangqing">订单详情</span>&#xe62c;</i>   
             </div>
             <div class="order-num1" ref="order" @click="showOrder" v-if="isshow">
                 <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
@@ -379,6 +380,28 @@ export default {
     font-size: 17px;
 }
 
+.header {
+    width: 100%;
+    height: .55rem;
+    background: #FFF2E6;
+    text-align: center;
+    font-size: .17rem;
+    color: #FF7F0E;
+    font-weight: bold;
+    line-height: .55rem;
+}
+.header img {
+    width: .24rem;
+    height: .24rem;
+}
+.xiangqing {
+    font-size: .13rem;
+    color: #FF6654;
+    padding-right: .1rem;
+}
+
+
+
 /* 订单号部分 */
 .order-num-zhanwei{
     height: 42px;
@@ -418,6 +441,7 @@ export default {
     display: block;
     position: absolute;
     left: 13px;
+    top: 10px;
     height: 23px;
 }
 .ordernum::after{
@@ -428,7 +452,7 @@ export default {
 }
 .bottom-arro{
     position: absolute;
-    top: 16px;
+    top: 10px;
     right: 13px;
 }
 
@@ -482,7 +506,7 @@ main{
     width: 1.03rem;
     height: .78rem;
     position: absolute;
-    border-radius:10px;
+    border-radius:8px;
 }
 .item img {
     width: .43rem;
@@ -538,7 +562,7 @@ main{
     width: 1.03rem;
     height: .78rem;
     z-index: 2;
-    border-radius:9px;
+    border-radius:8px;
 }
 .item .active2 {
     position: absolute;
@@ -546,7 +570,7 @@ main{
     height: .78rem;
     z-index: 2;
     background: rgba(0, 0, 0, .27);
-    border-radius:9px;
+    border-radius:8px;
 }
 
 .play{
