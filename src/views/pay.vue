@@ -265,7 +265,6 @@
 					this.couponsSum = 0;
 					let best_coupon = [];
 					let spendable_coupons = [];
-					this.id = [];
 
 
 					if(list.length){
@@ -313,7 +312,7 @@
 											spendable_coupons.push(list[i])
 										}
 									}
-									// this.coupon_id = [];
+									this.coupon_id = [];
 								}
 								// 存在可用券
 								let arr = []; //把可用的优惠额度最高的放在这里
@@ -361,7 +360,7 @@
 										spendable_coupons.push(list[i])
 									}
 								}
-								// this.coupon_id = []
+								this.coupon_id = []
 							}
 
 							// 存在可用券
