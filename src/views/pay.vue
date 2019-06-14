@@ -196,7 +196,8 @@
 					};
 				
 					let {data} = await storeInfo(params).catch(err => {
-	
+						let ads = await requestGetAd({position_id: 1, store_id: data.store_id});
+						this.ads = ads.data;
 						if(err.status == 401){
 							let browsertype = getBrowserType();
 							if(browsertype == 'wechat'){
@@ -216,13 +217,6 @@
 					})
 					this.info = data;
 					document.title = data.store_name || '团卖物联支付';
-				},
-
-				//获取广告
-				async getAds (){
-					let store_id = getUrlParams().code_id;
-					let ads = await requestGetAd({position_id: 1, store_id});
-					this.ads = ads.data;
 				},
 
 				// 判断是否有满减
