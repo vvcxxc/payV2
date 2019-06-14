@@ -66,7 +66,7 @@
                         
                     </div>
                 </div>
-                <p>可在卡包中查看</p>
+                <p class="order_text">可”订单“中查看</p>
                 <div class="close" @click="closeOrderCoupon"></div>
             </div>
 
@@ -84,7 +84,7 @@
                         <p class="coupon-text">极速退/免预约</p>
                     </div>
                 </div>
-                <p>可在卡包中查看</p>
+                <p class="order_text">可”订单“中查看</p>
                 <div class="receive" @click="getCoupon"></div>
             </div>
 
@@ -456,6 +456,10 @@ export default {
     top: 10px;
     right: 13px;
 }
+.order_text {
+    color: #FFFFFF;
+    font-size: 12px;
+}
 
 /* 头部滚动条 */
 .scroll-top{
@@ -570,6 +574,8 @@ main{
     width: 1.03rem;
     height: .78rem;
     z-index: 2;
+    top: 0;
+    left: 0;
     background: rgba(0, 0, 0, .27);
     border-radius:7px;
 }
