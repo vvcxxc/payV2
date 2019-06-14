@@ -87,6 +87,12 @@
                 <div class="receive" @click="getCoupon"></div>
             </div>
 
+            <div class="thankYou" v-if="is_thanks">
+                <h2>感谢您的参与</h2>
+                <p>超值大礼包等您下次来拿</p>
+                <div class="close" @click="closeOrderCoupon"></div>
+            </div>
+
 
         </div>
 
@@ -125,7 +131,7 @@ export default {
             //  只可进行一次抽奖
             is_one: true,
             //  显示遮罩层
-            is_show: false,
+            is_show: true,
             //  抽中奖品
             is_lottery: false,
             //  获得奖品
@@ -133,7 +139,9 @@ export default {
             //  抽奖返回的数据
             lottery_data: {},
             // 支付返券的数据
-            order_coupon: {}
+            order_coupon: {},
+            // 谢谢参与
+            is_thanks: true
         }
     },
     watch: {
@@ -171,11 +179,10 @@ export default {
                 order_sn
             }
             let res = await requestOrderCoupons(params);
-            alert(res)
-            if( res.data == []){
+            if( res.data === []){
                 this.is_show = false;
             }else{
-                this.order_coupon = data;
+                this.order_coupon = res.data;
                 this.is_show = true;
                 this.is_get = true;
             }
@@ -226,6 +233,7 @@ export default {
                 return false;
             }
             if(!this.is_one){
+                alert('您已抽奖');
                 return false
             }
             this.is_one = false;
@@ -558,7 +566,7 @@ main{
     top: 0;
     z-index: 10;
 }
-.getCoupon,.drawCoupon{
+.getCoupon,.drawCoupon,.thankYou{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -660,6 +668,15 @@ main{
         position: absolute;
         top: .29rem;
         left: .1rem;
+    }
+    .thankYou h2{
+        margin-bottom: .2rem;
+        font-size: .3rem;
+        line-height: .3rem;
+        height: .3rem;
+    }
+    .thankYou .close{
+        bottom: 110px;
     }
 
 </style>
