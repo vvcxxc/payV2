@@ -131,7 +131,7 @@ export default {
             //  只可进行一次抽奖
             is_one: true,
             //  显示遮罩层
-            is_show: true,
+            is_show: false,
             //  抽中奖品
             is_lottery: false,
             //  获得奖品
@@ -141,7 +141,7 @@ export default {
             // 支付返券的数据
             order_coupon: {},
             // 谢谢参与
-            is_thanks: true
+            is_thanks: false
         }
     },
     watch: {
@@ -179,7 +179,7 @@ export default {
                 order_sn
             }
             let res = await requestOrderCoupons(params);
-            if( res.data === []){
+            if( res.data == []){
                 this.is_show = false;
             }else{
                 this.order_coupon = res.data;
@@ -307,7 +307,8 @@ export default {
                     this.luckyTimes--;
                     // 结束后-----
                     if(this.lottery_data == '谢谢参与！'){
-                       return
+                        this.is_show = true;
+                        this.is_thanks = true;
                     }else{
                         // console.log(this.lottery_data)
                         this.is_show = true;
