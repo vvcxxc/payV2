@@ -2,7 +2,7 @@
 	<div class="payment">
 		<!-- <header>{{this.info.store_name}}</header> -->
 		<div class="area-AD">
-			<img :src=ads.original alt="">
+			<img :src=ads.pic alt="">
 		</div>
 		<div class="input">
 			<div class="input-price">
