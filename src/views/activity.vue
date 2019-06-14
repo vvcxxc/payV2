@@ -170,8 +170,8 @@ export default {
             let params = {
                 order_sn
             }
-            let { data } = await requestOrderCoupons(params);
-            if( data == []){
+            let res = await requestOrderCoupons(params);
+            if( res.data == []){
                 this.is_show = false;
             }else{
                 this.order_coupon = data;
@@ -472,11 +472,11 @@ main{
     width: 1.03rem;
     height: .78rem;
     position: absolute;
-    border-radius:10px;
+    border-radius:12px;
 }
 .item img {
-    width: .58rem;
-    height: .42rem;
+    width: .29rem;
+    height: .21rem;
     position: absolute;
     top: .08rem;
     left: .25rem;
@@ -527,7 +527,7 @@ main{
     width: 1.03rem;
     height: .78rem;
     z-index: 2;
-    border-radius:10px;
+    border-radius:12px;
 }
 .item .active2 {
     position: absolute;
@@ -535,7 +535,7 @@ main{
     height: .78rem;
     z-index: 2;
     background: rgba(0, 0, 0, .27);
-    border-radius:10px;
+    border-radius:12px;
 }
 
 .play{
