@@ -179,7 +179,7 @@ export default {
                 order_sn
             }
             let res = await requestOrderCoupons(params);
-            if( res.data == []){
+            if( res.data.coupon_id == undefined){
                 this.is_show = false;
             }else{
                 this.order_coupon = res.data;
@@ -482,14 +482,15 @@ main{
     width: 1.03rem;
     height: .78rem;
     position: absolute;
-    border-radius:12px;
+    border-radius:10px;
 }
 .item img {
     width: .29rem;
     height: .21rem;
     position: absolute;
-    top: .08rem;
-    left: .25rem;
+    top: .15rem;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .item_text {
     font-size: .12rem;
@@ -537,7 +538,7 @@ main{
     width: 1.03rem;
     height: .78rem;
     z-index: 2;
-    border-radius:12px;
+    border-radius:9px;
 }
 .item .active2 {
     position: absolute;
@@ -545,7 +546,7 @@ main{
     height: .78rem;
     z-index: 2;
     background: rgba(0, 0, 0, .27);
-    border-radius:12px;
+    border-radius:9px;
 }
 
 .play{
