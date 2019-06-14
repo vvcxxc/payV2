@@ -66,7 +66,7 @@
                         
                     </div>
                 </div>
-                <p class="order_text">可”订单“中查看</p>
+                <p class="order_text">可在“订单”中查看</p>
                 <div class="close" @click="closeOrderCoupon"></div>
             </div>
 
@@ -84,7 +84,7 @@
                         <p class="coupon-text">极速退/免预约</p>
                     </div>
                 </div>
-                <p class="order_text">可”订单“中查看</p>
+                <p class="order_text">可在“订单”中查看</p>
                 <div class="receive" @click="getCoupon"></div>
             </div>
 
@@ -565,14 +565,14 @@ main{
     background: none;
     position: absolute;
     width: 1.03rem;
-    height: .78rem;
+    height: .785rem;
     z-index: 2;
     border-radius:7px;
 }
 .item .active2 {
     position: absolute;
     width: 1.03rem;
-    height: .78rem;
+    height: .785rem;
     z-index: 2;
     top: 0;
     left: 0;
