@@ -1,6 +1,6 @@
 <template>
     <div class="activity">
-            <div class="header"><img src='../assets/success_icon.png'> 支付完成！</div>
+            <div class="header"><img :src=success_icon> 支付完成！</div>
             <div class="order-num" ref="order" @click="showOrder" v-if="!isshow">
                 <div><p class="ordernum">订单号：{{message.order_sn}}</p></div>
                 <i class="iconfont bottom-arro"><span class="xiangqing">订单详情</span>&#xe62c;</i>   
@@ -142,7 +142,8 @@ export default {
             // 支付返券的数据
             order_coupon: {},
             // 谢谢参与
-            is_thanks: false
+            is_thanks: false,
+            success_icon: require('../assets/success_icon.png')
         }
     },
     watch: {
