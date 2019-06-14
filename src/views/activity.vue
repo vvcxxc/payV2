@@ -507,7 +507,7 @@ main{
     width: 1.03rem;
     height: .78rem;
     position: absolute;
-    border-radius:8px;
+    border-radius:7px;
 }
 .item img {
     width: .43rem;
@@ -520,7 +520,7 @@ main{
 .item_text {
     font-size: .12rem;
     position: absolute;
-    top: .54rem;
+    top: .5rem;
     display: block;
     width: 1.03rem;
     text-align: center;
@@ -563,7 +563,7 @@ main{
     width: 1.03rem;
     height: .78rem;
     z-index: 2;
-    border-radius:8px;
+    border-radius:7px;
 }
 .item .active2 {
     position: absolute;
@@ -571,7 +571,7 @@ main{
     height: .78rem;
     z-index: 2;
     background: rgba(0, 0, 0, .27);
-    border-radius:8px;
+    border-radius:7px;
 }
 
 .play{
