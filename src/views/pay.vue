@@ -163,7 +163,6 @@
 
 		mounted(){
 			this.reduction_money_list = this.info.reduction_money_list;
-			this.getAds()
 		},
 	
 
@@ -196,8 +195,6 @@
 					};
 				
 					let {data} = await storeInfo(params).catch(err => {
-						let ads = await requestGetAd({position_id: 1, store_id: data.store_id});
-						this.ads = ads.data;
 						if(err.status == 401){
 							let browsertype = getBrowserType();
 							if(browsertype == 'wechat'){
@@ -215,6 +212,10 @@
 						}
 						throw Error("--- 获取店铺基本信息出错 ---")
 					})
+					requestGetAd({position_id: 1, store_id: data.store_id}).then(res => {
+						// console.log(res)
+						this.ads = res.data;
+					});
 					this.info = data;
 					document.title = data.store_name || '团卖物联支付';
 				},
