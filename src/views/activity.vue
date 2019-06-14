@@ -171,7 +171,7 @@ export default {
                 order_sn
             }
             let { data } = await requestOrderCoupons(params);
-            if( data == [] || ''){
+            if( data == []){
                 this.is_show = false;
             }else{
                 this.order_coupon = data;
