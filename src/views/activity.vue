@@ -485,8 +485,8 @@ main{
     border-radius:10px;
 }
 .item img {
-    width: .29rem;
-    height: .21rem;
+    width: .43rem;
+    height: .31rem;
     position: absolute;
     top: .15rem;
     left: 50%;
