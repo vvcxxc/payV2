@@ -217,7 +217,17 @@
 						this.ads = res.data;
 					});
 					this.info = data;
-					document.title = data.store_name || '团卖物联支付';
+					if(getBrowserType() == 'ALIPAY'){
+						try {
+							AlipayJSBridge.call("setTitle", {
+							title: data.store_name || "团卖物联支付"
+							})
+						} catch (err) {
+							document.title = this.storeinfo.name || "团卖物联支付"
+						}
+					}else{
+						document.title = data.store_name || '团卖物联支付';
+					}
 				},
 
 				// 判断是否有满减
