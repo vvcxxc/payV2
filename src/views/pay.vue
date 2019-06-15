@@ -217,7 +217,7 @@
 						this.ads = res.data;
 					});
 					this.info = data;
-					if(getBrowserType() == 'ALIPAY'){
+					if(getBrowserType() == 'alipay'){
 						try {
 							AlipayJSBridge.call("setTitle", {
 							title: data.store_name || "团卖物联支付"
