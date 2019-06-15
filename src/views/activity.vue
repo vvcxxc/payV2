@@ -188,7 +188,7 @@ export default {
         
         this.loading = setTimeout(() => {
             this.is_loading = false;
-        }, 1000);
+        }, 2000);
     },
     
     methods:{
