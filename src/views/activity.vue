@@ -93,19 +93,24 @@
                 <p>超值大礼包等您下次来拿</p>
                 <div class="close" @click="closeOrderCoupon"></div>
             </div>
-
+            
 
         </div>
-
+        <div class="loading-box" v-if="is_loading">
+            <van-loading color="#fff"  class="loading" vertical>Loading...</van-loading>
+        </div>
     </div>    
 </template>
 <script>
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
+import { Loading } from 'vant'
+import 'vant/lib/button/style';
 export default {
     data(){
         return{
             message:{},
+            is_loading: true,
             isshow:false,
             // 头顶播报定时器
             timer5: null,
@@ -143,8 +148,13 @@ export default {
             order_coupon: {},
             // 谢谢参与
             is_thanks: false,
-            success_icon: require('../assets/success_icon.png')
+            success_icon: require('../assets/success_icon.png'),
+            // loading定时器
+            loading: null
         }
+    },
+    components: {
+        [Loading.name]: Loading
     },
     watch: {
         times(val) {
@@ -156,6 +166,12 @@ export default {
                 this.timerEnd = true;
             }
         },
+        is_loading(val) {
+            if(val == false){
+                clearTimeout(this.loading);
+                this.getOrderCoupon();
+            }
+        }
     },
     created(){
         let message = this.$route.params;
@@ -169,7 +185,10 @@ export default {
     mounted(){
         this.getList();
         this.move();
-        this.getOrderCoupon();
+        
+        this.loading = setTimeout(() => {
+            this.is_loading = false;
+        }, 1000);
     },
     
     methods:{
@@ -374,7 +393,25 @@ export default {
 }
 </script>
 <style scoped>
-
+.loading-box {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .7);
+    z-index: 999;
+}
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #fff;
+}
+.van-loading__text {
+    color: #fff;
+}
 
 .activity-left{
     float: left;
