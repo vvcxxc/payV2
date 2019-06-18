@@ -7,10 +7,10 @@
 		<div class="input">
 			<div class="input-price">
 				￥
-				<p>
-					<!-- <input type="text" placeholder="请输入付款金额" v-model="sum"> -->
-					<span class="no-sum" v-if="havesum">请输入付款金额</span>
-					<span class="have-sum" v-text="sum"></span>
+				<p class="inputBox">
+					<span class="no-sum" v-if="havesum" @click="haveSum">请输入付款金额</span>
+					<span class="have-sum"  v-if="!havesum">{{sum}}<span class="like-input"></span></span>
+					<!-- <input class="have-sum" type="text" :value="sum" v-if="!havesum" ref='input'/> -->
 					<span @click="cleansum" v-if="!havesum"><img src="../assets/quxiao.png" alt=""></span>
 				</p>
 			</div>
@@ -163,11 +163,20 @@
 
 		mounted(){
 			this.reduction_money_list = this.info.reduction_money_list;
+			this.$nextTick(() =>{
+                this.$refs.input.focus()
+            })
 		},
 	
 
 
 		methods:{
+				haveSum(){
+					this.havesum = !this.havesum;
+				},
+				
+
+
 				// 显示隐藏优惠券列表
 				handlecoupons(){
 					this.isclose = !this.isclose;
@@ -446,6 +455,23 @@
 	top: 0;
 	z-index: 111;
 }
+.inputBox {
+	height: .66rem;
+}
+
+@keyframes flick { 0% { opacity: 0; } 40% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 1; } }
+.link-input:after { content: ''; display: inline-block; width: 1px; height: 12px; margin-left: 5px; background: #444; animation: flick 1s infinite; }
+.like-input {
+	animation: flick 1s infinite;
+	background: blue;
+	display: inline-block;
+	width: 1px;
+	position: absolute;
+	top: .15rem;
+	margin-left: 2px;
+	height: .36rem;
+}
+
 	header{
 		height: 47px;
 		font-size: 17px;
@@ -495,7 +521,6 @@
 		font-size: .23rem;
 		position: absolute;
 		left: 0;
-		top: -.32rem;
 		/* top: .33rem; */
 	}
 	.input-price .have-sum{
@@ -504,6 +529,12 @@
 		position: absolute;
 		left: 0;
 		font-weight: 500;
+		line-height: .45rem;
+		padding: .1rem 0;
+		/* width: 3rem; */
+		width: auto;
+		height: .64rem;
+		box-sizing: border-box;
 	}
 	.input-price span{
 		float: right;
