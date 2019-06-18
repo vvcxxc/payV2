@@ -62,7 +62,7 @@
                     <div class="coupon-right">
                         <p class="coupon-shop">{{order_coupon.store_name}}</p>
                         <p class="coupon-time">领取后{{order_coupon.expire_day}}日内有效</p>
-                        <p class="coupon-text">极速退/免预约</p>
+                        <p class="coupon-text">随时用/免预约</p>
                         
                     </div>
                 </div>
