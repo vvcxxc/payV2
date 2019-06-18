@@ -211,7 +211,7 @@
 								let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
 								url = encodeURIComponent(url);
 								let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-								return window.location.href = urls;
+								// return window.location.href = urls;
 							}else if(browsertype == 'alipay'){
 								let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
 								let codeid = getUrlParams().code_id;
@@ -521,7 +521,7 @@
 		font-size: .23rem;
 		position: absolute;
 		left: 0;
-		/* top: .33rem; */
+		width: 3.4rem;
 	}
 	.input-price .have-sum{
 		font-size: .37rem;
