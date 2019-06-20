@@ -64,7 +64,6 @@ export const Login = () => {
             let codeid = getUrlParams().code_id;
             url = encodeURIComponent(url);
             window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
-           
         }
     }
 }
