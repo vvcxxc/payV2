@@ -119,8 +119,9 @@ export default {
    },
    
   
-   props:['couponlist','sum','spendable_coupons','recommend_coupon'],
+   props:['couponlist','sum','spendable_coupons','recommend_coupon','coupon_id'],
    created(){
+       this.id = this.coupon_id;
        if(this.spendable_coupons.length){
             this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
             this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
@@ -130,6 +131,11 @@ export default {
             }
             for(let i = 0; i < this.spendable_list.length; i ++){
                 this.spendable_list[i].ischecked = false;
+                for(let a = 0; a < this.coupon_id.length; a ++){
+                    if(this.spendable_list[i].coupons_id == this.coupon_id[a]){
+                        this.spendable_list[i].ischecked = true;
+                    }
+                }
             }
             for(let i = 0; i < this.unusable_list.length; i ++){
                 this.unusable_list[i].chooseable = 0;
@@ -182,7 +188,8 @@ export default {
             for(let b = 0; b < this.unusable_list.length; b ++){
                 this.list.push(this.unusable_list[b])
             };
-           this.id.push(best.coupons_id);
+        //    this.id.push(best.coupons_id);
+        //    console.log(best.coupons_id)
         },
 
         // 选择优惠券(有待提高版)
@@ -238,6 +245,7 @@ export default {
             }else{
                 // 不选择
                 item.ischecked = false;
+                // console.log(this.id)
                 if(item.is_threshold == 2){
                     for(let i = 0; i < spendable.length; i ++){
                         if(spendable[i].is_threshold == 2){
@@ -253,6 +261,7 @@ export default {
                             spendable[i].ischecked = false;
                         }
                     }
+                    
                 }
                 spendable.sort(Compare('chooseable'));
                 let arr = [];
@@ -273,13 +282,14 @@ export default {
                 for(let b = 0; b < this.unusable_list.length; b ++){
                     this.list.push(this.unusable_list[b])
                 };
-
-                for(let a = 0; a < this.id.length; a ++){
+                for(let a = this.id.length; a >= 0; a --){
                     if(this.id[a] == item.coupons_id){
-                        this.id.splice(a,1);
+                        let aa = this.id.splice(a,1);     
                     }
                 }
 
+
+                
                 
             }
             document.querySelectorAll('.coupons-box')[0].scrollTop = 0;
@@ -287,6 +297,7 @@ export default {
 
         //  点击确定，向父组件传值
         Confirm(){
+            console.log(this.id)
             this.$emit('ListenToCoupon',this.id,this.sums)
         }
    }

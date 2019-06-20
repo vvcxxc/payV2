@@ -118,91 +118,95 @@ export default {
         let is_activities = this.activity;
         
         let youhui_log_id = this.id.join('_')
-        
-       
-        if(browsertype == 'wechat'){
-          // 微信支付
-          let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
-          let params = {
-            code_id,
-            amount, 
-            youhui_log_id,
-            open_id,
-            is_activities,
-            result_money,
-          }
-          var {data} = await requestWechatPayment(params);
-          var order_sn = data.order_sn;
-          let message = {
-            order_sn,
-            store_name:this.storename,
-            browsertype,
-            amount,
-            result_money
-          }
+        if(amount == '' || amount == 0){
+          alert('请输入正确的金额');
+        }else{
+          if(browsertype == 'wechat'){
+            // 微信支付
+            let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
+            let params = {
+              code_id,
+              amount, 
+              youhui_log_id,
+              open_id,
+              is_activities,
+              result_money,
+            }
+            var {data} = await requestWechatPayment(params);
+            var order_sn = data.order_sn;
+            let message = {
+              order_sn,
+              store_name:this.storename,
+              browsertype,
+              amount,
+              result_money
+            }
 
-          if(result_money){
-             window.WeixinJSBridge.invoke(
-                'getBrandWCPayRequest', {
-                  "appId":data.appId,
-                  "timeStamp":data.timeStamp, 
-                  "nonceStr":data.nonceStr,  
-                  "package":data.package,
-                  "signType":data.signType,   
-                  "paySign":data.paySign
-                },
-                function(res){
-                if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                _this.$router.push({name:'activity',params:message})
-                } 
-            });
-          }else {
-            this.$router.push({name: 'activity', params:message})
-          }
-        }else if(browsertype == 'alipay'){
-          // 支付宝支付
-         
-          let alipayUuser = Cookie.get(process.env.VUE_APP_ALIPAYID)
-          let params = {
-            code_id,
-            amount,
-            youhui_log_id,
-            alipay_user_id:alipayUuser,
-            is_activities,
-            result_money
-          }
-          let {data} = await requestAlpayPayment(params);
-          let order_sn = data.order_sn;
-          let message = {
-            order_sn,
-           store_name:this.storename,
-            browsertype,
-            amount,
-            result_money
-          }
-          if(result_money){
-            window.AlipayJSBridge.call('tradePay', {
-              tradeNO: data.alipayOrderSn
-            }, res => {
-              if (res.resultCode === "9000") {
-                _this.$router.push({name:'activity',params:message})
-                return ({
-                  message: 'ok'
-                  
-                })
-              } else if (res.resultCode === "4000") {
-                return ({
-                  message: 'error',
-                  error: res
-                })
-              }
-            })
-          }else{
-            this.$router.push({name: 'activity', params:message});
-          }
+            if(result_money){
+              window.WeixinJSBridge.invoke(
+                  'getBrandWCPayRequest', {
+                    "appId":data.appId,
+                    "timeStamp":data.timeStamp, 
+                    "nonceStr":data.nonceStr,  
+                    "package":data.package,
+                    "signType":data.signType,   
+                    "paySign":data.paySign
+                  },
+                  function(res){
+                  if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                  _this.$router.push({name:'activity',params:message})
+                  } 
+              });
+            }else {
+              this.$router.push({name: 'activity', params:message})
+            }
+          }else if(browsertype == 'alipay'){
+            // 支付宝支付
           
+            let alipayUuser = Cookie.get(process.env.VUE_APP_ALIPAYID)
+            let params = {
+              code_id,
+              amount,
+              youhui_log_id,
+              alipay_user_id:alipayUuser,
+              is_activities,
+              result_money
+            }
+            let {data} = await requestAlpayPayment(params);
+            let order_sn = data.order_sn;
+            let message = {
+              order_sn,
+            store_name:this.storename,
+              browsertype,
+              amount,
+              result_money
+            }
+            if(result_money){
+              window.AlipayJSBridge.call('tradePay', {
+                tradeNO: data.alipayOrderSn
+              }, res => {
+                if (res.resultCode === "9000") {
+                  _this.$router.push({name:'activity',params:message})
+                  return ({
+                    message: 'ok'
+                    
+                  })
+                } else if (res.resultCode === "4000") {
+                  return ({
+                    message: 'error',
+                    error: res
+                  })
+                }
+              })
+            }else{
+              this.$router.push({name: 'activity', params:message});
+            }
+            
+            }
           }
         }
+       
+        
       }
 
   }

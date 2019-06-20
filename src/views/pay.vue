@@ -46,6 +46,7 @@
 			:sum='sum' 
 			:spendable_coupons='spendable_coupons' 
 			:recommend_coupon='[recommend_coupon]'
+			:coupon_id='coupon_id'
 			v-on:ListenToCoupon="getCouponsid"
 			/>
 			
@@ -120,6 +121,7 @@
 				}
 				this.amount = newVal - this.manjian - this.couponsSum;
 				this.amount = this.amount.toFixed(2);
+				console.log(this.coupon_id)
 			},
 			manjian:function(a){
 				this.amount = this.sum*1 - a - this.couponsSum*1 
@@ -163,9 +165,6 @@
 
 		mounted(){
 			this.reduction_money_list = this.info.reduction_money_list;
-			this.$nextTick(() =>{
-                this.$refs.input.focus()
-            })
 		},
 	
 
@@ -279,7 +278,7 @@
 					this.couponsSum = 0;
 					let best_coupon = [];
 					let spendable_coupons = [];
-
+					this.coupon_id = []
 
 					if(list.length){
 						// 为每个优惠券添加一个属性，来判断它是否可用
@@ -305,11 +304,16 @@
 										spendable_coupons.push(list[i])
 									}
 								}
-								if(spendable_coupons.length){
+								if(spendable_coupons.length > 1){
 									spendable_coupons.sort(Compare('money'));
 									best_coupon.push(spendable_coupons[0]);
 									couponSum = best_coupon[0].money;
-									this.coupon_id.push(best_coupon[0].coupons_id)
+									this.coupon_id.push(best_coupon[0].coupons_id);
+								}else if (spendable_coupons.length == 1){
+									this.coupon_id = [spendable_coupons[0].coupons_id];
+									couponSum = spendable_coupons[0].money;
+								}else{
+									this.coupon_id = []
 								}
 								this.couponsSum = couponSum;
 								this.recommend_coupon = best_coupon;
