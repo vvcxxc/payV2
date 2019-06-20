@@ -25,7 +25,7 @@ body,html{
   -ms-user-select:none;
   user-select:none; 
   -webkit-tap-highlight-color:rgba(0,0,0,0);
-  font-family: "PingFang SC Light","Heiti SC","San Francisco","Helvetica";
+  /* font-family: "PingFang SC Light","Heiti SC","San Francisco","Helvetica"; */
 }
 #app{
   height: 100%;
