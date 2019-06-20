@@ -378,7 +378,7 @@ export default {
         float: left;
         margin-top: 10px;
         margin-left: 11px;
-        background: url(../assets/coupon.png) no-repeat;
+        background: url(../assets/coupon2.png) no-repeat;
         background-size: 100%;
         position: relative;
     }

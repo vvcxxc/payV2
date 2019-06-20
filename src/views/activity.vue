@@ -46,6 +46,15 @@
                 </div>
                 <div class="item play" @click="play"></div>
             </div>
+
+            <div class="guize">
+                <p>一、每次扫码支付结束后可获得1次抽奖机会。抽奖次数不会累计叠加；</p>
+                <p>二、中奖并领取奖品后，可在[个人中心]-[我的卡券]中查看。中奖如不领取，则视为放弃奖品；</p>
+                <p>三、中奖规则及中奖资格的排除：</p>
+                <p>(一)奖品由系统随机抽取，中奖结果将在活动页面实时公布；</p>
+                <p>(二)凡以不正当手段（包括但不限于机器刷奖、作弊、扰乱系统、实施网络攻击等）参与本次活动的用户，本公司有权终止其参与活动，取消其获奖资格(如奖励已发放，本公司有权收回)；</p>
+                <p>四、点击“抽奖”按钮则视为已阅读抽奖规则。</p>
+            </div>
             
         </main>
 
@@ -533,6 +542,7 @@ main{
     background: url('../assets/activity-bg.png') no-repeat;
     background-size: 100%;
     position: relative;
+    background-position-y: -35px;
 }
 .prizeWheels{
     width: 3.48rem;
@@ -747,6 +757,22 @@ main{
     }
     .thankYou .close{
         bottom: 110px;
+    }
+
+    .guize {
+        width: 3.48rem;
+        height: 3.16rem;
+        position: absolute;
+        left: 50%;
+        top: 5.29rem;
+        transform: translateX(-50%);
+        background: url('../assets/guize.png') no-repeat;
+        background-size: 100%;
+        font-size: .12rem;
+        padding-top: .6rem;
+        padding-left: .15rem;
+        padding-right: .15rem;
+        line-height: .2rem;
     }
 
 </style>
