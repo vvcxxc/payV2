@@ -110,7 +110,6 @@
 				}
 				this.moneyOff();
 				this.RecommendCoupon(newVal);
-				console.log(1)
 				if(newVal == ''){
 					this.coupon_id = []
 					this.recommend_coupon = {};
@@ -224,7 +223,7 @@
 								let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
 								url = encodeURIComponent(url);
 								let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-								// return window.location.href = urls;
+								return window.location.href = urls;
 							}else if(browsertype == 'alipay'){
 								let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
 								let codeid = getUrlParams().code_id;
@@ -447,7 +446,6 @@
 						this.couponsSum = 0;
 						this.coupon_id = id;
 						this.recommend_coupon = [];
-						console.log(this.coupon_id)
 						this.show_recommend = false;
 					}
 					this.isclose = false;
