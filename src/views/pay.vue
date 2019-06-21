@@ -110,6 +110,7 @@
 				}
 				this.moneyOff();
 				this.RecommendCoupon(newVal);
+				console.log(1)
 				if(newVal == ''){
 					this.coupon_id = []
 					this.recommend_coupon = {};
@@ -444,6 +445,9 @@
 						this.youhui = '已选'+id.length+'张优惠券'
 					}else{
 						this.couponsSum = 0;
+						this.coupon_id = id;
+						this.recommend_coupon = [];
+						console.log(this.coupon_id)
 						this.show_recommend = false;
 					}
 					this.isclose = false;
