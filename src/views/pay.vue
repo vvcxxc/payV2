@@ -90,7 +90,10 @@
 				reduction_money_list:[],
 				youhui:'已选推荐优惠',
 				/**广告 */
-				ads: {}
+				ads: {},
+
+				//最佳优惠的id
+				recommend_id: []
 			}
 			
 		},
@@ -105,10 +108,10 @@
 				if(newVal > 100000){
 					this.sum = oldVal;
 				}
-				
 				this.moneyOff();
 				this.RecommendCoupon(newVal);
 				if(newVal == ''){
+					this.coupon_id = []
 					this.recommend_coupon = {};
 					let num = this.couponlist.length;
 					this.coupon = num + '张可用';
@@ -121,7 +124,6 @@
 				}
 				this.amount = newVal - this.manjian - this.couponsSum;
 				this.amount = this.amount.toFixed(2);
-				console.log(this.coupon_id)
 			},
 			manjian:function(a){
 				this.amount = this.sum*1 - a - this.couponsSum*1 
@@ -154,7 +156,18 @@
 				if(a < 0){
 					this.amount = 0;
 				}
+			},
+			coupon_id:function(a){
+				if(a.length == 0){
+					this.show_recommend = false;
+				}else if(a.length == 1 && a[0] == this.recommend_id[0]){
+					this.show_recommend = true;
+				}else{
+					this.show_recommend = false;
+				}
+				
 			}
+			
 		},
 
 	
@@ -210,7 +223,7 @@
 								let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
 								url = encodeURIComponent(url);
 								let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-								return window.location.href = urls;
+								// return window.location.href = urls;
 							}else if(browsertype == 'alipay'){
 								let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
 								let codeid = getUrlParams().code_id;
@@ -308,9 +321,13 @@
 									spendable_coupons.sort(Compare('money'));
 									best_coupon.push(spendable_coupons[0]);
 									couponSum = best_coupon[0].money;
+
 									this.coupon_id.push(best_coupon[0].coupons_id);
+									this.recommend_id = [best_coupon[0].coupons_id];
+
 								}else if (spendable_coupons.length == 1){
 									this.coupon_id = [spendable_coupons[0].coupons_id];
+									this.recommend_id = [spendable_coupons[0].coupons_id];
 									couponSum = spendable_coupons[0].money;
 								}else{
 									this.coupon_id = []
@@ -360,6 +377,7 @@
 									}
 									// console.log(best_coupon)
 									this.coupon_id.push(best_coupon.coupons_id);
+									this.recommend_id = [best_coupon.coupons_id]
 								}
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
@@ -406,6 +424,7 @@
 										}
 									}
 									this.coupon_id.push(best_coupon.coupons_id);
+									this.recommend_id = [best_coupon.coupons_id]
 								}
 								this.recommend_coupon = best_coupon;
 								this.spendable_coupons = spendable_coupons;
@@ -425,6 +444,7 @@
 						this.youhui = '已选'+id.length+'张优惠券'
 					}else{
 						this.couponsSum = 0;
+						this.show_recommend = false;
 					}
 					this.isclose = false;
 				}

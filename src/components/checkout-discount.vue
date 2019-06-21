@@ -4,7 +4,7 @@
         <div class="discounts">
             <header>优惠券</header>
             <div class="youhuijine">
-                您已选中优惠券{{num}}张，共可抵用¥{{sums}}
+                您已选中优惠券{{num}}张，共可抵用<span>¥{{sums}}</span> 
             </div>
         <div class="coupons-box">
             <div class="all_coupons" ref='top'>
@@ -38,7 +38,7 @@
                         </div>
                     
                         <div class="coupon-right">
-                            <p class="coupon-shop"></p>
+                            <p class="coupon-shop">{{item.store_name}}</p>
                             <p class="coupon-time">{{item.expiration}}</p>
                             <span class="coupon-choose" ref='chooseone'>
                                 
@@ -47,24 +47,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 不能用的券 -->
-                <!-- <div class="unable-coupons">
-                    <div class="u-coupon" v-for="(item) in unusable_list" v-bind:key=item.coupons_id>
-                        <div class="couponleft">
-                            <div class="coupon-left">
-                                <p class="sum"><i>￥</i>{{item.money}}</p>
-                                <p class="amanjian">{{item.coupons_name}}</p>
-                            </div>
-                        </div>
-                    
-                        <div class="coupon-right">
-                            <p class="coupon-shop"></p>
-                            <p class="coupon-time">{{item.expiration}}</p>
-                            <span class="coupon-choose"></span>
-                            <p class="explain">未达到使用要求</p>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
         
@@ -76,7 +58,7 @@
     </div>
 </template>
 <script>
-import { NewArrObj, Compare, RemoveDup } from '../utils/common.js'
+import { NewArrObj, Compare } from '../utils/common.js'
 import '../styles/common.css';
 export default {
    data () {
@@ -91,7 +73,7 @@ export default {
        }
    },
    watch:{
-       list:function(newVal,oldVal){
+       list:function(newVal){
             for(var a = 0; a < newVal.length; a ++){
                 this.$refs.chooseone[a].style.backgroundPositionX = 18 + 'px';
                 if(newVal[a].ischecked == true){
@@ -105,7 +87,7 @@ export default {
            }
           
        },
-       id:function(a,b){
+       id:function(a){
            this.sums = 0;
            for(let i = 0; i < this.couponlist.length; i ++){
                for(let c = 0; c < a.length; c ++){
@@ -187,7 +169,7 @@ export default {
             
             for(let b = 0; b < this.unusable_list.length; b ++){
                 this.list.push(this.unusable_list[b])
-            };
+            }
         //    this.id.push(best.coupons_id);
         //    console.log(best.coupons_id)
         },
@@ -237,10 +219,10 @@ export default {
 
                 for(let a = 0; a < spendable.length; a ++){
                     this.list.push(spendable[a])
-                };
+                }
                  for(let b = 0; b < this.unusable_list.length; b ++){
                     this.list.push(this.unusable_list[b])
-                };
+                }
                 this.id.push(item.coupons_id);
             }else{
                 // 不选择
@@ -281,10 +263,10 @@ export default {
                 
                 for(let b = 0; b < this.unusable_list.length; b ++){
                     this.list.push(this.unusable_list[b])
-                };
+                }
                 for(let a = this.id.length; a >= 0; a --){
                     if(this.id[a] == item.coupons_id){
-                        let aa = this.id.splice(a,1);     
+                       this.id.splice(a,1);     
                     }
                 }
 
@@ -297,7 +279,6 @@ export default {
 
         //  点击确定，向父组件传值
         Confirm(){
-            console.log(this.id)
             this.$emit('ListenToCoupon',this.id,this.sums)
         }
    }
@@ -330,7 +311,8 @@ export default {
         padding-bottom: .8rem
     }
     .checkout header{
-        font-size: 15px;
+        font-size: 18px;
+        /* font-weight: bold; */
         background: #fff;
         text-align: center;
         height: 49px;
@@ -338,12 +320,16 @@ export default {
         width: 100vw;
     }
     .youhuijine{
-        height: 49px;
+        height: 35px;
         width: 100%;
         background: #FDE8E5;
-        font-size: 12px;
-        line-height: 45px;
+        font-size: .12rem;
+        line-height: 35px;
         padding-left: 23px;
+    }
+    .youhuijine span {
+        color: #F93E2C;
+        /* font-weight: bold; */
     }
     .choose{
         float: right;
@@ -437,7 +423,7 @@ export default {
         font-weight: bold;
         position: absolute;
         top: .12rem;
-        left: .62rem;
+        left: .66rem;
     }
     .explain{
         font-size: .12rem;
@@ -491,7 +477,7 @@ export default {
         display: block;
         width: 3.45rem;
         height: .45rem;
-        background:linear-gradient(90deg,rgba(255,148,20,1),rgba(254,134,88,1),rgba(255,23,9,1));
+        background:linear-gradient(90deg,rgba(254,134,88,1),rgba(255,23,9,1));
         border-radius:5px;
         text-align: center;
         line-height: .45rem;
