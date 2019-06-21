@@ -157,8 +157,6 @@ export default {
                   _this.$router.push({name:'activity',params:message})
                   } 
               });
-            }else {
-              this.$router.push({name: 'activity', params:message})
             }
           }else if(browsertype == 'alipay'){
             // 支付宝支付
@@ -198,8 +196,6 @@ export default {
                   })
                 }
               })
-            }else{
-              this.$router.push({name: 'activity', params:message});
             }
             
             }
