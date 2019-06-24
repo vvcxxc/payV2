@@ -64,7 +64,7 @@ export const Login = () => {
             let url = process.env.VUE_APP_BASE_DOMAIN +"/ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
             url = encodeURIComponent(url);
-            window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from='+from+'&url='+url;
+            window.location.href = process.env.VUE_APP_BASE_DOMAIN +'/ali/zfbUserAuth?code_id='+codeid+'&from='+from+'&url='+url;
         }
     }
 }
