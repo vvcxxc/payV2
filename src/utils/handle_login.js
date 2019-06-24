@@ -61,7 +61,7 @@ export const Login = () => {
         if (token){
             return
         }else{
-            let url = process.env.VUE_APP_BASE_DOMAIN +"/ali/getZfbUserInfo";
+            let url = process.env.VUE_APP_BASE_DOMAIN +"ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
             url = encodeURIComponent(url);
             window.location.href = process.env.VUE_APP_BASE_DOMAIN +'/ali/zfbUserAuth?code_id='+codeid+'&from='+from+'&url='+url;

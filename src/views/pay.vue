@@ -226,7 +226,7 @@
 								let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
 								return window.location.href = urls;
 							}else if(browsertype == 'alipay'){
-								let url = process.env.VUE_APP_BASE_DOMAIN +"/ali/getZfbUserInfo";
+								let url = process.env.VUE_APP_BASE_DOMAIN +"ali/getZfbUserInfo";
 								let codeid = getUrlParams().code_id;
 								url = encodeURIComponent(url);
 								window.location.href = process.env.VUE_APP_BASE_DOMAIN +'/ali/zfbUserAuth?code_id='+codeid+'&from='+from+'&url='+url;
