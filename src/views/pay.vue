@@ -229,7 +229,7 @@
 								let url = "http://test.api.tdianyi.com/ali/getZfbUserInfo";
 								let codeid = getUrlParams().code_id;
 								url = encodeURIComponent(url);
-								window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from=onescan&url='+url;
+								window.location.href = 'http://test.api.tdianyi.com/ali/zfbUserAuth?code_id='+codeid+'&from='+from+'&url='+url;
 							}
 						}
 						throw Error("--- 获取店铺基本信息出错 ---")
