@@ -34,6 +34,7 @@ import { Cookie } from './common';
 
 export const Login = () => {
     let _token = process.env.VUE_APP_TOKEN;
+    let from = process.env.VUE_APP_FROM;
     let browsertype = getBrowserType();
     /**
      * 开发环境模拟
@@ -50,7 +51,7 @@ export const Login = () => {
          return
         }else{
             let codeid = getUrlParams().code_id;
-            let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from=onescan';
+            let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from='+from;
             url = encodeURIComponent(url);
             let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
             return window.location.href = urls;
