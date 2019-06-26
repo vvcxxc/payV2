@@ -388,6 +388,7 @@ export default {
             let data = await requestGetCoupon();
             // 还需要操作
             this.is_show = false;
+            window.location.href = 'http://user.tdianyi.com/'
         }
 
     },
