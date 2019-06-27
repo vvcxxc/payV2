@@ -88,7 +88,7 @@
                         <p class="manjian">满{{lottery_data.total_fee}}可用</p>
                     </div>
                     <div class='coupon-left' v-else>
-                        <img src="lottery_data.image" >
+                        <img :src="lottery_data.image" >
                     </div>
                     <div class="coupon-right">
                         <p class="coupon-shop">{{lottery_data.store_name}}</p>
