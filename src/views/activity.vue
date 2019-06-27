@@ -83,9 +83,12 @@
             <div class="drawCoupon" v-if="is_lottery">
                 <h2>恭喜您抽中<span>{{lottery_data.store_name}}</span>到店红包</h2>
                 <div class="coupon">
-                    <div class="coupon-left">
+                    <div class="coupon-left" v-if="lottery_data.youhui_type == 1">
                         <p class="sum"><i>￥</i>{{lottery_data.return_money}}</p>
                         <p class="manjian">满{{lottery_data.total_fee}}可用</p>
+                    </div>
+                    <div class='coupon-left' v-else>
+                        <img src="lottery_data.image" >
                     </div>
                     <div class="coupon-right">
                         <p class="coupon-shop">{{lottery_data.store_name}}</p>
@@ -708,6 +711,10 @@ main{
         /* left: .2rem; */
         top: .17rem;
         text-align: center;
+    }
+    .coupon-left img {
+        width: 100%;
+        height: 100%;
     }
    .mask .coupon-left i{
         font-size: .17rem;
