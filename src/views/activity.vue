@@ -87,7 +87,7 @@
                         <p class="sum"><i>￥</i>{{lottery_data.return_money}}</p>
                         <p class="manjian">满{{lottery_data.total_fee}}可用</p>
                     </div>
-                    <div class='coupon-left' v-else>
+                    <div class='coupon-left-img' v-else>
                         <img :src="lottery_data.image" >
                     </div>
                     <div class="coupon-right">
@@ -712,7 +712,14 @@ main{
         top: .17rem;
         text-align: center;
     }
-    .coupon-left img {
+    .coupon-left-img {
+        height: .98rem;
+        width: 1.1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .coupon-left-img img {
         position: absolute;
         top: 0;
         left: 0;
