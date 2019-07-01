@@ -94,7 +94,7 @@
                         <p class="coupon-text">随时用/免预约</p>
                     </div>
                 </div>
-                <div class="gift-coupon" v-else>
+                <div class="gift-coupon" else>
                     <div class='coupon-left-img'>
                         <img :src="lottery_data.image" >
                     </div>
