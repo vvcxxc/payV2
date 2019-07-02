@@ -40,7 +40,7 @@ export default {
       showSum:false,
       amounts:'',
       id:[],
-      activity:[],
+      activity:0,
     }
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
