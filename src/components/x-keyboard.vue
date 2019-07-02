@@ -132,7 +132,7 @@ export default {
               is_activities,
               result_money,
             }
-            var {data} = await requestWechatPayment(params);
+            var {data, code} = await requestWechatPayment(params);
             var order_sn = data.order_sn;
             let message = {
               order_sn,
@@ -142,7 +142,7 @@ export default {
               result_money
             }
 
-            if(result_money){
+            if(code == 200){
               window.WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
                     "appId":data.appId,
@@ -157,7 +157,7 @@ export default {
                   _this.$router.push({name:'activity',params:message})
                   } 
               });
-            }else{
+            }else if(code == 201){
               this.$router.push({name:'activity',params:message})
             }
           }else if(browsertype == 'alipay'){
@@ -172,7 +172,7 @@ export default {
               is_activities,
               result_money
             }
-            let {data} = await requestAlpayPayment(params);
+            let {data, code} = await requestAlpayPayment(params);
             let order_sn = data.order_sn;
             let message = {
               order_sn,
@@ -181,7 +181,7 @@ export default {
               amount,
               result_money
             }
-            if(result_money){
+            if(code == 200){
               window.AlipayJSBridge.call('tradePay', {
                 tradeNO: data.alipayOrderSn
               }, res => {
@@ -198,7 +198,7 @@ export default {
                   })
                 }
               })
-            }else{
+            }else if(code == 201){
               this.$router.push({name:'activity',params:message})
             }
             
