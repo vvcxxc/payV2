@@ -82,20 +82,29 @@
 
             <div class="drawCoupon" v-if="is_lottery">
                 <h2>恭喜您抽中<span>{{lottery_data.store_name}}</span>到店红包</h2>
-                <div class="coupon">
-                    <div class="coupon-left" v-if="lottery_data.youhui_type == 1">
+                <div class="gift-coupon"  v-if="lottery_data.youhui_type == 0">
+                    <div class='coupon-left-img'>
+                        <img :src="lottery_data.image" >
+                    </div>
+                    <div class="gift-coupon-right">
+                        <p class="coupon-shop">{{lottery_data.store_name || '暂无'}}</p>
+                        <p class="coupon-time">{{lottery_data.name || '暂无'}}</p>
+                        <p class="coupon-text">领取后{{lottery_data.expire_day}}日内有效</p>
+                    </div>
+                </div>
+                <div class="coupon" v-else-if="lottery_data.youhui_type == 1">
+                    <div class="coupon-left">
                         <p class="sum"><i>￥</i>{{lottery_data.return_money}}</p>
                         <p class="manjian">满{{lottery_data.total_fee}}可用</p>
                     </div>
-                    <div class='coupon-left-img' v-else>
-                        <img :src="lottery_data.image" >
-                    </div>
+                   
                     <div class="coupon-right">
                         <p class="coupon-shop">{{lottery_data.store_name}}</p>
                         <p class="coupon-time">领取后{{lottery_data.expire_day}}日内有效</p>
                         <p class="coupon-text">随时用/免预约</p>
                     </div>
                 </div>
+                
                 <p class="order_text">可在“订单”中查看</p>
                 <div class="receive" @click="getCoupon"></div>
             </div>
@@ -538,7 +547,6 @@ export default {
 }
 
 
-
 /* 主体内容 */
 main{
     width: 100vw;
@@ -675,6 +683,20 @@ main{
     background: url('../assets/coupon.png') no-repeat;
     background-size: 100%;
     position: relative;
+}
+.gift-coupon {
+    width: 3.2rem;
+    height: .98rem;
+    background: #fff;
+    background-size: 100%;
+    position: relative;
+}
+.gift-coupon-right {
+    position: absolute;
+    left: 1.23rem;
+    top: 0;
+    height: .98rem;
+    width: 1.96rem;
 }
 .mask p{
     font-size: .15rem;
