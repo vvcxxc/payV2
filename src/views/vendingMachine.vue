@@ -67,7 +67,7 @@ export default {
     url = decodeURI(url);
     decodeURI(url)
     let info = getUrlParams(url);
-    if (info.store_id) {
+    if (info.amount) {
       sessionStorage.setItem("info", JSON.stringify(info));
     }
     let Info = JSON.parse(sessionStorage.getItem("info"));
