@@ -56,7 +56,6 @@ export const Login = () => {
     } else{
         from = process.env.VUE_APP_FROM;
     }
-    console.log(from)
     if(type == 'development'){
         return
     }
@@ -65,7 +64,7 @@ export const Login = () => {
         if (token){
          return
         }else{
-            let codeid = getUrlParams().code_id || 0;
+            let codeid = getUrlParams().code_id || 1;
             let url =  process.env.VUE_APP_BASE_DOMAIN + 'wechat/wxoauth?code_id='+codeid+'&from='+from;
             url = encodeURIComponent(url);
             let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
@@ -77,7 +76,7 @@ export const Login = () => {
             return
         }else{
             let url = process.env.VUE_APP_BASE_DOMAIN +"ali/getZfbUserInfo";
-            let codeid = getUrlParams().code_id || 0;
+            let codeid = getUrlParams().code_id || 1;
             url = encodeURIComponent(url);
             window.location.href = process.env.VUE_APP_BASE_DOMAIN +'/ali/zfbUserAuth?code_id='+codeid+'&from='+from+'&url='+url;
         }

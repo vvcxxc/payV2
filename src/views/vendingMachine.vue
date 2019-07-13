@@ -111,7 +111,7 @@ export default {
             if (browsertype == "wechat") {
               let url =
                 process.env.VUE_APP_BASE_DOMAIN +
-                "wechat/wxoauth?code_id=0&from=" +
+                "wechat/wxoauth?code_id=1&from=" +
                 from;
               url = encodeURIComponent(url);
               let urls =
@@ -124,7 +124,7 @@ export default {
               url = encodeURIComponent(url);
               window.location.href =
                 process.env.VUE_APP_BASE_DOMAIN +
-                "/ali/zfbUserAuth?code_id=0&from=" +
+                "/ali/zfbUserAuth?code_id=1&from=" +
                 from +
                 "&url=" +
                 url;
