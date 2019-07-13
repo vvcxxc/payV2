@@ -67,7 +67,7 @@ export default {
     url = decodeURI(url);
     decodeURI(url)
     let info = getUrlParams(url);
-    if (info.amount) {
+    if (info.store_id) {
       sessionStorage.setItem("info", JSON.stringify(info));
     }
     let Info = JSON.parse(sessionStorage.getItem("info"));
@@ -80,8 +80,8 @@ export default {
       this.channel_id = Info.channel_id;
       this.callback_url = Info.callback_url;
     }
-    this.getStoreInfo();
     this.getAd();
+    this.getStoreInfo();
   },
   methods: {
     // 获取广告
