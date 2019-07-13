@@ -109,7 +109,6 @@ export default {
           if (status == 401) {
             let from = process.env.VUE_APP_FROM1;
             let browsertype = getBrowserType();
-            alert(browsertype)
             if (browsertype == "wechat") {
               let url =
                 process.env.VUE_APP_BASE_DOMAIN +
@@ -120,7 +119,7 @@ export default {
                 "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
                 url +
                 "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-                // return window.location.href = urls;
+                return window.location.href = urls;
             } else if (browsertype == "alipay") {
               let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
               url = encodeURIComponent(url);
