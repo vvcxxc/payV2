@@ -80,8 +80,8 @@ export default {
       this.channel_id = Info.channel_id;
       this.callback_url = Info.callback_url;
     }
-    this.getAd();
     this.getStoreInfo();
+    this.getAd();
   },
   methods: {
     // 获取广告
@@ -124,7 +124,7 @@ export default {
               url = encodeURIComponent(url);
               window.location.href =
                 process.env.VUE_APP_BASE_DOMAIN +
-                "/ali/zfbUserAuth?code_id=0&from=" +
+                "/ali/zfbUserAuth?code_id=0&store_id="+this.store_id+"&from=" +
                 from +
                 "&url=" +
                 url;
