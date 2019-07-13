@@ -38,7 +38,7 @@ export default {
     return {};
   },
   created() {
-    // this.getAd()
+    this.getAd()
   },
   mounted() {
     this.getStoreInfo();
@@ -48,12 +48,12 @@ export default {
   },
   methods: {
     // 获取广告
-    // getAd() {
-    //     // requestGetAd({ position_id: 1, store_id: data.store_id }).then(res => {
-    //     //     console.log(res)
-    //     //     // this.ads = res.data;
-    //     // });
-    // }
+    getAd() {
+        requestGetAd({ position_id: 1, store_id: data.store_id }).then(res => {
+            console.log(res)
+            this.ads = res.data;
+        });
+    },
 
     // 获取店铺信息
     getStoreInfo() {
@@ -75,7 +75,7 @@ export default {
               console.log(url)
               url = encodeURIComponent(url);
               let urls = "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" + url + "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-              return window.location.href = urls;
+            //   return window.location.href = urls;
             } else if (browsertype == "alipay") {
               let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
               let codeid = getUrlParams().code_id;
