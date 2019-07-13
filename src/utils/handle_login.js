@@ -35,7 +35,8 @@ import { Cookie } from './common';
 export const Login = () => {
     let _token = process.env.VUE_APP_TOKEN;
     let from = process.env.VUE_APP_FROM;
-    let browsertype = getBrowserType();
+    let browserType = getBrowserType();
+    let type = process.env.NODE_ENV;
     /**
      * 开发环境模拟
      */
@@ -45,7 +46,12 @@ export const Login = () => {
     /**
      * 判断浏览器类型并进行登录
      *  */ 
-    if(browsertype == 'wechat'){
+    // if()
+    // console.log(type);
+    if(type == 'development'){
+        return
+    }
+    if(browserType == 'wechat'){
         let token = Cookie.get(_token);
         if (token){
          return
