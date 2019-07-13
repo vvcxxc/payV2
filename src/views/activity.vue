@@ -10,7 +10,7 @@
                 <p>店铺：{{message.store_name}}</p>
                 <p>支付方式：{{message.browsertype}}</p>
                 <p>金额：{{message.amount}}</p>
-                <p style="padding-bottom:5px">实付：{{message.result_money}}</p>
+                <p v-if="is_result_money">实付：{{message.result_money}}</p>
                 <i class="iconfont bottom-arro">&#xe61f;</i>   
             </div>
 
@@ -171,7 +171,9 @@ export default {
             is_thanks: false,
             success_icon: require('../assets/success_icon.png'),
             // loading定时器
-            loading: null
+            loading: null,
+            // 是否显示实付金额
+            is_result_money: true
         }
     },
     components: {
@@ -200,6 +202,9 @@ export default {
             message.browsertype = '微信支付'
         }else{
             message.browsertype = '支付宝支付'
+        }
+        if(!message.result_money){
+            this.is_result_money = false
         }
         this.message = message;
     },
@@ -484,7 +489,8 @@ export default {
     font-size: 13px;
     position: absolute;
     width: 100vw;
-    height: 135px;
+    height: auto;
+    padding-bottom: 13px;
     overflow: hidden;
     padding-top: 13px;
     text-align: left;

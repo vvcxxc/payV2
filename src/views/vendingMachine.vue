@@ -2,21 +2,21 @@
   <div class="payBox">
     <!-- 广告 -->
     <div class="area-AD">
-      <img src alt />
+      <img :src='ads.pic' alt />
     </div>
     <!-- 展示信息 -->
     <div class="infoBox">
       <div class="infos">
         <p class="title">金额</p>
-        <p class="money">￥3000.00</p>
+        <p class="money">￥{{amount}}</p>
       </div>
       <div class="infos">
         <p class="title">商家</p>
-        <p>得利有限公司</p>
+        <p>{{store_name}}</p>
       </div>
       <div class="infos last_infos">
         <p class="title">商品</p>
-        <p>得力文具03号铅笔橡皮套装</p>
+        <p>{{goods_name}}</p>
       </div>
     </div>
     <!-- 支付按钮 -->
@@ -33,36 +33,75 @@ import {
   vendingMachineWechat,
   vendingMachineAlipay
 } from "../api/api";
+import { Cookie } from "../utils/common";
+import { decode } from 'punycode';
 export default {
   data() {
-    return {};
+    return {
+      // 金额
+      amount: "",
+      // 店铺id
+      store_id: "",
+      // 支付签名
+      pay_sign: "",
+      // 商品名
+      goods_name: "",
+      // 订单号
+      order_sn: "",
+      // 渠道id
+      channel_id: "",
+      // 回调地址
+      callback_url: "",
+      ads: {
+          pic: ''
+      },
+      store_name: ''
+    };
   },
   created() {
-    this.getAd()
+   
   },
   mounted() {
-    this.getStoreInfo();
+    
     let url = window.location.href;
+    url = decodeURI(url);
+    decodeURI(url)
     let info = getUrlParams(url);
-    sessionStorage.setItem('111','111')
+    if (info.amount) {
+      sessionStorage.setItem("info", JSON.stringify(info));
+    }
+    let Info = JSON.parse(sessionStorage.getItem("info"));
+    if (Info) {
+      this.amount = Info.amount;
+      this.store_id = Info.store_id;
+      this.pay_sign = Info.pay_sign;
+      this.goods_name = Info.goods_name;
+      this.order_sn = Info.order_sn;
+      this.channel_id = Info.channel_id;
+      this.callback_url = Info.callback_url;
+    }
+    this.getAd();
+    this.getStoreInfo();
   },
   methods: {
     // 获取广告
     getAd() {
-        requestGetAd({ position_id: 1, store_id: data.store_id }).then(res => {
-            console.log(res)
-            this.ads = res.data;
-        });
+      requestGetAd({ position_id: 1, store_id: this.store_id }).then(res => {
+        this.ads = res.data;
+      });
     },
 
     // 获取店铺信息
     getStoreInfo() {
+      if (!this.store_id) {
+        return;
+      }
       let params = {
-        store_id: 222
+        store_id: this.store_id
       };
       vendingMachineInfo(params)
         .then(res => {
-          console.log(res);
+          this.store_name = res.data.name
         })
         .catch(err => {
           let { status } = err;
@@ -70,17 +109,25 @@ export default {
             let from = process.env.VUE_APP_FROM1;
             let browsertype = getBrowserType();
             if (browsertype == "wechat") {
-              let codeid = getUrlParams().code_id;
-              let url = process.env.VUE_APP_BASE_DOMAIN + "wechat/wxoauth?code_id=0&from=" + from;
-              console.log(url)
+              let url =
+                process.env.VUE_APP_BASE_DOMAIN +
+                "wechat/wxoauth?code_id=0&from=" +
+                from;
               url = encodeURIComponent(url);
-              let urls = "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" + url + "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-              return window.location.href = urls;
+              let urls =
+                "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
+                url +
+                "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
+                return window.location.href = urls;
             } else if (browsertype == "alipay") {
               let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
-              let codeid = getUrlParams().code_id;
               url = encodeURIComponent(url);
-              window.location.href = process.env.VUE_APP_BASE_DOMAIN + "/ali/zfbUserAuth?code_id=0&from=" + from + "&url=" + url;
+              window.location.href =
+                process.env.VUE_APP_BASE_DOMAIN +
+                "/ali/zfbUserAuth?code_id=0&from=" +
+                from +
+                "&url=" +
+                url;
             }
           }
         });
@@ -89,8 +136,83 @@ export default {
     // 支付
     async Pay() {
       let type = getBrowserType();
+      let message = {
+        order_sn: this.order_sn,
+        store_name: this.storename,
+        browsertype: type,
+        amount: this.amount,
+        result_money: 11
+      };
       if (type == "wechat") {
+        // 微信支付
+        let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
+        let info = {
+          amount: this.amount,
+          store_id: this.store_id,
+          open_id,
+          callback_url: this.callback_url,
+          order_sn: this.order_sn,
+          goods_name: this.goods_name,
+          pay_sign: this.pay_sign,
+          channel_id: this.channel_id
+        };
+
+        let { data, code } = await vendingMachineWechat(info);
+        if (code == 200) {
+          window.WeixinJSBridge.invoke(
+            "getBrandWCPayRequest",
+            {
+              appId: data.appId,
+              timeStamp: data.timeStamp,
+              nonceStr: data.nonceStr,
+              package: data.package,
+              signType: data.signType,
+              paySign: data.paySign
+            },
+            function(res) {
+              if (res.err_msg == "get_brand_wcpay_request:ok") {
+                _this.$router.push({ name: "activity", params: message });
+              }
+            }
+          );
+        } else if (code == 201) {
+          this.$router.push({ name: "activity", params: message });
+        }
       } else {
+        //   支付宝支付
+        let alipay_user_id = Cookie.get(process.env.VUE_APP_ALIPAYID);
+        let info = {
+          amount: this.amount,
+          store_id: this.store_id,
+          alipay_user_id,
+          callback_url: this.callback_url,
+          order_sn: this.order_sn,
+          goods_name: this.goods_name,
+          pay_sign: this.pay_sign,
+          channel_id: this.channel_id
+        };
+        let { data, code } = await vendingMachineAlipay(info);
+        if (code == 200) {
+          window.AlipayJSBridge.call(
+            "tradePay",
+            {
+              tradeNO: data.alipayOrderSn
+            },
+            res => {
+              if (res.resultCode === "9000") {
+                _this.$router.push({ name: "activity", params: message });
+                return {
+                  message: "ok"
+                };
+              } else if (res.resultCode === "4000") {
+                return {
+                  message: "error",
+                  error: res
+                };
+              }
+            }
+          );
+        }
       }
     }
   }
