@@ -104,10 +104,12 @@ export default {
           this.store_name = res.data.name
         })
         .catch(err => {
+            
           let { status } = err;
           if (status == 401) {
             let from = process.env.VUE_APP_FROM1;
             let browsertype = getBrowserType();
+            alert(browsertype)
             if (browsertype == "wechat") {
               let url =
                 process.env.VUE_APP_BASE_DOMAIN +
@@ -118,14 +120,13 @@ export default {
                 "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
                 url +
                 "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-                return window.location.href = urls;
+                // return window.location.href = urls;
             } else if (browsertype == "alipay") {
-                alert('zoullll')
               let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
               url = encodeURIComponent(url);
               window.location.href =
                 process.env.VUE_APP_BASE_DOMAIN +
-                "/ali/zfbUserAuth?code_id=0&store_id=1&from=" +
+                "ali/zfbUserAuth?code_id=0&store_id="+this.store_id+"&from=" +
                 from +
                 "&url=" +
                 url;
