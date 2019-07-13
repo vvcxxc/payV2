@@ -120,11 +120,12 @@ export default {
                 "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
                 return window.location.href = urls;
             } else if (browsertype == "alipay") {
+                alert('zoullll')
               let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
               url = encodeURIComponent(url);
               window.location.href =
                 process.env.VUE_APP_BASE_DOMAIN +
-                "/ali/zfbUserAuth?code_id=0&store_id="+this.store_id+"&from=" +
+                "/ali/zfbUserAuth?code_id=0&store_id=1&from=" +
                 from +
                 "&url=" +
                 url;
