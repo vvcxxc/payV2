@@ -140,7 +140,7 @@ export default {
       let type = getBrowserType();
       let message = {
         order_sn: this.order_sn,
-        store_name: this.storename,
+        store_name: this.store_name,
         browsertype: type,
         amount: this.amount,
         result_money: 11
