@@ -136,6 +136,7 @@ export default {
 
     // 支付
     async Pay() {
+      let _this = this
       let type = getBrowserType();
       let message = {
         order_sn: this.order_sn,
