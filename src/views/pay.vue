@@ -256,13 +256,13 @@ export default {
       if (getBrowserType() == "alipay") {
         try {
           AlipayJSBridge.call("setTitle", {
-            title: data.store_name || "团卖物联支付"
+            title: data.store_name || "小熊敬礼支付"
           });
         } catch (err) {
-          document.title = this.storeinfo.name || "团卖物联支付";
+          document.title = this.storeinfo.name || "小熊敬礼支付";
         }
       } else {
-        document.title = data.store_name || "团卖物联支付";
+        document.title = data.store_name || "小熊敬礼支付";
       }
     },
 
