@@ -405,7 +405,7 @@ export default {
             let data = await requestGetCoupon();
             // 还需要操作
             this.is_show = false;
-            window.location.href = process.env.VUE_APP_SHOP +'store_id='+ this.lottery_data.store_id
+            window.location.href = process.env.VUE_APP_SHOP +'id='+ this.lottery_data.store_id
         }
 
     },
