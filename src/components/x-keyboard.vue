@@ -27,6 +27,7 @@
 import { getUrlParams, getBrowserType } from '../utils/get_info';
 import { Cookie } from '../utils/common';
 import { requestWechatPayment, requestAlpayPayment } from '../api/api';
+import { Dialog } from 'vant';
 
 export default {
   data(){
@@ -121,6 +122,7 @@ export default {
         if(amount == '' || amount == 0){
           alert('请输入正确的金额');
         }else{
+         
           if(browsertype == 'wechat'){
             // 微信支付
             let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
@@ -133,6 +135,13 @@ export default {
               result_money,
             }
             var {data, code} = await requestWechatPayment(params);
+            if(code == 2400){
+              Dialog.alert({
+                title: '提交失败',
+                message: '商家未开通微信或支付宝账户，暂无法收款'
+              })
+              return
+            }
             var order_sn = data.order_sn;
             let message = {
               order_sn,
@@ -173,6 +182,13 @@ export default {
               result_money
             }
             let {data, code} = await requestAlpayPayment(params);
+            if(code == 2400){
+              Dialog.alert({
+                title: '提交失败',
+                message: '商家未开通微信或支付宝账户，暂无法收款'
+              })
+              return
+            }
             let order_sn = data.order_sn;
             let message = {
               order_sn,

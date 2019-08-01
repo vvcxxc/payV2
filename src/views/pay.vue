@@ -73,7 +73,7 @@ import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
 import { Compare } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
-
+import 'vant/lib/index.css';
 export default {
   data() {
     return {
