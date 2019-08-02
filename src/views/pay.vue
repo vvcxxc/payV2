@@ -73,7 +73,7 @@ import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
 import { Compare } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
-
+import 'vant/lib/index.css';
 export default {
   data() {
     return {
@@ -256,13 +256,13 @@ export default {
       if (getBrowserType() == "alipay") {
         try {
           AlipayJSBridge.call("setTitle", {
-            title: data.store_name || "团卖物联支付"
+            title: data.store_name || "小熊敬礼支付"
           });
         } catch (err) {
-          document.title = this.storeinfo.name || "团卖物联支付";
+          document.title = this.storeinfo.name || "小熊敬礼支付";
         }
       } else {
-        document.title = data.store_name || "团卖物联支付";
+        document.title = data.store_name || "小熊敬礼支付";
       }
     },
 
