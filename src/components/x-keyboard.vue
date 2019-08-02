@@ -138,7 +138,8 @@ export default {
             if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
-                message: '商家未开通微信或支付宝账户，暂无法收款'
+                message: '商家未开通微信或支付宝账户，暂无法收款',
+                confirmButtonColor: '#fc4833'
               })
               return
             }
@@ -185,7 +186,8 @@ export default {
             if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
-                message: '商家未开通微信或支付宝账户，暂无法收款'
+                message: '商家未开通微信或支付宝账户，暂无法收款',
+                confirmButtonColor: '#fc4833'
               })
               return
             }
@@ -232,6 +234,9 @@ export default {
 <style>
   .keyboard-box{
     width: 100%;
+  }
+  .van-dialog__header {
+    font-weight: bold;
   }
 	li{
 		font-size: .17rem;
