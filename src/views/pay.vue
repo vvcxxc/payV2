@@ -73,7 +73,7 @@ import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
 import { Compare } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
-import 'vant/lib/index.css';
+import "vant/lib/index.css";
 export default {
   data() {
     return {
@@ -138,6 +138,11 @@ export default {
       this.amount = this.sum * 1 - a - this.couponsSum * 1;
       if (this.amount < 0) {
         this.amount = 0;
+      }
+      if(a > 0){
+        this.is_money_off = 1
+      }else{
+        this.is_money_off = 0
       }
       this.amount = this.amount.toFixed(2);
     },
@@ -345,8 +350,8 @@ export default {
             this.recommend_coupon = best_coupon;
             this.spendable_coupons = spendable_coupons;
             this.show_recommend = true;
-			this.youhui = "已选推荐优惠";
-			this.is_money_off = 1
+            this.youhui = "已选推荐优惠";
+            this.is_money_off = 1;
           } else {
             // 未达到满减要求
             for (let i = 0; i < list.length; i++) {
@@ -393,12 +398,12 @@ export default {
             this.spendable_coupons = spendable_coupons;
             this.couponsSum = couponSum;
             this.show_recommend = true;
-			this.youhui = "已选推荐优惠";
-			this.is_money_off = 0
+            this.youhui = "已选推荐优惠";
+            this.is_money_off = 0;
           }
         } else {
-		  // 没有满减的情况
-		  this.is_money_off = 0
+          // 没有满减的情况
+          this.is_money_off = 0;
           for (let i = 0; i < list.length; i++) {
             if (list[i].is_threshold == 1) {
               spendable_coupons.push(list[i]);
