@@ -10,8 +10,8 @@
         <p class="inputBox">
           <span class="no-sum" v-if="havesum" @click="haveSum">请输入付款金额</span>
           <span class="have-sum" v-if="!havesum">
-            {{sum}}
-            <span class="like-input"></span>
+            <div>{{sum}}</div>
+            <div class="like-input"></div>
           </span>
           <!-- <input class="have-sum" type="text" :value="sum" v-if="!havesum" ref='input'/> -->
           <span @click="cleansum" v-if="!havesum">
@@ -517,7 +517,7 @@ export default {
   background: blue;
   display: inline-block;
   width: 1px;
-  position: absolute;
+  /* position: absolute; */
   top: 0.15rem;
   margin-left: 2px;
   height: 0.36rem;
@@ -576,6 +576,8 @@ header {
   width: 3.4rem;
 }
 .input-price .have-sum {
+  display: flex;
+  align-items: center;
   font-size: 0.37rem;
   color: #313131;
   position: absolute;
@@ -587,6 +589,9 @@ header {
   width: auto;
   height: 0.64rem;
   box-sizing: border-box;
+}
+.input-price .have-sum>div{
+  display: inline-block;
 }
 .input-price span {
   float: right;
