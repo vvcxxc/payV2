@@ -62,6 +62,7 @@ export const Login = () => {
     }
     if(browserType == 'wechat'){
         let token = Cookie.get(_token);
+        
         if (token){
          return
         }else{
