@@ -57,6 +57,7 @@ export const Login = () => {
         from = process.env.VUE_APP_FROM;
     }
     if(type == 'development'){
+        
         return
     }
     if(browserType == 'wechat'){
