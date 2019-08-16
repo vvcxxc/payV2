@@ -111,7 +111,7 @@ export default {
 
       // 点击支付
       async toPay(){
-        _hmt.push(['_trackEvent', 'pay', 'pay']);
+        _hmt.push(['_trackEvent', 'pay', 'pay', 'pay']);
         let _this = this
         let browsertype = getBrowserType();
         let code_id = getUrlParams().code_id;
