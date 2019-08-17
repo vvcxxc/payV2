@@ -199,7 +199,6 @@ export default {
     haveSum() {
       this.havesum = !this.havesum;
     },
-
     // 显示隐藏优惠券列表
     handlecoupons() {
       _hmt.push(['_trackEvent', 'check', 'check', 'check']);
