@@ -202,6 +202,7 @@ export default {
 
     // 显示隐藏优惠券列表
     handlecoupons() {
+      _hmt.push(['_trackEvent', 'check', 'check', 'check']);
       this.isclose = !this.isclose;
     },
     // 显示金额
