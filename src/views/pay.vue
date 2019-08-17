@@ -220,7 +220,7 @@ export default {
       this.havesum = true;
       this.amount = 0;
     },
-    // 获取商店信息
+    //  获取商店信息
     async getStoreinfo() {
       let code_id = getUrlParams().code_id;
       let params = {
