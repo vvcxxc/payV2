@@ -201,7 +201,9 @@ export default {
     },
     // 显示隐藏优惠券列表
     handlecoupons() {
-      _hmt.push(['_trackEvent', '选择优惠券', '选择优惠券']);
+      if(this.isclose){
+        _hmt.push(['_trackEvent', '选择优惠券', '选择优惠券']);
+      }
       this.isclose = !this.isclose;
     },
     // 显示金额
