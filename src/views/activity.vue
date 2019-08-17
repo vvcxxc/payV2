@@ -209,6 +209,7 @@ export default {
         this.message = message;
     },
     mounted(){
+         _hmt.push(['_trackEvent', '活动页', '跳转到活动页',]);
         this.getList();
         this.move();
         
