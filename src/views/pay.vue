@@ -226,7 +226,6 @@ export default {
       let params = {
         code_id
       };
-
       let { data } = await storeInfo(params).catch(err => {
         if (err.status == 401) {
           let from = process.env.VUE_APP_FROM;
