@@ -111,7 +111,7 @@ export default {
 
       // 点击支付
       async toPay(){
-        
+         _hmt.push(['_trackEvent', '确认支付', '用户点击了确认按钮',]);
         let _this = this
         let browsertype = getBrowserType();
         let code_id = getUrlParams().code_id;
@@ -169,7 +169,11 @@ export default {
                     _hmt.push(['_trackEvent', '支付', '支付成功']);
 
                   _this.$router.push({name:'activity',params:message})
-                  } 
+                  }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                    _hmt.push(['_trackEvent', '取消支付', '用户取消支付']);
+                  }else if(res.err_msg == "get_brand_wcpay_request:fail"){
+                    _hmt.push(['_trackEvent', '支付失败', '支付失败']);
+                  }
               });
             }else if(code == 201){
               // 统计
@@ -211,19 +215,24 @@ export default {
                 tradeNO: data.alipayOrderSn
               }, res => {
                 if (res.resultCode === "9000") {
+                  _hmt.push(['_trackEvent', '支付', '支付成功',]);
                   _this.$router.push({name:'activity',params:message})
                   return ({
                     message: 'ok'
                     
                   })
                 } else if (res.resultCode === "4000") {
+                  _hmt.push(['_trackEvent', '支付失败', '支付失败',]);
                   return ({
                     message: 'error',
                     error: res
                   })
+                } else if (res.resultCode === "6001") {
+                   _hmt.push(['_trackEvent', '取消支付', '用户取消支付']);
                 }
               })
             }else if(code == 201){
+               _hmt.push(['_trackEvent', '支付', '支付成功',]);
               this.$router.push({name:'activity',params:message})
             }
             
