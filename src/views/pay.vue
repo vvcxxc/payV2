@@ -213,6 +213,7 @@ export default {
         this.havesum = true;
       }
     },
+    
     // 清空金额
     cleansum() {
       this.sum = "";
