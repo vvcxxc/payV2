@@ -57,10 +57,12 @@ export const Login = () => {
         from = process.env.VUE_APP_FROM;
     }
     if(type == 'development'){
+        
         return
     }
     if(browserType == 'wechat'){
         let token = Cookie.get(_token);
+        
         if (token){
          return
         }else{

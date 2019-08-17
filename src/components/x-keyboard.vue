@@ -111,6 +111,7 @@ export default {
 
       // 点击支付
       async toPay(){
+        
         let _this = this
         let browsertype = getBrowserType();
         let code_id = getUrlParams().code_id;
@@ -164,10 +165,16 @@ export default {
                   },
                   function(res){
                   if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    // 统计
+                    _hmt.push(['_trackEvent', '支付', '支付成功']);
+
                   _this.$router.push({name:'activity',params:message})
                   } 
               });
             }else if(code == 201){
+              // 统计
+              _hmt.push(['_trackEvent', '支付', '支付成功',]);
+
               this.$router.push({name:'activity',params:message})
             }
           }else if(browsertype == 'alipay'){

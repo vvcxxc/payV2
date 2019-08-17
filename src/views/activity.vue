@@ -276,6 +276,7 @@ export default {
             })
         },
         play(){//点击开始游戏
+              _hmt.push(['_trackEvent', '抽奖', '点击抽奖']);
             if (this.isMoving) {
                 return false;
             }
@@ -357,7 +358,6 @@ export default {
                         this.is_show = true;
                         this.is_thanks = true;
                     }else{
-                        // console.log(this.lottery_data)
                         this.is_show = true;
                         this.is_lottery = true;
                     }
@@ -402,6 +402,7 @@ export default {
 
         // 立即领取
         async getCoupon(){
+             _hmt.push(['_trackEvent', '领取', '领取奖品']);
             let data = await requestGetCoupon();
             // 还需要操作
             this.is_show = false;
