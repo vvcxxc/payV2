@@ -358,7 +358,6 @@ export default {
                         this.is_show = true;
                         this.is_thanks = true;
                     }else{
-                        // console.log(this.lottery_data)
                         this.is_show = true;
                         this.is_lottery = true;
                     }
