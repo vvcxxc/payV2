@@ -143,7 +143,7 @@ export default {
         store_name: this.store_name,
         browsertype: type,
         amount: this.amount,
-        result_money: 11
+        result_money: this.amount
       };
       if (type == "wechat") {
         // 微信支付
