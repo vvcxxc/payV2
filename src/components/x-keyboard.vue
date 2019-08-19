@@ -166,18 +166,18 @@ export default {
                   function(res){
                   if(res.err_msg == "get_brand_wcpay_request:ok" ){
                     // 统计
-                    _hmt.push(['_trackEvent', '支付', '支付成功']);
+                    _hmt.push(['_trackEvent', '微信支付', '支付成功']);
 
                   _this.$router.push({name:'activity',params:message})
                   }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
-                    _hmt.push(['_trackEvent', '取消支付', '用户取消支付']);
+                    _hmt.push(['_trackEvent', '取消微信支付', '用户取消支付']);
                   }else if(res.err_msg == "get_brand_wcpay_request:fail"){
-                    _hmt.push(['_trackEvent', '支付失败', '支付失败']);
+                    _hmt.push(['_trackEvent', '微信支付失败', '支付失败']);
                   }
               });
             }else if(code == 201){
               // 统计
-              _hmt.push(['_trackEvent', '支付', '支付成功',]);
+              _hmt.push(['_trackEvent', '微信支付', '支付成功',]);
 
               this.$router.push({name:'activity',params:message})
             }
@@ -215,24 +215,24 @@ export default {
                 tradeNO: data.alipayOrderSn
               }, res => {
                 if (res.resultCode === "9000") {
-                  _hmt.push(['_trackEvent', '支付', '支付成功',]);
+                  _hmt.push(['_trackEvent', '支付宝支付', '支付成功',]);
                   _this.$router.push({name:'activity',params:message})
                   return ({
                     message: 'ok'
                     
                   })
                 } else if (res.resultCode === "4000") {
-                  _hmt.push(['_trackEvent', '支付失败', '支付失败',]);
+                  _hmt.push(['_trackEvent', '支付宝支付失败', '支付失败',]);
                   return ({
                     message: 'error',
                     error: res
                   })
                 } else if (res.resultCode === "6001") {
-                   _hmt.push(['_trackEvent', '取消支付', '用户取消支付']);
+                   _hmt.push(['_trackEvent', '取消支付宝支付', '用户取消支付']);
                 }
               })
             }else if(code == 201){
-               _hmt.push(['_trackEvent', '支付', '支付成功',]);
+               _hmt.push(['_trackEvent', '支付宝支付', '支付成功',]);
               this.$router.push({name:'activity',params:message})
             }
             
