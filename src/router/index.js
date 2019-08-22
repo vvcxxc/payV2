@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Pay from '../views/pay.vue';
 import Activity from '../views/activity.vue';
 import Vending from '../views/vendingMachine.vue';
+import Ad from '../views/activity_ad.vue'
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ var router = new VueRouter({
             path:'/vendingMachine',
             name:'vendingMachine',
             component:Vending
+          },
+          {
+            path:'/activity_ad',
+            name:'activity_ad',
+            component:Ad
           }
   ]
 })
