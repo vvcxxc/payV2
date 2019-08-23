@@ -222,6 +222,7 @@ export default {
                             this.stopIndex = a;
                         }
                     }
+                    
                 }
                 if (this.lastIndex !== this.stopIndex || this.lastIndex === this.stopIndex) {
                     this.ajaxEnd = true;
