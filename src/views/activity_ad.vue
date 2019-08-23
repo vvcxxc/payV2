@@ -216,7 +216,6 @@ export default {
                             this.stopIndex = a;
                         }
                     }
-                    
                 }else{
                     for( let a = 0; a < this.list.length; a ++ ){
                         if(this.list[a].id == data.win_id){
