@@ -115,6 +115,7 @@ import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupon
 import { Loading } from 'vant'
 import 'vant/lib/button/style';
 import { constants } from 'crypto';
+import { Cookie } from '../utils/common';
 import { getUrlParams, getBrowserType } from "../utils/get_info";
 export default {
     data(){
@@ -179,8 +180,16 @@ export default {
       
     },
     created(){
+        let type = process.env.NODE_ENV;
+        if(type == 'development'){
+            Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY1NTEyNzMsImV4cCI6MTU2Njg1MTI3MywibmJmIjoxNTY2NTUxMjczLCJqdGkiOiJZcVFKTnRkNG5XQ0gxOTcwIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.EYgruXbY7qhgtpzeKnj1ktwQJos_lNeoXhQ61WqUJPE')
+        }
         // console.log(this.$route.query)
         this.data = this.$route.query
+        let message = sessionStorage.getItem('message');
+        if(!message){
+            sessionStorage.setItem('message', JSON.stringify(this.data))
+        }
     },
     mounted(){
         this.getList();
@@ -218,6 +227,7 @@ export default {
                 if (this.lastIndex !== this.stopIndex || this.lastIndex === this.stopIndex) {
                     this.ajaxEnd = true;
                 }
+                sessionStorage.removeItem('message')
             })
             .catch(() => {
                 clearInterval(this.timer1);
@@ -324,18 +334,20 @@ export default {
             this.isshow = !this.isshow;
         },
         getList(){
+            let message = JSON.parse(sessionStorage.getItem('message'))
             let params = {
-               ...this.data,
+               ...message,
                type: 2
             }
             requestLotterys(params).then(res => {
-                list = res.data.lottery_info;
+                let list = res.data.lottery_info;
                 for (let i = 0; i < list.length; i ++){
                     list[i].active = false
                 }
                 this.list = list;
             })
             .catch(err => {
+               
                 if(err.status == 401){
                     let from = window.location.href
                     let browsertype = getBrowserType();
@@ -349,7 +361,7 @@ export default {
                         "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
                         url +
                         "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-                        return window.location.href = urls;
+                        // return window.location.href = urls;
                     } else if (browsertype == "alipay") {
                     let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
                     url = encodeURIComponent(url);
