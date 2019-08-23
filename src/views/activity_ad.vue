@@ -115,6 +115,7 @@ import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupon
 import { Loading } from 'vant'
 import 'vant/lib/button/style';
 import { constants } from 'crypto';
+import { getUrlParams, getBrowserType } from "../utils/get_info";
 export default {
     data(){
         return{
@@ -322,17 +323,46 @@ export default {
         showOrder(){
             this.isshow = !this.isshow;
         },
-        async getList(){
+        getList(){
             let params = {
                ...this.data,
                type: 2
             }
-            let list = await requestLotterys(params);
-            list = list.data.lottery_info;
-            for (let i = 0; i < list.length; i ++){
-                list[i].active = false
-            }
-            this.list = list;
+            requestLotterys(params).then(res => {
+                list = res.data.lottery_info;
+                for (let i = 0; i < list.length; i ++){
+                    list[i].active = false
+                }
+                this.list = list;
+            })
+            .catch(err => {
+                if(err.status == 401){
+                    let from = window.location.href
+                    let browsertype = getBrowserType();
+                    if (browsertype == "wechat") {
+                    let url =
+                        process.env.VUE_APP_BASE_DOMAIN +
+                        "wechat/wxoauth?code_id=0&from=" +
+                        from;
+                    url = encodeURIComponent(url);
+                    let urls =
+                        "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
+                        url +
+                        "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
+                        return window.location.href = urls;
+                    } else if (browsertype == "alipay") {
+                    let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
+                    url = encodeURIComponent(url);
+                    window.location.href =
+                        process.env.VUE_APP_BASE_DOMAIN +
+                        "ali/zfbUserAuth?code_id=0&store_id="+this.store_id+"&from=" +
+                        from +
+                        "&url=" +
+                        url;
+                    }
+                }
+            });
+           
         },
 
         // 滚动播报

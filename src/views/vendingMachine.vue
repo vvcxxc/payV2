@@ -108,6 +108,7 @@ export default {
           let { status } = err;
           if (status == 401) {
             let from = process.env.VUE_APP_FROM1;
+            from = encodeURIComponent(from)
             let browsertype = getBrowserType();
             if (browsertype == "wechat") {
               let url =
