@@ -115,7 +115,6 @@
                 <div class="close" @click="thanks"></div>
             </div>
             
-
         </div>
         <div class="loading-box" v-if="is_loading">
             <van-loading color="#fff"  class="loading" vertical>Loading...</van-loading>
