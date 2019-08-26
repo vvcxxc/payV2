@@ -112,7 +112,7 @@
             <div class="thankYou" v-if="is_thanks">
                 <h2>感谢您的参与</h2>
                 <p>超值大礼包等您下次来拿</p>
-                <div class="close" @click="closeOrderCoupon"></div>
+                <div class="close" @click="thanks"></div>
             </div>
             
 
@@ -241,6 +241,10 @@ export default {
         closeOrderCoupon(){
             this.is_get = false;
             this.is_show = false;
+        },
+        thanks(){
+            this.is_show = false;
+            window.location.href = process.env.VUE_APP_SHOP +'id='+ this.lottery_data.store_id
         },
 
         getStopIndex(){// 获取服务器返回的index
