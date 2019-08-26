@@ -187,7 +187,7 @@ export default {
     let type = process.env.NODE_ENV;
     console.log(type);
     if(type == 'development'){
-      Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjU5MzkyNzEsImV4cCI6MTU2NjIzOTI3MSwibmJmIjoxNTY1OTM5MjcxLCJqdGkiOiJJNk1JRVdYRHBGTkx2WkQ0Iiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0._CuVf-3h1I1GmCkWegszpmgvOsiqY9tErH7kUeDj6nY')
+      Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY4MDI3OTAsImV4cCI6MTU2NzEwMjc5MCwibmJmIjoxNTY2ODAyNzkwLCJqdGkiOiJOb1J4aExLcTR1MFBFaEtpIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.Zcv1kw4cU8RTrx2PNnRVCmELuzJDfHpzmt8gcRERnnQ')
     }
   },
 
