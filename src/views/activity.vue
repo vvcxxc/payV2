@@ -200,8 +200,10 @@ export default {
         let message = this.$route.params;
         if(message.browsertype == 'wechat'){
             message.browsertype = '微信支付'
-        }else{
+        }else if(message.browsertype == 'alipay'){
             message.browsertype = '支付宝支付'
+        }else{
+            message.browsertype = ''
         }
         if(!message.result_money){
             this.is_result_money = false
