@@ -196,7 +196,6 @@ export default {
         }
     },
     created(){
-        
         if (sessionStorage.getItem('message')){
             this.message = JSON.parse(sessionStorage.getItem('message'))
         } else {
