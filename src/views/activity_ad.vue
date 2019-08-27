@@ -99,7 +99,7 @@
             <div class="thankYou" v-if="is_thanks">
                 <h2>感谢您的参与</h2>
                 <p>超值大礼包等您下次来拿</p>
-                <div class="close" @click="closeOrderCoupon"></div>
+                <div class="close" @click="thanks"></div>
             </div>
             
 
@@ -332,6 +332,10 @@ export default {
         },
         showOrder(){
             this.isshow = !this.isshow;
+        },
+        thanks(){
+            this.is_show = false;
+            window.location.href = process.env.VUE_APP_SHOP
         },
         getList(){
             let message = JSON.parse(sessionStorage.getItem('message'))
