@@ -244,7 +244,7 @@ export default {
         },
         thanks(){
             this.is_show = false;
-            window.location.href = process.env.VUE_APP_SHOP +'id='+ this.lottery_data.store_id
+            window.location.href = process.env.VUE_APP_SHOP
         },
 
         getStopIndex(){// 获取服务器返回的index
