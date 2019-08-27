@@ -196,18 +196,24 @@ export default {
         }
     },
     created(){
-        let message = this.$route.params;
-        if(message.browsertype == 'wechat'){
-            message.browsertype = '微信支付'
-        }else if(message.browsertype == 'alipay'){
-            message.browsertype = '支付宝支付'
-        }else{
-            message.browsertype = ''
+        
+        if (sessionStorage.getItem('message')){
+            this.message = JSON.parse(sessionStorage.getItem('message'))
+        } else {
+            let message = this.$route.params;
+            if(message.browsertype == 'wechat'){
+                message.browsertype = '微信支付'
+            }else if(message.browsertype == 'alipay'){
+                message.browsertype = '支付宝支付'
+            }else{
+                message.browsertype = ''
+            }
+            if(!message.result_money){
+                this.is_result_money = false
+            }
+            this.message = message;
+            sessionStorage.setItem('message',JSON.stringify(message))
         }
-        if(!message.result_money){
-            this.is_result_money = false
-        }
-        this.message = message;
     },
     mounted(){
          _hmt.push(['_trackEvent', '活动页', '跳转到活动页',]);
