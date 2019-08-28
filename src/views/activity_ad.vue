@@ -370,7 +370,6 @@ export default {
                         "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
                         return window.location.href = urls;
                     } else if (browsertype == "alipay") {
-
                     let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
                     url = encodeURIComponent(url);
                     window.location.href =
