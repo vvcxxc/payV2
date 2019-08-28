@@ -271,6 +271,7 @@ export default {
                         }
                     }
                 }
+                
                 if (this.lastIndex !== this.stopIndex || this.lastIndex === this.stopIndex) {
                     this.ajaxEnd = true;
                 }
