@@ -181,12 +181,14 @@ export default {
     },
     created(){
         let type = process.env.NODE_ENV;
-        if(type == 'development'){
-            // Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY1NTEyNzMsImV4cCI6MTU2Njg1MTI3MywibmJmIjoxNTY2NTUxMjczLCJqdGkiOiJZcVFKTnRkNG5XQ0gxOTcwIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.EYgruXbY7qhgtpzeKnj1ktwQJos_lNeoXhQ61WqUJPE')
-        }
+        // if(type == 'development'){
+        //     // Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY1NTEyNzMsImV4cCI6MTU2Njg1MTI3MywibmJmIjoxNTY2NTUxMjczLCJqdGkiOiJZcVFKTnRkNG5XQ0gxOTcwIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.EYgruXbY7qhgtpzeKnj1ktwQJos_lNeoXhQ61WqUJPE')
+        // }
         // console.log(this.$route.query)
         this.data = this.$route.query
         let message = sessionStorage.getItem('message');
+        console.log(this.data)
+        this.store_id = this.data.store_id
         if(!message){
             sessionStorage.setItem('message', JSON.stringify(this.data))
         }
@@ -351,7 +353,7 @@ export default {
                 this.list = list;
             })
             .catch(err => {
-               
+               let message = JSON.parse(sessionStorage.getItem('message'))
                 if(err.status == 401){
                     
                     let from = window.location.href
@@ -368,14 +370,16 @@ export default {
                         "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
                         return window.location.href = urls;
                     } else if (browsertype == "alipay") {
+
                     let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
                     url = encodeURIComponent(url);
                     window.location.href =
                         process.env.VUE_APP_BASE_DOMAIN +
-                        "ali/zfbUserAuth?code_id=0&store_id="+this.store_id+"&from=" +
+                        "ali/zfbUserAuth?code_id=0&store_id="+message.store_id+"&from=" +
                         from +
                         "&url=" +
                         url;
+                    console.log(message.store_id)
                     }
                 }
             });
