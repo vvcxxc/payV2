@@ -287,6 +287,13 @@ export default {
             })
         },
         play(){//点击开始游戏
+            let is_ok = sessionStorage.getItem('is_ok')
+            if(is_ok){
+                alert('您已抽奖');
+                return
+            }else{
+                sessionStorage.setItem('is_ok',1)
+            }
               _hmt.push(['_trackEvent', '抽奖', '点击抽奖']);
             if (this.isMoving) {
                 return false;
