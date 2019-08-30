@@ -229,7 +229,7 @@ export default {
                 if (this.lastIndex !== this.stopIndex || this.lastIndex === this.stopIndex) {
                     this.ajaxEnd = true;
                 }
-                sessionStorage.removeItem('message')
+               
             })
             .catch(() => {
                 clearInterval(this.timer1);
@@ -338,7 +338,9 @@ export default {
         thanks(){
             this.is_show = false;
             let message = JSON.parse(sessionStorage.getItem('message'))
+            // console.log(message.store_id)
             window.location.href = process.env.VUE_APP_SHOP+'store_id='+message.store_id
+             sessionStorage.removeItem('message')
         },
         getList(){
             let message = JSON.parse(sessionStorage.getItem('message'))
@@ -357,7 +359,7 @@ export default {
                let message = JSON.parse(sessionStorage.getItem('message'))
                 if(err.status == 401){
                     if(process.env.NODE_ENV == 'development'){
-                        Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY4MDI3OTAsImV4cCI6MTU2NzEwMjc5MCwibmJmIjoxNTY2ODAyNzkwLCJqdGkiOiJOb1J4aExLcTR1MFBFaEtpIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.Zcv1kw4cU8RTrx2PNnRVCmELuzJDfHpzmt8gcRERnnQ')
+                        Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vYXBpL3dhcC9kb0xvZ2luIiwiaWF0IjoxNTY3MTkzNzQwLCJleHAiOjE1NjcyODM3NDAsIm5iZiI6MTU2NzE5Mzc0MCwianRpIjoiRXlyVjgwd0xHVUFLdzhlNCIsInN1YiI6NzIsInBydiI6ImY2YjcxNTQ5ZGI4YzJjNDJiNzU4MjdhYTQ0ZjAyYjdlZTUyOWQyNGQifQ.d2HP4KYQx8gDTmf65cz_2u_vowd97x9G5C6VzFBdpDU')
                         return
                     }
                     let from = window.location.href
@@ -414,6 +416,7 @@ export default {
             this.is_show = false;
             window.location.href = process.env.VUE_APP_SHOP +'id='+ this.lottery_data.store_id+'store_id='+message.store_id
             // window.location.href = 'http://user.tdianyi.com/'
+            sessionStorage.removeItem('message')
         }
 
     },
