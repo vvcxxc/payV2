@@ -337,7 +337,8 @@ export default {
         },
         thanks(){
             this.is_show = false;
-            window.location.href = process.env.VUE_APP_SHOP
+            let message = JSON.parse(sessionStorage.getItem('message'))
+            window.location.href = process.env.VUE_APP_SHOP+'store_id='+message.store_id
         },
         getList(){
             let message = JSON.parse(sessionStorage.getItem('message'))
@@ -355,7 +356,10 @@ export default {
             .catch(err => {
                let message = JSON.parse(sessionStorage.getItem('message'))
                 if(err.status == 401){
-                    
+                    if(process.env.NODE_ENV == 'development'){
+                        Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY4MDI3OTAsImV4cCI6MTU2NzEwMjc5MCwibmJmIjoxNTY2ODAyNzkwLCJqdGkiOiJOb1J4aExLcTR1MFBFaEtpIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.Zcv1kw4cU8RTrx2PNnRVCmELuzJDfHpzmt8gcRERnnQ')
+                        return
+                    }
                     let from = window.location.href
                     let browsertype = getBrowserType();
                     if (browsertype == "wechat") {
@@ -407,8 +411,9 @@ export default {
              _hmt.push(['_trackEvent', '领取', '领取奖品']);
             let data = await requestGetCoupon();
             // 还需要操作
+            let message = JSON.parse(sessionStorage.getItem('message'))
             this.is_show = false;
-            window.location.href = process.env.VUE_APP_SHOP +'id='+ this.lottery_data.store_id
+            window.location.href = process.env.VUE_APP_SHOP +'id='+ this.lottery_data.store_id+'store_id='+message.store_id
             // window.location.href = 'http://user.tdianyi.com/'
         }
 
