@@ -293,7 +293,6 @@ export default {
         },
         play(){//点击开始游戏
             let is_ok = sessionStorage.getItem('is_ok')
-            alert(is_ok)
             if(is_ok){
                 alert('您已抽奖');
                 return
