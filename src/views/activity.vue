@@ -230,7 +230,6 @@ export default {
         async getOrderCoupon(){
             let is_ok = sessionStorage.getItem('is_ok')
             if(is_ok){
-                alert('您已抽奖');
                 return
             }
             let order_sn = this.message.order_sn;
