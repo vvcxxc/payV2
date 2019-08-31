@@ -112,7 +112,7 @@
 <script>
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
-import { Loading } from 'vant'
+import { Loading, Dialog } from 'vant'
 import 'vant/lib/button/style';
 import { constants } from 'crypto';
 import { Cookie } from '../utils/common';
@@ -245,7 +245,10 @@ export default {
         play(){//点击开始游戏
             let is_ok = sessionStorage.getItem('is_ok')
                 if(is_ok){
-                    alert('您已抽奖');
+                     Dialog.alert({
+                message: '您已抽奖',
+                confirmButtonColor: '#fc4833'
+              })
                     return
             }else{
                 sessionStorage.setItem('is_ok',1)
@@ -255,7 +258,10 @@ export default {
                 return false;
             }
             if(!this.is_one){
-                alert('您已抽奖');
+                 Dialog.alert({
+                message: '您已抽奖',
+                confirmButtonColor: '#fc4833'
+              })
                 return false
             }
             this.is_one = false;
