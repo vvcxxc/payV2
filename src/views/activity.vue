@@ -125,6 +125,7 @@
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
 import { Loading, Dialog } from 'vant'
+import { getLocation } from '../utils/get_info'
 import 'vant/lib/button/style';
 export default {
     data(){
@@ -398,6 +399,8 @@ export default {
             this.isshow = !this.isshow;
         },
         async getList(){
+            let location = await getLocation();
+            console.log(location)
             let params = {
                 xpoint: '113.450163',
                 ypoint: '23.107527',

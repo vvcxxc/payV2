@@ -21,7 +21,8 @@
     "vue-class-component": "^7.1.0",
     "vue-router": "^3.0.6",
     "vue-wechat-title": "^2.0.5",
-    "vuex-class": "^0.3.2"
+    "vuex-class": "^0.3.2",
+    "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
