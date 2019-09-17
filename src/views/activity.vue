@@ -399,8 +399,8 @@ export default {
             this.isshow = !this.isshow;
         },
         async getList(){
-            let location = await getLocation();
-            console.log(location)
+            // let location = await getLocation();
+            // console.log(location)
             let params = {
                 xpoint: '113.450163',
                 ypoint: '23.107527',
