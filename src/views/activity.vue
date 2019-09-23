@@ -333,7 +333,6 @@ export default {
                 this.$set(this.list[i], 'active', true);
                 // 当获取到服务器数据 index
                 if (this.timerEnd) {
-                // console.log('服务器返回的停止位置: ', this.stopIndex);
                 clearInterval(this.timer1);
                 this.enter(i, this.stopIndex);
                 }
