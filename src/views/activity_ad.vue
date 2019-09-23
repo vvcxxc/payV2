@@ -113,7 +113,6 @@
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
 import { Loading, Dialog } from 'vant'
-import 'vant/lib/button/style';
 import { constants } from 'crypto';
 import { Cookie } from '../utils/common';
 import { getUrlParams, getBrowserType } from "../utils/get_info";

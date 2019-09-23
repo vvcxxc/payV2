@@ -125,7 +125,6 @@
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
 import { Loading, Dialog } from 'vant'
-import 'vant/lib/button/style';
 export default {
     data(){
         return{
