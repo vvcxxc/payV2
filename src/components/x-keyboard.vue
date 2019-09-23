@@ -18,7 +18,8 @@
     <div class="confirm">
       <ul class="pay-confirm">
         <li @click="backSpace"><img src="../assets/tuige.png" alt=""></li>
-        <li class="queding" @click="toPay">确定</li>
+        <li class="queding" @click="toPay" v-if="is_click">确定</li>
+        <li class="no_queding" v-else>确定</li>
       </ul>
     </div> 
   </div>
@@ -42,11 +43,18 @@ export default {
       amounts:'',
       id:[],
       activity:0,
+      is_click: false
     }
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
     sum:function(newVal){
+      console.log(newVal)
+      if(newVal == 0){
+        this.is_click = false
+      }else{
+        this.is_click = true
+      }
       this.currentValue = newVal
     },
     amount:function(a){
@@ -295,6 +303,11 @@ export default {
   }
   .queding{
     background: #ff9500;
+    color: #fff;
+    font-weight: bold;
+  }
+  .no_queding{
+    background: #999;
     color: #fff;
     font-weight: bold;
   }

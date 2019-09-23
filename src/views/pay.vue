@@ -124,7 +124,7 @@ export default {
         this.coupon_id = [];
         this.recommend_coupon = {};
         let num = this.couponlist.length;
-        this.coupon = num + "张可用";
+        this.coupon = num + "张";
         this.amount = 0;
         this.show_recommend = false;
         this.couponsSum = 0;
@@ -152,7 +152,7 @@ export default {
       a.toFixed(2);
       if (a == 0) {
         let num = this.couponlist.length;
-        this.coupon = num + "张可用";
+        this.coupon = num + "张";
       } else {
         this.coupon = "-￥" + a;
       }
@@ -305,7 +305,7 @@ export default {
       var num = this.info.coupons_required_products_list.length;
       if (num) {
         this.havecoupon = true;
-        this.coupon = num + "张可用";
+        this.coupon = num + "张";
       }
     },
 

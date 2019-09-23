@@ -72,102 +72,7 @@ const getUnionid = async ({ type = window.localStorage.browserType } = {}) => {
 //         ? { open_id: useridValue } : { alipay_user_id: useridValue }
 //     }
 //   }
-/**
- * 获取定位
- */
-const getLocation = () => {
-  let type = getBrowserType();
-  console.log(type, "8989");
-  if (type == 'wechat') {
-    // return new Promise((resolve) => {
-    //   resolve({
-    //     "latitude" : 123,
-    //     "longitude" : 212
-    //   })
-    // })
-    let url = location.href.split('#')[0];
-    axios({
-      url: 'http://api.supplier.tdianyi.com/wechat/getShareSign',
-      method: 'get',
-      params: {
-        url
-      }
-    }).then(res => {
-      console.log(res)
-      let { data } = res;
-      wx.config({
-        debug: false,
-        appId: data.appId,
-        timestamp: data.timestamp,
-        nonceStr: data.nonceStr,
-        signature: data.signature,
-        jsApiList: [
-          "getLocation",
-        ]
-      });
-    })
-    return new Promise((resolve, reject) => {
-      if (location) return resolve(location)
-      wx.ready(() => {
-        wx.getLocation({
-          type: 'wgs84',
-          success: function (res) {
-            let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-            let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-            sessionStorage.setItem('location', JSON.stringify({ latitude, longitude }))
-            resolve({
-              latitude,
-              longitude
-            })
-          },
-          fail: function () {
-            console.log('定位失败啦')
-            reject({
-              latitude: '',
-              longitude: ''
-            })
-          }
-        });
-      }),
-        wx.error(() => {
-          console.log('error')
-        })
-    })
-  } else {
-    var map = new AMap.Map('', {
-      resizeEnable: true
-    });
-    return new Promise((resolve, reject) => {
-      AMap.plugin('AMap.Geolocation', function () {
-        var geolocation = new AMap.Geolocation({
-          enableHighAccuracy: true,
-          timeout: 1000,
-          buttonPosition: 'RB',
-          buttonOffset: new AMap.Pixel(10, 20),
-          zoomToAccuracy: true,
-        });
-        map.addControl(geolocation);
-        geolocation.getCurrentPosition(function (status, result) {
-          if (status == 'complete') {
-            let res = {
-              latitude: result.position.lat,
-              longitude: result.position.lng
-            }
-            resolve({
-              latitude: result.position.lat,
-              longitude: result.position.lng
-            })
-          } else {
-            reject({
-              msg: result.message
-            })
-          }
-        });
-      });
-    })
-  }
 
-}
 
 
 export {
@@ -175,6 +80,5 @@ export {
     getUrlParams,
     getToken,
     getUnionid,
-    getLocation
     // getUserid
 }
