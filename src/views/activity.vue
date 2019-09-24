@@ -30,7 +30,7 @@
 
         <!-- 主题内容 -->
         <main>
-            <div class=" prizeWheels">
+            <div class=" prizeWheels" v-if="is_ok">
                 <div v-for="(item,idx) in list" :key="idx" class="item" :class="['item' + idx ]">
                     <img :src="item.pic">
                     <span v-if="item.youhui_type == 1" class="item_text">
@@ -45,6 +45,15 @@
                     <span :class="item.active ? 'active' : 'active2'"></span>
                 </div>
                 <div class="item play" @click="play"></div>
+            </div>
+            <div class=" prizeWheels" v-else>
+                <div class="played">
+                    <div class="palyed_text">
+                        <p>您已抽过奖啦！</p>
+                        <p>前往小熊敬礼发现更多优惠信息吧！</p>
+                        <img src="../assets/played.png" class="played_img" @click="thanks" />
+                    </div>
+                </div>
             </div>
 
             <div class="guize">
@@ -171,7 +180,8 @@ export default {
             // loading定时器
             loading: null,
             // 是否显示实付金额
-            is_result_money: true
+            is_result_money: true,
+            is_ok: true
         }
     },
     components: {
@@ -211,6 +221,11 @@ export default {
             }
             this.message = message;
             sessionStorage.setItem('message',JSON.stringify(message))
+        }
+        if(sessionStorage.getItem('is_ok')){
+            this.is_ok = false
+        }else{
+            this.is_ok = true
         }
     },
     mounted(){
@@ -851,5 +866,28 @@ main{
         padding-right: .15rem;
         line-height: .2rem;
     }
-
+    .played {
+        width: 3.12rem;
+        height: 2.35rem;
+        margin-left: -.02rem;
+        background: #fff;
+        border-radius:10px;
+        overflow: hidden;
+    }
+    .palyed_text {
+        text-align: center;
+        font-size: .14rem;
+        color: #333333;
+        margin-top: .46rem;
+    }
+    .played_img {
+        width: 2.03rem;
+        height: .5rem;
+        margin-top: .22rem;
+        margin-left: -.1rem;
+    }
+    .played_img:active {
+        background: #313131;
+        opacity: .3;
+    }
 </style>

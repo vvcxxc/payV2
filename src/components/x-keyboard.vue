@@ -311,6 +311,9 @@ export default {
     color: #fff;
     font-weight: bold;
   }
+  .no_queding:active {
+    background: #999
+  }
   .confirm,.number{
     margin-bottom: .05rem;
   }
