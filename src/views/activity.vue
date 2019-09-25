@@ -224,13 +224,6 @@ export default {
         }
        
     },
-    updated(){
-        if(sessionStorage.getItem('is_ok')){
-            this.is_ok = false
-        }else{
-            this.is_ok = true
-        }
-    },
     mounted(){
          _hmt.push(['_trackEvent', '活动页', '跳转到活动页',]);
         this.getList();
