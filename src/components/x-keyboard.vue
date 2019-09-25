@@ -132,6 +132,7 @@ export default {
           alert('请输入正确的金额');
         }else{
           sessionStorage.removeItem('is_ok')
+          sessionStorage.removeItem('message')
           if(browsertype == 'wechat'){
             // 微信支付
             let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
