@@ -222,6 +222,9 @@ export default {
             this.message = message;
             sessionStorage.setItem('message',JSON.stringify(message))
         }
+       
+    },
+    updated(){
         if(sessionStorage.getItem('is_ok')){
             this.is_ok = false
         }else{
