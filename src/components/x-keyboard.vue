@@ -161,7 +161,7 @@ export default {
               amount,
               result_money
             }
-
+            console.log(message)
             if(code == 200){
               window.WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
