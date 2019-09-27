@@ -96,8 +96,7 @@
       <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
       <div class="drawCoupon" v-if="is_lottery">
         <h2>
-          恭喜您抽中
-          <span>{{lottery_data.store_name}}</span>到店红包
+          恭喜您获得到店红包
         </h2>
         <div class="gift-coupon" v-if="lottery_data.youhui_type == 0">
           <div class="coupon-left-img">
@@ -771,6 +770,8 @@ main {
 }
 .drawCoupon h2 {
   font-weight: bold;
+  font-size: 0.26rem;
+  line-height: 0.5rem;
 }
 
 .gift-coupon {
