@@ -308,12 +308,12 @@ export default {
     font-weight: bold;
   }
   .no_queding{
-    background: #999;
+    background: #d9d9d9;
     color: #fff;
     font-weight: bold;
   }
   .no_queding:active {
-    background: #999
+    background: #d9d9d9
   }
   .confirm,.number{
     margin-bottom: .05rem;
