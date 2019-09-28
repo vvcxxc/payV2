@@ -67,20 +67,6 @@
         <p>(二)凡以不正当手段（包括但不限于机器刷奖、作弊、扰乱系统、实施网络攻击等）参与本次活动的用户，本公司有权终止其参与活动，取消其获奖资格(如奖励已发放，本公司有权收回)；</p>
         <p>四、点击“抽奖”按钮则视为已阅读抽奖规则。</p>
       </div>
-
-      <!-- <div class="guize2">
-        <p>1.活动期间，每位用户只有-次抽奖机会。</p>
-        <p>2.中奖后奖品将直接放入账户内，具体可在[我的礼品]内查看，奖品可能有延迟，请耐心等待。</p>
-        <p>3.奖项设置</p>
-        <p class="hang">(1)特等奖1名，价值29800元美蒂泰斯4D太空舱按摩椅</p>
-        <p class="hang">(2)一等奖2名，价值5680元深净尔DPSINER家用空气净化器;</p>
-        <p class="hang">(3)二等奖3名，价值3999元格兰仕高端IH电饭煲;</p>
-        <p class="hang">(4)三等奖5名，价值2680元TCL电烤箱TKX-JM25A1;</p>
-        <p class="hang">(5) 四等奖8名，价值1680元康佳爱衣恋挂烫机KGGT;</p>
-        <p class="hang">(6) 五等奖15名，价值999元佳刃不锈钢厨房刀具套装;</p>
-        <p class="hang">(7)幸运奖50名，价值100元话费充值卡;</p>
-        <p>4.奖品领取:中奖用户发送中奖弹窗截图至小熊敬礼微信公众号联系客服领取。</p>
-      </div>-->
     </main>
 
     <!-- 遮罩层 -->
@@ -107,24 +93,23 @@
         <p class="order_text">可在“订单”中查看</p>
         <div class="close" @click="closeOrderCoupon"></div>
       </div>
-
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
       <div class="drawCoupon" v-if="is_lottery">
         <h2>
-          恭喜您抽中
-          <span>{{lottery_data.store_name}}</span>到店红包
+          恭喜您获得到店红包
         </h2>
         <div class="gift-coupon" v-if="lottery_data.youhui_type == 0">
           <div class="coupon-left-img">
             <img :src="lottery_data.image" />
           </div>
           <div class="gift-coupon-right">
-            <p class="coupon-shop">{{lottery_data.store_name || '暂无'}}</p>
-            <p class="coupon-time">{{lottery_data.name || '暂无'}}</p>
-            <p class="coupon-text">领取后{{lottery_data.expire_day}}日内有效</p>
+            <p class="coupon-shop2">{{lottery_data.store_name || '暂无'}}</p>
+            <p class="coupon-time2">{{lottery_data.name || '暂无'}}</p>
+            <p class="coupon-text2">领取后{{lottery_data.expire_day}}日内有效</p>
           </div>
         </div>
-        <div class="coupon" v-else-if="lottery_data.youhui_type == 1">
-          <div class="coupon-left">
+        <div class="coupon2" v-else-if="lottery_data.youhui_type == 1">
+          <div class="coupon2-left">
             <p class="sum">
               <i>￥</i>
               {{lottery_data.return_money}}
@@ -132,21 +117,23 @@
             <p class="manjian">满{{lottery_data.total_fee}}可用</p>
           </div>
 
-          <div class="coupon-right">
-            <p class="coupon-shop">{{lottery_data.store_name}}</p>
-            <p class="coupon-time">领取后{{lottery_data.expire_day}}日内有效</p>
-            <p class="coupon-text">随时用/免预约</p>
+          <div class="coupon2-right">
+            <p class="coupon-shop2">{{lottery_data.store_name}}</p>
+            <p class="coupon-time2">领取后{{lottery_data.expire_day}}日内有效</p>
+            <p class="coupon-text2">随时用/免预约</p>
           </div>
         </div>
-
-        <p class="order_text">可在“订单”中查看</p>
         <div class="receive" @click="getCoupon"></div>
+        <p class="order_text2">领取后可在“订单”中查看</p>
       </div>
 
       <div class="thankYou" v-if="is_thanks">
-        <h2>感谢您的参与</h2>
-        <p>超值大礼包等您下次来拿</p>
-        <div class="close" @click="thanks"></div>
+        <h2>哎呀，离大奖就差一点点</h2>
+        <p>别灰心，小熊敬礼</p>
+        <p>还有更多好礼等您来发现</p>
+        <div class="close2">
+          <div class="receive2" @click="thanks"></div>
+        </div>
       </div>
     </div>
     <div class="loading-box" v-if="is_loading">
@@ -739,9 +726,7 @@ main {
   top: 0;
   z-index: 10;
 }
-.getCoupon,
-.drawCoupon,
-.thankYou {
+.getCoupon {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -767,19 +752,122 @@ main {
   background-size: 100%;
   position: relative;
 }
+.drawCoupon {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/ATZi4dXf8TDSDd53tpjp7N5Cbks5hBEH.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 3.915rem;
+  width: 3.7rem;
+  box-sizing: border-box;
+  padding-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.drawCoupon h2 {
+  font-weight: bold;
+  font-size: 0.26rem;
+  line-height: 0.5rem;
+}
+
 .gift-coupon {
-  width: 3.2rem;
-  height: 0.98rem;
+  width: 2.625rem;
+  height: 0.81rem;
   background: #fff;
   background-size: 100%;
   position: relative;
 }
+.coupon-left-img {
+  height: 0.81rem;
+  width: 1.01rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.coupon-left-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .gift-coupon-right {
   position: absolute;
-  left: 1.23rem;
+  left: 1.01rem;
   top: 0;
-  height: 0.98rem;
-  width: 1.96rem;
+  height: 0.81rem;
+  width: 1.615rem;
+}
+.mask .coupon-shop2 {
+  font-size: 0.14rem;
+  color: #313131;
+  font-weight: bold;
+  position: absolute;
+  top: 0.08rem;
+  left: 0.1rem;
+}
+.mask .coupon-time2 {
+  font-size: 0.12rem;
+  color: #999999;
+  position: absolute;
+  top: 0.27rem;
+  left: 0.1rem;
+}
+.mask .coupon-text2 {
+  font-size: 0.12rem;
+  color: #999999;
+  position: absolute;
+  left: 0.1rem;
+  top: 0.53rem;
+}
+.coupon2 {
+  width: 2.625rem;
+  height: 0.81rem;
+  background: url("../assets/coupon.png") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+.coupon2-left {
+  color: #fff;
+  width: 0.93rem;
+  height: 0.81rem;
+  position: absolute;
+  left: 0rem;
+  top: 0rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mask .coupon2-right {
+  position: absolute;
+  left: 0.93rem;
+  top: 0;
+  height: 0.81rem;
+  width: 1.7rem;
+}
+.receive {
+  width: 2.14rem;
+  height: 0.45rem;
+  background: url("../assets/lijilingqu.png") no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  bottom: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.order_text2 {
+  position: absolute;
+  bottom: 0.305rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000 !important;
+  font-size: 0.16rem;
 }
 .mask p {
   font-size: 0.15rem;
@@ -797,16 +885,6 @@ main {
   left: 50%;
   transform: translateX(-50%);
 }
-.receive {
-  width: 2.14rem;
-  height: 0.45rem;
-  background: url("../assets/lijilingqu.png") no-repeat;
-  background-size: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
 .coupon-left {
   color: #fff;
@@ -817,20 +895,7 @@ main {
   top: 0.17rem;
   text-align: center;
 }
-.coupon-left-img {
-  height: 0.98rem;
-  width: 1.1rem;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.coupon-left-img img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+
 .mask .coupon-left i {
   font-size: 0.17rem;
 }
@@ -872,16 +937,50 @@ main {
   top: 0.29rem;
   left: 0.1rem;
 }
+.thankYou {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/BBDsAWTrS2NQiw5NCjyyS2cfB84hcfZr.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 3.65rem;
+  width: 2.925rem;
+}
 .thankYou h2 {
-  margin-bottom: 0.2rem;
-  font-size: 0.3rem;
+  font-size: 0.2rem;
   line-height: 0.3rem;
   height: 0.3rem;
+  width: 100%;
+  text-align: center;
+  margin-top: 1.7rem;
+  margin-bottom: 0.24rem;
+  color: #a15709;
+  font-weight: bold;
 }
-.thankYou .close {
+.thankYou p {
+  color: #999999;
+  width: 100%;
+  text-align: center;
+  height: 0.275rem;
+  font-size: 0.15rem;
+  line-height: 1;
+}
+.thankYou .close2 {
+  height: 0.45rem;
+  margin-top: 0.1rem;
   bottom: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
+.thankYou .close2 .receive2 {
+  width: 2.14rem;
+  height: 0.45rem;
+  background: url("../assets/lijiqianwang.png") no-repeat;
+  background-size: 100% 100%;
+}
 .guize {
   width: 3.48rem;
   height: 3.16rem;
