@@ -49,7 +49,6 @@ export default {
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
     sum:function(newVal){
-      console.log(newVal)
       if(newVal == 0){
         this.is_click = false
       }else{
@@ -95,7 +94,6 @@ export default {
              if(this.currentValue.length > idx*1+2){
               this.currentValue = this.currentValue.substring(0,idx*1+3);
             }
-          
            }
             
           // console.log(this.currentValue)
@@ -161,7 +159,6 @@ export default {
               amount,
               result_money
             }
-            console.log(message)
             if(code == 200){
               window.WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
