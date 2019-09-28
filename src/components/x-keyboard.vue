@@ -21,14 +21,18 @@
         <li class="queding" @click="toPay" v-if="is_click">确定</li>
         <li class="no_queding" v-else>确定</li>
       </ul>
+    </div>
+    <div class="loading-box" v-if="is_loading">
+      <van-loading color="#fff" class="loading" vertical>Loading...</van-loading>
     </div> 
   </div>
+  
 </template>
 <script>
 import { getUrlParams, getBrowserType } from '../utils/get_info';
 import { Cookie } from '../utils/common';
 import { requestWechatPayment, requestAlpayPayment } from '../api/api';
-import { Dialog } from 'vant';
+import { Dialog, Loading  } from 'vant';
 
 export default {
   data(){
@@ -43,8 +47,12 @@ export default {
       amounts:'',
       id:[],
       activity:0,
-      is_click: false
+      is_click: false,
+      is_loading: false,
     }
+  },
+  components: {
+    [Loading.name]: Loading
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
@@ -117,6 +125,7 @@ export default {
 
       // 点击支付
       async toPay(){
+        this.is_loading = true
          _hmt.push(['_trackEvent', '确认支付', '用户点击了确认按钮',]);
         let _this = this
         let browsertype = getBrowserType();
@@ -143,6 +152,7 @@ export default {
               result_money,
             }
             var {data, code} = await requestWechatPayment(params);
+            this.is_loading = false
             if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
@@ -200,6 +210,7 @@ export default {
               result_money
             }
             let {data, code} = await requestAlpayPayment(params);
+            this.is_loading = false
             if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
@@ -254,6 +265,22 @@ export default {
 
 </script>
 <style>
+.loading-box {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+}
   .keyboard-box{
     width: 100%;
   }
