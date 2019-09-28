@@ -29,10 +29,10 @@
       <div class="scroll-list" id="scroll">
         <div
           id="marquee"
-        >恭喜1284获得￥50元无门槛红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜9098获得￥30元无门槛红红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜4727获得￥30元无门槛红包</div>
+        >恭喜1284获得<span style="color:yellow">￥50元无门槛红包</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜9098获得<span style="color:yellow">￥30元无门槛红红包</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜4727获得<span style="color:yellow">￥30元无门槛红包</span></div>
         <div
           id="copy"
-        >恭喜1284获得￥50元无门槛红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜9098获得￥30元无门槛红红包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜4727获得￥30元无门槛红包</div>
+        >恭喜1284获得<span style="color:yellow">￥50元无门槛红包</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜9098获得<span style="color:yellow">￥30元无门槛红红包</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜4727获得<span style="color:yellow">￥30元无门槛红包</span></div>
       </div>
       <div id="node"></div>
     </div>
@@ -95,9 +95,7 @@
       </div>
       <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
       <div class="drawCoupon" v-if="is_lottery">
-        <h2>
-          恭喜您获得到店红包
-        </h2>
+        <h2>恭喜您获得到店红包</h2>
         <div class="gift-coupon" v-if="lottery_data.youhui_type == 0">
           <div class="coupon-left-img">
             <img :src="lottery_data.image" />
@@ -592,7 +590,7 @@ export default {
 /* 头部滚动条 */
 .scroll-top {
   height: 35px;
-  background: #a73008;
+  background: rgba(167,48,8);
   font-size: 13px;
   color: #fff;
   line-height: 35px;
@@ -628,7 +626,8 @@ main {
   width: 3.48rem;
   height: 2.82rem;
   position: absolute;
-  top: 2.15rem;
+  /* top: 2.15rem; */
+  top: 2.75rem;
   left: 0.11rem;
   background: url("../assets/biaopan.png") no-repeat;
   background-size: 100%;
@@ -986,7 +985,8 @@ main {
   height: 3.16rem;
   position: absolute;
   left: 50%;
-  top: 5.29rem;
+  /* top: 5.29rem; */
+  top: 5.89rem;
   transform: translateX(-50%);
   background: url("../assets/guize.png") no-repeat;
   background-size: 100%;
