@@ -38,4 +38,7 @@ var router = new VueRouter({
           }
   ]
 })
+// router.beforeEach((to, from, next)=>{
+//   console.log(from)
+// })
 export default router

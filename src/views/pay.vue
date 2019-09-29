@@ -124,7 +124,7 @@ export default {
         this.coupon_id = [];
         this.recommend_coupon = {};
         let num = this.couponlist.length;
-        this.coupon = num + "张可用";
+        this.coupon = num + "张";
         this.amount = 0;
         this.show_recommend = false;
         this.couponsSum = 0;
@@ -152,7 +152,7 @@ export default {
       a.toFixed(2);
       if (a == 0) {
         let num = this.couponlist.length;
-        this.coupon = num + "张可用";
+        this.coupon = num + "张";
       } else {
         this.coupon = "-￥" + a;
       }
@@ -189,7 +189,7 @@ export default {
     if(type == 'development'){
       Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
       Cookie.set('unionid','oH_aNw-EQhWUaNYFyTnID_7bONrw')
-      Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY4MDI3OTAsImV4cCI6MTU2NzEwMjc5MCwibmJmIjoxNTY2ODAyNzkwLCJqdGkiOiJOb1J4aExLcTR1MFBFaEtpIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.Zcv1kw4cU8RTrx2PNnRVCmELuzJDfHpzmt8gcRERnnQ')
+      Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1Njk0ODE0MTAsImV4cCI6MTU2OTc4MTQxMCwibmJmIjoxNTY5NDgxNDEwLCJqdGkiOiJEc2d1OTNYZXVIbENUVThkIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.O_4Kso6eIY-VEjXhyW9S9ZkPvoFt9Z58LeXtoSQVkMg')
     }
   },
 
@@ -305,7 +305,7 @@ export default {
       var num = this.info.coupons_required_products_list.length;
       if (num) {
         this.havecoupon = true;
-        this.coupon = num + "张可用";
+        this.coupon = num + "张";
       }
     },
 

@@ -112,8 +112,7 @@
 <script>
 import '../assets/iconfont/iconfont.css';
 import { requestLotterys, requestGetResult, requestGetCoupon, requestOrderCoupons } from '../api/api';
-import { Loading } from 'vant'
-import 'vant/lib/button/style';
+import { Loading, Dialog } from 'vant'
 import { constants } from 'crypto';
 import { Cookie } from '../utils/common';
 import { getUrlParams, getBrowserType } from "../utils/get_info";
@@ -181,10 +180,6 @@ export default {
     },
     created(){
         let type = process.env.NODE_ENV;
-        // if(type == 'development'){
-        //     // Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NjY1NTEyNzMsImV4cCI6MTU2Njg1MTI3MywibmJmIjoxNTY2NTUxMjczLCJqdGkiOiJZcVFKTnRkNG5XQ0gxOTcwIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.EYgruXbY7qhgtpzeKnj1ktwQJos_lNeoXhQ61WqUJPE')
-        // }
-        // console.log(this.$route.query)
         this.data = this.$route.query
         let message = sessionStorage.getItem('message');
         console.log(this.data)
@@ -243,12 +238,25 @@ export default {
             })
         },
         play(){//点击开始游戏
+            let is_ok = sessionStorage.getItem('is_ok')
+                if(is_ok){
+                     Dialog.alert({
+                message: '您已抽奖',
+                confirmButtonColor: '#fc4833'
+              })
+                    return
+            }else{
+                sessionStorage.setItem('is_ok',1)
+            }
               _hmt.push(['_trackEvent', '抽奖', '点击抽奖']);
             if (this.isMoving) {
                 return false;
             }
             if(!this.is_one){
-                alert('您已抽奖');
+                 Dialog.alert({
+                message: '您已抽奖',
+                confirmButtonColor: '#fc4833'
+              })
                 return false
             }
             this.is_one = false;

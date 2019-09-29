@@ -18,16 +18,21 @@
     <div class="confirm">
       <ul class="pay-confirm">
         <li @click="backSpace"><img src="../assets/tuige.png" alt=""></li>
-        <li class="queding" @click="toPay">确定</li>
+        <li class="queding" @click="toPay" v-if="is_click">确定</li>
+        <li class="no_queding" v-else>确定</li>
       </ul>
+    </div>
+    <div class="loading-box" v-if="is_loading">
+      <van-loading color="#fff" class="loading" vertical>Loading...</van-loading>
     </div> 
   </div>
+  
 </template>
 <script>
 import { getUrlParams, getBrowserType } from '../utils/get_info';
 import { Cookie } from '../utils/common';
 import { requestWechatPayment, requestAlpayPayment } from '../api/api';
-import { Dialog } from 'vant';
+import { Dialog, Loading  } from 'vant';
 
 export default {
   data(){
@@ -42,11 +47,21 @@ export default {
       amounts:'',
       id:[],
       activity:0,
+      is_click: false,
+      is_loading: false,
     }
+  },
+  components: {
+    [Loading.name]: Loading
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
     sum:function(newVal){
+      if(newVal == 0){
+        this.is_click = false
+      }else{
+        this.is_click = true
+      }
       this.currentValue = newVal
     },
     amount:function(a){
@@ -87,7 +102,6 @@ export default {
              if(this.currentValue.length > idx*1+2){
               this.currentValue = this.currentValue.substring(0,idx*1+3);
             }
-          
            }
             
           // console.log(this.currentValue)
@@ -111,6 +125,7 @@ export default {
 
       // 点击支付
       async toPay(){
+        this.is_loading = true
          _hmt.push(['_trackEvent', '确认支付', '用户点击了确认按钮',]);
         let _this = this
         let browsertype = getBrowserType();
@@ -123,7 +138,8 @@ export default {
         if(amount == '' || amount == 0){
           alert('请输入正确的金额');
         }else{
-         
+          sessionStorage.removeItem('is_ok')
+          sessionStorage.removeItem('message')
           if(browsertype == 'wechat'){
             // 微信支付
             let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
@@ -136,6 +152,7 @@ export default {
               result_money,
             }
             var {data, code} = await requestWechatPayment(params);
+            this.is_loading = false
             if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
@@ -152,7 +169,6 @@ export default {
               amount,
               result_money
             }
-
             if(code == 200){
               window.WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
@@ -194,6 +210,7 @@ export default {
               result_money
             }
             let {data, code} = await requestAlpayPayment(params);
+            this.is_loading = false
             if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
@@ -248,6 +265,22 @@ export default {
 
 </script>
 <style>
+.loading-box {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+}
   .keyboard-box{
     width: 100%;
   }
@@ -297,6 +330,14 @@ export default {
     background: #ff9500;
     color: #fff;
     font-weight: bold;
+  }
+  .no_queding{
+    background: #d9d9d9;
+    color: #fff;
+    font-weight: bold;
+  }
+  .no_queding:active {
+    background: #d9d9d9
   }
   .confirm,.number{
     margin-bottom: .05rem;

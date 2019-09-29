@@ -2,7 +2,7 @@
     <div class="checkout">
        
         <div class="discounts">
-            <header>优惠券</header>
+            <header>现金券</header>
             <div class="youhuijine">
                 您已选中优惠券{{num}}张，共可抵用<span>¥{{sums}}</span> 
             </div>
@@ -53,7 +53,7 @@
 
         </div>
         <div class="confirm-box">
-            <a class="confirm" @click="Confirm">确定</a>
+            <a class="confirm" @click="Confirm">{{text}}</a>
         </div>
     </div>
 </template>
@@ -69,7 +69,8 @@ export default {
            unusable_list:[],
            best_coupon:[],
            id:[],
-           num:0
+           num:0,
+           text: '确定'
        }
    },
    watch:{
@@ -88,6 +89,11 @@ export default {
           
        },
        id:function(a){
+           if(a.length){
+               this.text = '确定'
+           }else{
+               this.text = '取消'
+           }
            this.sums = 0;
            for(let i = 0; i < this.couponlist.length; i ++){
                for(let c = 0; c < a.length; c ++){
