@@ -80,7 +80,9 @@
           <div class="coupon-left">
             <p class="sum">
               <i>￥</i>
+             <span> 
               {{order_coupon.return_money}}
+             </span>
             </p>
             <p class="manjian">满{{order_coupon.total_fee}}可用</p>
           </div>
@@ -106,11 +108,14 @@
             <p class="coupon-text2">领取后{{lottery_data.expire_day}}日内有效</p>
           </div>
         </div>
-        <div class="coupon2" v-else-if="lottery_data.youhui_type == 1">
+        <div class="coupon2"  v-else-if="lottery_data.youhui_type == 1" >
+         
           <div class="coupon2-left">
             <p class="sum">
               <i>￥</i>
+              <span>
               {{lottery_data.return_money}}
+              </span>
             </p>
             <p class="manjian">满{{lottery_data.total_fee}}可用</p>
           </div>
@@ -897,12 +902,38 @@ main {
 
 .mask .coupon-left i {
   font-size: 0.17rem;
+  line-height: 1;
+}
+.mask .coupon-left span {
+  line-height: 1;
 }
 .mask .coupon-left .sum {
   font-size: 0.36rem;
-  line-height: 0.36rem;
+  line-height: 1;
   height: 0.36rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
 }
+
+.mask .coupon2-left i {
+  font-size: 0.14rem;
+  line-height: 1;
+}
+.mask .coupon2-left span {
+  line-height: 1;
+}
+.mask .coupon2-left .sum {
+  font-size: 0.24rem;
+  line-height: 1;
+  height: 0.36rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+
 .mask .coupon-left .manjian {
   font-size: 0.12rem;
   line-height: 0.24rem;
