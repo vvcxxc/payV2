@@ -8,25 +8,6 @@
             </div>
         <div class="coupons-box">
             <div class="all_coupons" ref='top'>
-
-                <!-- 最佳选择的优惠券 -->
-                <!-- <div class="best-coupons">
-                    <div class="coupon" v-for="(item,idx) in best_coupon" v-bind:key=item.coupons_id @click="isBest(item,idx)">
-                        <div class="couponleft">
-                            <div class="coupon-left">
-                                <p class="sum"><i>￥</i>{{item.money}}</p>
-                                <p class="amanjian">{{item.coupons_name}}</p>
-                            </div>
-                        </div>
-                    
-                        <div class="coupon-right">
-                            <p class="coupon-shop"></p>
-                            <p class="coupon-time">{{item.expiration}}</p>
-                            <span class="best-choose" ref='choosebest'></span>
-                        </div>
-                    </div>
-                </div> -->
-
                 <!-- 可以用的券 -->
                 <div class="coupons">
                     <div v-bind:class="item.chooseable ? 'coupon' : 'u-coupon'" v-for="(item,idx) in list" v-bind:key=idx ref="couponbg" @click="item.chooseable && SortCoupons(item)">
@@ -40,10 +21,8 @@
                         <div class="coupon-right">
                             <p class="coupon-shop">{{item.store_name}}</p>
                             <p class="coupon-time">{{item.expiration}}</p>
-                            <span class="coupon-choose" ref='chooseone'>
-                                
-                            </span>
-                            
+                            <span class="coupon-choose" ref='chooseone' v-if="item.ischecked"></span>
+                            <span class="coupon-no-choose" ref='chooseone' v-else></span>
                         </div>
                     </div>
                 </div>
@@ -58,7 +37,7 @@
     </div>
 </template>
 <script>
-import { NewArrObj, Compare } from '../utils/common.js'
+import { NewArrObj, Compare, RemoveDup } from '../utils/common.js'
 import '../styles/common.css';
 export default {
    data () {
@@ -76,9 +55,9 @@ export default {
    watch:{
        list:function(newVal){
             for(var a = 0; a < newVal.length; a ++){
-                this.$refs.chooseone[a].style.backgroundPositionX = 18 + 'px';
+                // this.$refs.chooseone[a].style.backgroundPositionX = 18 + 'px';
                 if(newVal[a].ischecked == true){
-                   this.$refs.chooseone[a].style.backgroundPositionX = 0;
+                //    this.$refs.chooseone[a].style.backgroundPositionX = 0;
                 }
            }
            for(var i = 0; i < newVal.length; i ++){
@@ -96,45 +75,47 @@ export default {
            }
            this.sums = 0;
            for(let i = 0; i < this.couponlist.length; i ++){
+              this.couponlist[i].ischecked = false
+           }
+           for(let i = 0; i < this.couponlist.length; i ++){
                for(let c = 0; c < a.length; c ++){
-                   if(this.couponlist[i].coupons_id == this.id[c]){
+                   if(this.couponlist[i].coupons_id == a[c]){
                        this.sums += this.couponlist[i].money*1
+                       this.couponlist[i].ischecked = true
                    }
                }
            }
-           this.num = this.id.length
+           this.num = a.length
        }
    },
    
   
    props:['couponlist','sum','spendable_coupons','recommend_coupon','coupon_id'],
    created(){
-       this.id = this.coupon_id;
+       this.id = this.coupon_id
        if(this.spendable_coupons.length){
             this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
             this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
             for(let i = 0; i < this.spendable_coupons.length; i ++){
                 this.spendable_coupons[i].chooseable = 1;
-                // this.spendable_list[i].ischecked = false;
             }
             for(let i = 0; i < this.spendable_list.length; i ++){
-                this.spendable_list[i].ischecked = false;
+                // this.spendable_list[i].ischecked = false;
                 for(let a = 0; a < this.coupon_id.length; a ++){
                     if(this.spendable_list[i].coupons_id == this.coupon_id[a]){
-                        this.spendable_list[i].ischecked = true;
                     }
                 }
             }
             for(let i = 0; i < this.unusable_list.length; i ++){
                 this.unusable_list[i].chooseable = 0;
-                this.unusable_list[i].ischecked = false;
+                // this.unusable_list[i].ischecked = false;
             }
             this.best_coupon = this.recommend_coupon;
        }else{
             this.unusable_list = this.couponlist;
             for(let j = 0; j < this.unusable_list.length; j ++){
                 this.unusable_list[j].chooseable = 0
-                this.unusable_list[j].ischecked = false
+                // this.unusable_list[j].ischecked = false
             }
        }
       
@@ -154,11 +135,12 @@ export default {
         // 初始化渲染
         Coupons(){
             this.list = [];
-            this.recommend_coupon[0].ischecked = true;
-            let best = this.recommend_coupon[0];
+            // this.recommend_coupon[0].ischecked = true;
+            // let best = this.recommend_coupon[0];
+            let best = this.recommend_coupon;
             let spendable = [...this.spendable_coupons];
             if(spendable.length){
-                if(best.is_threshold == 2){
+                if(best && best.is_threshold == 2){
                     for(let i = 0; i < spendable.length; i ++){
                         if(best.coupons_id != spendable[i].coupons_id){
                             if(spendable[i].is_threshold == 2){
@@ -169,15 +151,13 @@ export default {
                         }
                     }
                 }
+            spendable.sort(Compare('ischecked'));
             spendable.sort(Compare('chooseable'));
             this.list = spendable;
             }
-            
             for(let b = 0; b < this.unusable_list.length; b ++){
                 this.list.push(this.unusable_list[b])
             }
-        //    this.id.push(best.coupons_id);
-        //    console.log(best.coupons_id)
         },
 
         // 选择优惠券(有待提高版)
@@ -285,6 +265,7 @@ export default {
 
         //  点击确定，向父组件传值
         Confirm(){
+            this.id = RemoveDup(this.id)
             this.$emit('ListenToCoupon',this.id,this.sums)
         }
    }
@@ -446,6 +427,16 @@ export default {
         left: .20rem;
     }
     .coupon-choose{
+        display: block;
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        left: 1.95rem;
+        top: .45rem;
+        background: url('../assets/icons.png');
+        background-position-x: 0;
+    }
+    .coupon-no-choose{
         display: block;
         position: absolute;
         width: 18px;

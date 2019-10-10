@@ -28,9 +28,13 @@
           <img src="../assets/arro-right.png" />
         </p>
       </div>
-      <div class="manjian" v-show="isshow">
-        <span>满减优惠：</span>
-        <span class="manjian-fudu">满 {{this.key}} 减 {{this.manjian}}</span>
+      <div class="manjian" v-show="isshow" @click="chooseMoneyOff">
+        <span>满减优惠</span>
+        <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span>
+        <span class="manjian-fudu flex">
+          满 {{this.key}} 减 {{this.key_value}}
+          <span class="choose_moneyoff" ref="chooseone"></span>
+        </span>
       </div>
       <div class="amount">
         <span>合计：</span>
@@ -54,12 +58,12 @@
 
     <!-- 选择优惠券 -->
     <div class="area-mask" v-if="isclose">
-      <div class="mask" @click="handlecoupons"></div>
+      <div class="mask"></div>
       <checkout-discount
         :couponlist="couponlist"
         :sum="sum"
         :spendable_coupons="spendable_coupons"
-        :recommend_coupon="[recommend_coupon]"
+        :recommend_coupon="recommend_coupon"
         :coupon_id="coupon_id"
         v-on:ListenToCoupon="getCouponsid"
       />
@@ -71,10 +75,10 @@
 import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
-import { Compare } from "../utils/common.js";
+import { Compare, removeElement } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
 import "vant/lib/index.css";
-import { Cookie } from '../utils/common';
+import { Cookie } from "../utils/common";
 export default {
   data() {
     return {
@@ -84,6 +88,7 @@ export default {
       info: "",
       manjian: 0,
       key: null,
+      key_value: null,
       isshow: false,
       coupon: "",
       havecoupon: false,
@@ -104,7 +109,10 @@ export default {
       recommend_id: [],
 
       // 是否触发满减
-      is_money_off: 0
+      is_money_off: 0,
+      // 是否选择满减
+      is_choose_moneyoff: true,
+      manjian_rule: false
     };
   },
 
@@ -118,6 +126,7 @@ export default {
       if (newVal > 100000) {
         this.sum = oldVal;
       }
+      this.is_choose_moneyoff = true;
       this.moneyOff();
       this.RecommendCoupon(newVal);
       if (newVal == "") {
@@ -128,7 +137,7 @@ export default {
         this.amount = 0;
         this.show_recommend = false;
         this.couponsSum = 0;
-        if (this.recommend_coupon[0] == undefined) {
+        if (this.recommend_coupon == {}) {
           this.show_recommend = false;
         }
       }
@@ -140,10 +149,10 @@ export default {
       if (this.amount < 0) {
         this.amount = 0;
       }
-      if(a > 0){
-        this.is_money_off = 1
-      }else{
-        this.is_money_off = 0
+      if (a > 0) {
+        this.is_money_off = 1;
+      } else {
+        this.is_money_off = 0;
       }
       this.amount = this.amount.toFixed(2);
     },
@@ -177,7 +186,14 @@ export default {
       } else if (a.length == 1 && a[0] == this.recommend_id[0]) {
         this.show_recommend = true;
       } else {
-        this.show_recommend = false;
+        // this.show_recommend = false;
+      }
+    },
+    is_choose_moneyoff: function(a) {
+      if (!a) {
+        this.$refs.chooseone.style.backgroundPositionX = 18 + "px";
+      } else {
+        this.$refs.chooseone.style.backgroundPositionX = 0;
       }
     }
   },
@@ -186,10 +202,13 @@ export default {
     this.getStoreinfo();
     let type = process.env.NODE_ENV;
     console.log(type);
-    if(type == 'development'){
-      Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
-      Cookie.set('unionid','oH_aNw-EQhWUaNYFyTnID_7bONrw')
-      Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1Njk0ODE0MTAsImV4cCI6MTU2OTc4MTQxMCwibmJmIjoxNTY5NDgxNDEwLCJqdGkiOiJEc2d1OTNYZXVIbENUVThkIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.O_4Kso6eIY-VEjXhyW9S9ZkPvoFt9Z58LeXtoSQVkMg')
+    if (type == "development") {
+      Cookie.set("test_open_id", "oy6pQ05896O22gUAljVH4uqvCnhU");
+      Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
+      Cookie.set(
+        "test_token_auth",
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzA1MDAxMjUsImV4cCI6MTU3MDgwMDEyNSwibmJmIjoxNTcwNTAwMTI1LCJqdGkiOiIzeHNxV2VjVVNnUHFDNHdhIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.KciKcdUH6FSiLR3sdx_7Jbo1ZWhcHGWm9qGqecpAjxg"
+      );
     }
   },
 
@@ -198,13 +217,52 @@ export default {
   },
 
   methods: {
+    // 是否选择满减
+    chooseMoneyOff() {
+      if (this.is_choose_moneyoff) {
+        this.is_choose_moneyoff = false;
+        this.$refs.chooseone.style.backgroundPositionX = 18 + "px";
+        this.is_money_off = 0;
+        this.manjian = 0;
+        this.manjian_rule = false
+      } else {
+        this.is_choose_moneyoff = true;
+        this.$refs.chooseone.style.backgroundPositionX = 0;
+        this.is_money_off = 1;
+        this.moneyOff();
+        let arr = [...this.coupon_id];
+        let arr1 = []
+        if (arr.length) {
+          for (let i = 0; i < arr.length; i++) {
+            for (let a = 0; a < this.couponlist.length; a++) {
+              if (
+                this.couponlist[a].coupons_id == arr[i] &&
+                this.couponlist[a].is_threshold == 2
+              ) {
+                arr1 = removeElement(this.coupon_id,arr[i])
+                this.couponsSum = this.couponsSum-this.couponlist[i].money
+                if(this.couponsSum < 0){
+                  this.couponsSum = 0
+                }
+                this.manjian_rule = true
+              } else if (this.couponlist[a].coupons_id == arr[i] &&
+                this.couponlist[a].is_threshold == 1){
+                  this.recommend_coupon = this.couponlist[a]
+                }
+            }
+          }
+          this.coupon_id = arr1
+          this.youhui = "已选" + this.coupon_id.length + "张优惠券";
+        }
+      }
+    },
     haveSum() {
       this.havesum = !this.havesum;
     },
     // 显示隐藏优惠券列表
     handlecoupons() {
-      if(this.isclose){
-        _hmt.push(['_trackEvent', '选择优惠券', '选择优惠券']);
+      if (this.isclose) {
+        _hmt.push(["_trackEvent", "选择优惠券", "选择优惠券"]);
       }
       this.isclose = !this.isclose;
     },
@@ -245,7 +303,7 @@ export default {
               "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
               url +
               "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-            return window.location.href = urls;
+            return (window.location.href = urls);
           } else if (browsertype == "alipay") {
             let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
             let codeid = getUrlParams().code_id;
@@ -263,7 +321,6 @@ export default {
         throw Error("--- 获取店铺基本信息出错 ---");
       });
       requestGetAd({ position_id: 1, store_id: data.store_id }).then(res => {
-        // console.log(res)
         this.ads = res.data;
       });
       this.info = data;
@@ -291,6 +348,7 @@ export default {
         for (let key in manjian) {
           if (this.sum >= key * 1) {
             this.manjian = manjian[key];
+            this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
           }
@@ -336,31 +394,61 @@ export default {
 
           if (newVal * 1 >= limit) {
             // 达到满减要求
+            // ========================== 重做ing ============================
+
+            let arr = []; //达到使用条件的优惠券，包含右门槛及无门槛
+
             for (let i = 0; i < list.length; i++) {
               if (list[i].is_threshold == 1) {
                 spendable_coupons.push(list[i]);
               }
+              if (list[i].is_threshold == 1) {
+                arr.push(list[i]);
+              } else {
+                if (list[i].full_money <= newVal * 1) {
+                  arr.push(list[i]);
+                }
+              }
             }
-            if (spendable_coupons.length > 1) {
-              spendable_coupons.sort(Compare("money"));
-              best_coupon.push(spendable_coupons[0]);
-              couponSum = best_coupon[0].money;
+            arr.sort(Compare("money"));
+            if (arr[0].money > this.key_value) {
+              // 达到满减条件但是优惠券的金额大
 
+              best_coupon.push(arr[0]);
+              couponSum = best_coupon[0].money;
               this.coupon_id.push(best_coupon[0].coupons_id);
               this.recommend_id = [best_coupon[0].coupons_id];
-            } else if (spendable_coupons.length == 1) {
-              this.coupon_id = [spendable_coupons[0].coupons_id];
-              this.recommend_id = [spendable_coupons[0].coupons_id];
-              couponSum = spendable_coupons[0].money;
+              this.couponsSum = couponSum;
+              this.recommend_coupon = best_coupon[0];
+              this.spendable_coupons = arr;
+              this.is_choose_moneyoff = false;
+              this.manjian = 0;
             } else {
-              this.coupon_id = [];
+              // 达到满减条件但是优惠券的金额小
+
+              if (spendable_coupons.length > 1) {
+                spendable_coupons.sort(Compare("money"));
+                best_coupon.push(spendable_coupons[0]);
+                couponSum = best_coupon[0].money;
+
+                this.coupon_id.push(best_coupon[0].coupons_id);
+                this.recommend_id = [best_coupon[0].coupons_id];
+              } else if (spendable_coupons.length == 1) {
+                this.coupon_id = [spendable_coupons[0].coupons_id];
+                this.recommend_id = [spendable_coupons[0].coupons_id];
+                couponSum = spendable_coupons[0].money;
+              } else {
+                this.coupon_id = [];
+              }
+              this.couponsSum = couponSum;
+              this.recommend_coupon = best_coupon[0];
+              this.spendable_coupons = spendable_coupons;
+              this.show_recommend = true;
+              this.youhui = "已选推荐优惠";
+              this.is_money_off = 1;
             }
-            this.couponsSum = couponSum;
-            this.recommend_coupon = best_coupon;
-            this.spendable_coupons = spendable_coupons;
-            this.show_recommend = true;
-            this.youhui = "已选推荐优惠";
-            this.is_money_off = 1;
+
+            //  ============================================================
           } else {
             // 未达到满减要求
             for (let i = 0; i < list.length; i++) {
@@ -386,8 +474,6 @@ export default {
               if (arr.length <= 1) {
                 best_coupon = arr[0];
                 couponSum = best_coupon.money;
-                // console.log(best_coupon)
-                // this.id.push(best_coupon.coupons_id);
               } else {
                 for (let a = 0; a < arr.length; a++) {
                   if (arr[a].is_threshold == 2) {
@@ -399,7 +485,6 @@ export default {
                   }
                 }
               }
-              // console.log(best_coupon)
               this.coupon_id.push(best_coupon.coupons_id);
               this.recommend_id = [best_coupon.coupons_id];
             }
@@ -463,13 +548,25 @@ export default {
     // 监听从优惠券组件传回的值
     getCouponsid(id, sums) {
       if (id.length) {
+        for (let i = 0; i < id.length; i ++){
+          for ( let a = 0; a < this.couponlist.length; a ++ ){
+            if (id[i] == this.couponlist[a].coupons_id ){
+              this.is_choose_moneyoff = false;
+              this.$refs.chooseone.style.backgroundPositionX = 18 + "px";
+              this.is_money_off = 0;
+              this.manjian = 0;
+              this.recommend_coupon = this.couponlist[a]
+            }
+          }
+        }
         this.couponsSum = sums;
         this.coupon_id = id;
         this.youhui = "已选" + id.length + "张优惠券";
+        this.show_recommend = true;
       } else {
         this.couponsSum = 0;
         this.coupon_id = id;
-        this.recommend_coupon = [];
+        this.recommend_coupon = {};
         this.show_recommend = false;
       }
       this.isclose = false;
@@ -479,6 +576,21 @@ export default {
 </script>
 
 <style scoped>
+.choose_moneyoff {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url("../assets/icons.png");
+  margin-left: 10px;
+}
+.manjian-rule {
+  font-size: 12px;
+  color: #d9d9d9;
+}
+.flex {
+  display: flex;
+  align-items: center;
+}
 .payment {
   background: #f2f2f2;
   height: 100%;
@@ -599,7 +711,7 @@ header {
   height: 0.64rem;
   box-sizing: border-box;
 }
-.input-price .have-sum>div{
+.input-price .have-sum > div {
   display: inline-block;
 }
 .input-price span {
@@ -616,6 +728,7 @@ header {
   font-size: 0.13rem;
   margin: 0 0.11rem;
   border-bottom: 1px solid #ebebeb;
+  position: relative;
 }
 .jianshao img {
   width: 5px;
