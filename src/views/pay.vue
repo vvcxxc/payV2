@@ -207,7 +207,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzA4NDI5MzIsImV4cCI6MTU3MTE0MjkzMiwibmJmIjoxNTcwODQyOTMyLCJqdGkiOiJvNTQxNUtwSHJHYnpPc2ZSIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.5kXhmMExV5p_-vm9TyyowaLziO3dYB1HDW3fi5lVPaE"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzA4NDQ2NTYsImV4cCI6MTU3MTE0NDY1NiwibmJmIjoxNTcwODQ0NjU2LCJqdGkiOiJOdXJMRVhvVmVVYUlseUdVIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.lSO4VS3lGm5R03CJOtmTfUgmL0mYsw1Bi1cZRgBoIG4"
       );
     }
   },
@@ -425,26 +425,57 @@ export default {
               this.manjian = 0;
             } else {
               // 达到满减条件但是优惠券的金额小
+              console.log('走着了')
+              // for (let i = 0; i < list.length; i++) {
+              //   if (list[i].is_threshold == 1) {
+              //     spendable_coupons.push(list[i]);
+              //   } else {
+              //     if (list[i].full_money <= newVal * 1) {
+              //       spendable_coupons.push(list[i]);
+              //     }
+              //   }
+              //   this.coupon_id = [];
+              // }
+              // if (spendable_coupons.length > 1) {
+              //   spendable_coupons.sort(Compare("money"));
+              //   best_coupon.push(spendable_coupons[0]);
+              //   couponSum = best_coupon[0].money;
 
-              if (spendable_coupons.length > 1) {
-                spendable_coupons.sort(Compare("money"));
-                best_coupon.push(spendable_coupons[0]);
-                couponSum = best_coupon[0].money;
+              //   this.coupon_id.push(best_coupon[0].coupons_id);
+              //   this.recommend_id = [best_coupon[0].coupons_id];
+              // } else if (spendable_coupons.length == 1) {
+              //   this.coupon_id = [spendable_coupons[0].coupons_id];
+              //   this.recommend_id = [spendable_coupons[0].coupons_id];
+              //   couponSum = spendable_coupons[0].money;
+              // } else {
+              //   this.coupon_id = [];
+              // }
+              // this.couponsSum = couponSum;
+              // this.recommend_coupon = best_coupon[0];
+              // this.spendable_coupons = spendable_coupons;
+              // this.show_recommend = true;
+              // this.youhui = "已选推荐优惠";
+              // this.is_money_off = 1;
+              // console.log(this.coupon_id)
 
-                this.coupon_id.push(best_coupon[0].coupons_id);
-                this.recommend_id = [best_coupon[0].coupons_id];
-              } else if (spendable_coupons.length == 1) {
-                this.coupon_id = [spendable_coupons[0].coupons_id];
-                this.recommend_id = [spendable_coupons[0].coupons_id];
-                couponSum = spendable_coupons[0].money;
-              } else {
-                this.coupon_id = [];
+              for (let i = 0; i < list.length; i ++){
+                if (list[i].is_threshold == 1){
+                  spendable_coupons.push(list[i])
+                  best_coupon.push(list[i])
+                } else if (list[i].full_money < newVal * 1){
+                  spendable_coupons.push(list[i])
+                }
               }
-              this.couponsSum = couponSum;
-              this.recommend_coupon = best_coupon[0];
-              this.spendable_coupons = spendable_coupons;
-              this.show_recommend = true;
-              this.youhui = "已选推荐优惠";
+              if(best_coupon.length){
+                this.youhui = "已选推荐优惠";
+                this.recommend_coupon = best_coupon[0]
+                this.show_recommend = true;
+                this.couponsSum = best_coupon[0].money
+              }else{
+                this.recommend_coupon = []
+              }
+              this.spendable_coupons = spendable_coupons
+              this.coupon_id = []
               this.is_money_off = 1;
             }
 

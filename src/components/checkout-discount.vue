@@ -95,6 +95,7 @@ export default {
    created(){
        console.log(this.sum)
        if(this.sum){
+            console.log(this.spendable_coupons)
             this.id = this.coupon_id
             if(this.spendable_coupons.length){
                     this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
