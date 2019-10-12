@@ -207,7 +207,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzA1MDAxMjUsImV4cCI6MTU3MDgwMDEyNSwibmJmIjoxNTcwNTAwMTI1LCJqdGkiOiIzeHNxV2VjVVNnUHFDNHdhIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.KciKcdUH6FSiLR3sdx_7Jbo1ZWhcHGWm9qGqecpAjxg"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzA4NDI5MzIsImV4cCI6MTU3MTE0MjkzMiwibmJmIjoxNTcwODQyOTMyLCJqdGkiOiJvNTQxNUtwSHJHYnpPc2ZSIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.5kXhmMExV5p_-vm9TyyowaLziO3dYB1HDW3fi5lVPaE"
       );
     }
   },
