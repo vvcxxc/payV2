@@ -80,6 +80,7 @@ import { Compare, removeElement } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
+
 export default {
   data() {
     return {
@@ -121,6 +122,7 @@ export default {
     XKeyboard,
     CheckoutDiscount
   },
+ 
 
   watch: {
     sum: function(newVal, oldVal) {

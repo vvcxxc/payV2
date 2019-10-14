@@ -151,7 +151,9 @@ export default {
               is_activities,
               result_money,
             }
-            var {data, code} = await requestWechatPayment(params);
+            console.log(12322)
+            var res = await requestWechatPayment(params);
+            console.log(res)
             this.is_loading = false
             if(code == 2400){
               Dialog.alert({
