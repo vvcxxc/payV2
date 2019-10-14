@@ -21,8 +21,8 @@
                         <div class="coupon-right">
                             <p class="coupon-shop">{{item.store_name}}</p>
                             <p class="coupon-time">{{item.expiration}}</p>
-                            <span class="coupon-choose" ref='chooseone' v-if="item.ischecked"></span>
-                            <span class="coupon-no-choose" ref='chooseone' v-else></span>
+                            <span class="coupon-choose" v-if="item.ischecked"></span>
+                            <span class="coupon-no-choose" v-else></span>
                         </div>
                     </div>
                 </div>
@@ -55,12 +55,6 @@ export default {
    props:['couponlist','sum','spendable_coupons','recommend_coupon','coupon_id'],
    watch:{
        list:function(newVal){
-        //     for(var a = 0; a < newVal.length; a ++){
-        //         // this.$refs.chooseone[a].style.backgroundPositionX = 18 + 'px';
-        //         if(newVal[a].ischecked == true){
-        //         //    this.$refs.chooseone[a].style.backgroundPositionX = 0;
-        //         }
-        //    }
            for(var i = 0; i < newVal.length; i ++){
                if(newVal[i].chooseable == 2){
                    this.$refs.couponbj[i].style.background = 'url(../assets/nouse-coupon.png)'
@@ -95,7 +89,6 @@ export default {
    created(){
        console.log(this.sum)
        if(this.sum){
-            console.log(this.spendable_coupons)
             this.id = this.coupon_id
             if(this.spendable_coupons.length){
                     this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
@@ -330,17 +323,6 @@ export default {
         color: #F93E2C;
         /* font-weight: bold; */
     }
-    .choose{
-        float: right;
-        display: block;
-        width: 18px;
-        height: 18px;
-        margin-top: .15rem;
-        margin-right: .28rem;
-        background: url('../assets/icons.png');
-        background-position: 18px 0;
-       
-    }
     .coupons-box{
         max-height: 2.8rem;
         overflow: auto;
@@ -445,8 +427,8 @@ export default {
         height: 18px;
         left: 1.95rem;
         top: .45rem;
-        background: url('../assets/icons.png');
-        background-position-x: 0;
+        background: url('../assets/checked.png');
+        background-size: 100%
     }
     .coupon-no-choose{
         display: block;
@@ -455,19 +437,8 @@ export default {
         height: 18px;
         left: 1.95rem;
         top: .45rem;
-        background: url('../assets/icons.png');
-        background-position-x: 18px;
-    }
-    
-    .best-choose{
-        display: block;
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        left: 1.95rem;
-        top: .45rem;
-        background: url('../assets/icons.png');
-         background-position-x: 0;
+        background: url('../assets/no-checked.png');
+        background-size: 100%;
     }
 
     .confirm-box{

@@ -33,7 +33,8 @@
         <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span>
         <span class="manjian-fudu flex">
           满 {{this.key}} 减 {{this.key_value}}
-          <span class="choose_moneyoff" ref="chooseone"></span>
+          <span class="choose_moneyoff" v-if="is_choose_moneyoff"></span>
+          <span class="no_choose_moneyoff" v-else></span>
         </span>
       </div>
       <div class="amount">
@@ -189,13 +190,6 @@ export default {
         // this.show_recommend = false;
       }
     },
-    is_choose_moneyoff: function(a) {
-      if (!a) {
-        this.$refs.chooseone.style.backgroundPositionX = 18 + "px";
-      } else {
-        this.$refs.chooseone.style.backgroundPositionX = 0;
-      }
-    }
   },
 
   created() {
@@ -221,13 +215,11 @@ export default {
     chooseMoneyOff() {
       if (this.is_choose_moneyoff) {
         this.is_choose_moneyoff = false;
-        this.$refs.chooseone.style.backgroundPositionX = 18 + "px";
         this.is_money_off = 0;
         this.manjian = 0;
         this.manjian_rule = false
       } else {
         this.is_choose_moneyoff = true;
-        this.$refs.chooseone.style.backgroundPositionX = 0;
         this.is_money_off = 1;
         this.moneyOff();
         let arr = [...this.coupon_id];
@@ -561,7 +553,6 @@ export default {
           for ( let a = 0; a < this.couponlist.length; a ++ ){
             if (id[i] == this.couponlist[a].coupons_id ){
               this.is_choose_moneyoff = false;
-              this.$refs.chooseone.style.backgroundPositionX = 18 + "px";
               this.is_money_off = 0;
               this.manjian = 0;
               this.recommend_coupon = this.couponlist[a]
@@ -589,7 +580,16 @@ export default {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: url("../assets/icons.png");
+  background: url("../assets/checked.png");
+  background-size: 100%;
+  margin-left: 10px;
+}
+.no_choose_moneyoff {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url("../assets/no-checked.png");
+  background-size: 100%;
   margin-left: 10px;
 }
 .manjian-rule {
