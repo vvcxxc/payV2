@@ -232,6 +232,8 @@ export default {
         this.moneyOff();
         let arr = [...this.coupon_id];
         let arr1 = []
+        let spendable_coupons = []
+        let best_coupon = []
         if (arr.length) {
           for (let i = 0; i < arr.length; i++) {
             for (let a = 0; a < this.couponlist.length; a++) {
@@ -249,8 +251,16 @@ export default {
                 this.couponlist[a].is_threshold == 1){
                   this.recommend_coupon = this.couponlist[a]
                 }
+              if ( this.couponlist[a].is_threshold == 1){
+                  spendable_coupons.push( this.couponlist[a])
+                  best_coupon.push(list[a])
+                } else if ( this.couponlist[a].full_money < this.sum * 1){
+                  spendable_coupons.push( this.couponlist[a])
+                }
             }
           }
+          this.spendable_coupons = spendable_coupons;
+          this.recommend_coupon = best_coupon.length ? best_coupon[0] : []
           this.coupon_id = arr1
           this.youhui = "已选" + this.coupon_id.length + "张优惠券";
         }
@@ -426,38 +436,6 @@ export default {
             } else {
               // 达到满减条件但是优惠券的金额小
               console.log('走着了')
-              // for (let i = 0; i < list.length; i++) {
-              //   if (list[i].is_threshold == 1) {
-              //     spendable_coupons.push(list[i]);
-              //   } else {
-              //     if (list[i].full_money <= newVal * 1) {
-              //       spendable_coupons.push(list[i]);
-              //     }
-              //   }
-              //   this.coupon_id = [];
-              // }
-              // if (spendable_coupons.length > 1) {
-              //   spendable_coupons.sort(Compare("money"));
-              //   best_coupon.push(spendable_coupons[0]);
-              //   couponSum = best_coupon[0].money;
-
-              //   this.coupon_id.push(best_coupon[0].coupons_id);
-              //   this.recommend_id = [best_coupon[0].coupons_id];
-              // } else if (spendable_coupons.length == 1) {
-              //   this.coupon_id = [spendable_coupons[0].coupons_id];
-              //   this.recommend_id = [spendable_coupons[0].coupons_id];
-              //   couponSum = spendable_coupons[0].money;
-              // } else {
-              //   this.coupon_id = [];
-              // }
-              // this.couponsSum = couponSum;
-              // this.recommend_coupon = best_coupon[0];
-              // this.spendable_coupons = spendable_coupons;
-              // this.show_recommend = true;
-              // this.youhui = "已选推荐优惠";
-              // this.is_money_off = 1;
-              // console.log(this.coupon_id)
-
               for (let i = 0; i < list.length; i ++){
                 if (list[i].is_threshold == 1){
                   spendable_coupons.push(list[i])
