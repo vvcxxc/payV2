@@ -11,29 +11,30 @@
         <li v-for="(item,idx) in kb.third" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
       <ul>
-        <li style="width:1.82rem"  @touchend="inputNum">0</li>
-        <li  @click="inputNum">.</li>
+        <li style="width:1.82rem" @touchend="inputNum">0</li>
+        <li @click="inputNum">.</li>
       </ul>
     </div>
     <div class="confirm">
       <ul class="pay-confirm">
-        <li @click="backSpace"><img src="../assets/tuige.png" alt=""></li>
+        <li @click="backSpace">
+          <img src="../assets/tuige.png" alt />
+        </li>
         <li class="queding" @click="toPay" v-if="is_click">确定</li>
         <li class="no_queding" v-else>确定</li>
       </ul>
     </div>
-    <div class="loading-box" v-if="is_loading">
+    <div class="loading-box" v-if="ajaxLoading">
       <van-loading color="#fff" class="loading" vertical>Loading...</van-loading>
-    </div> 
+    </div>
   </div>
-  
 </template>
 <script>
 import { getUrlParams, getBrowserType } from '../utils/get_info';
 import { Cookie } from '../utils/common';
 import { requestWechatPayment, requestAlpayPayment } from '../api/api';
-import { Dialog, Loading  } from 'vant';
-
+import { Dialog, Loading, Toast  } from 'vant';
+import { mapGetters } from 'vuex'
 export default {
   data(){
     return {
@@ -53,6 +54,9 @@ export default {
   },
   components: {
     [Loading.name]: Loading
+  },
+  computed: {
+    ...mapGetters(['ajaxLoading'])
   },
   props:['sum','amount','coupon_id','is_reduction_removed','storename'],
   watch:{
@@ -125,7 +129,6 @@ export default {
 
       // 点击支付
       async toPay(){
-        this.is_loading = true
          _hmt.push(['_trackEvent', '确认支付', '用户点击了确认按钮',]);
         let _this = this
         let browsertype = getBrowserType();
@@ -151,11 +154,12 @@ export default {
               is_activities,
               result_money,
             }
-            console.log(12322)
-            var res = await requestWechatPayment(params);
-            console.log(res)
-            this.is_loading = false
-            if(code == 2400){
+            // var res = await requestWechatPayment(params);
+            // console.log(res)
+            // let {code, data} = res
+            requestWechatPayment(params).then(res => {
+              let {code, data} = res
+               if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
                 message: '商家未开通微信或支付宝账户，暂无法收款',
@@ -199,6 +203,10 @@ export default {
 
               this.$router.push({name:'activity',params:message})
             }
+            }).catch(err => {
+              Toast.fail('连接超时，请稍后重试');
+            })
+           
           }else if(browsertype == 'alipay'){
             // 支付宝支付
           
@@ -212,8 +220,9 @@ export default {
               result_money
             }
             let {data, code} = await requestAlpayPayment(params);
-            this.is_loading = false
-            if(code == 2400){
+            requestAlpayPayment(params).then(res => {
+              let { code, data } = res
+               if(code == 2400){
               Dialog.alert({
                 title: '提交失败',
                 message: '商家未开通微信或支付宝账户，暂无法收款',
@@ -254,6 +263,10 @@ export default {
                _hmt.push(['_trackEvent', '支付宝支付', '支付成功',]);
               this.$router.push({name:'activity',params:message})
             }
+            }).catch(err => {
+              Toast.fail('连接超时，请稍后重试');
+            })
+           
             
             }
           }
@@ -283,66 +296,66 @@ export default {
   transform: translate(-50%, -50%);
   color: #fff;
 }
-  .keyboard-box{
-    width: 100%;
-  }
-  .van-dialog__header {
-    font-weight: bold;
-  }
-	li{
-		font-size: .17rem;
-    float: left;
-    line-height: .5rem;
-    width: .89rem;
-    /* height: .5rem; */
-    height: .5rem;
-    background: #fff;
-    text-align: center;
-    margin: .05rem 0 0 .05rem;
-    border-radius: .03rem;
-	}
-  li:active{
-    background: #eeeeee;
-  }
-  ul::after{
-    content: ".";
-    clear: both;
-    display: block;
-    overflow: hidden;
-    font-size: 0;
-    height: 0;
-  }
-  .number{
-    float: left;
-  }
-  .confirm{
-    float: left;
-  }
-  .confirm li{
-    float: none;
-    width: .81rem;
-    height: 1.07rem;
-    line-height: 1.07rem;
-  }
-  .confirm li img{
-    width: .26rem;
-    pointer-events: none
-  }
-  .queding{
-    background: #ff9500;
-    color: #fff;
-    font-weight: bold;
-  }
-  .no_queding{
-    background: #d9d9d9;
-    color: #fff;
-    font-weight: bold;
-  }
-  .no_queding:active {
-    background: #d9d9d9
-  }
-  .confirm,.number{
-    margin-bottom: .05rem;
-  }
-
+.keyboard-box {
+  width: 100%;
+}
+.van-dialog__header {
+  font-weight: bold;
+}
+li {
+  font-size: 0.17rem;
+  float: left;
+  line-height: 0.5rem;
+  width: 0.89rem;
+  /* height: .5rem; */
+  height: 0.5rem;
+  background: #fff;
+  text-align: center;
+  margin: 0.05rem 0 0 0.05rem;
+  border-radius: 0.03rem;
+}
+li:active {
+  background: #eeeeee;
+}
+ul::after {
+  content: ".";
+  clear: both;
+  display: block;
+  overflow: hidden;
+  font-size: 0;
+  height: 0;
+}
+.number {
+  float: left;
+}
+.confirm {
+  float: left;
+}
+.confirm li {
+  float: none;
+  width: 0.81rem;
+  height: 1.07rem;
+  line-height: 1.07rem;
+}
+.confirm li img {
+  width: 0.26rem;
+  pointer-events: none;
+}
+.queding {
+  background: #ff9500;
+  color: #fff;
+  font-weight: bold;
+}
+.no_queding {
+  background: #d9d9d9;
+  color: #fff;
+  font-weight: bold;
+}
+.no_queding:active {
+  background: #d9d9d9;
+}
+.confirm,
+.number {
+  margin-bottom: 0.05rem;
+}
 </style>
