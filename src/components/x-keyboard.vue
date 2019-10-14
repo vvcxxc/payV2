@@ -204,7 +204,7 @@ export default {
               this.$router.push({name:'activity',params:message})
             }
             }).catch(err => {
-              Toast.fail('连接超时，请稍后重试');
+              Toast('连接超时，请稍后重试');
             })
            
           }else if(browsertype == 'alipay'){
@@ -264,7 +264,7 @@ export default {
               this.$router.push({name:'activity',params:message})
             }
             }).catch(err => {
-              Toast.fail('连接超时，请稍后重试');
+              Toast('连接超时，请稍后重试');
             })
            
             
