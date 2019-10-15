@@ -24,7 +24,7 @@
         <p class="discount-tuijian" v-show="show_recommend">{{youhui}}</p>
         <p class="jianshao">
           <i style="font-size:14px"></i>
-          <span style="margin-right: .2rem">{{coupon}}</span>
+          <span>{{coupon}}</span>
           <img src="../assets/arro-right.png" />
         </p>
       </div>
@@ -773,7 +773,7 @@ header {
   height: 0.17rem;
   border: 1px solid #de1e13;
   border-radius: 2px;
-  margin-top: 0.15rem;
+  margin-top: 0.14rem;
   margin-left: 0.09rem;
   color: #de1e13;
 }
