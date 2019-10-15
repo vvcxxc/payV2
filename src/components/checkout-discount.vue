@@ -89,7 +89,7 @@ export default {
   
    
    created(){
-       console.log(this.sum)
+       console.log(this.coupon_id)
        if(this.sum){
             this.id = this.coupon_id
             if(this.spendable_coupons.length){
@@ -117,9 +117,7 @@ export default {
                         // this.unusable_list[j].ischecked = false
                     }
             }
-            
-            
-            this.list = this.couponlist;
+            this.list = RemoveDup(this.couponlist);
             if(this.sum == ''){
                 this.unusable_list = this.list;
                 this.best_coupon = [];
@@ -165,6 +163,7 @@ export default {
             for(let b = 0; b < this.unusable_list.length; b ++){
                 this.list.push(this.unusable_list[b])
             }
+            this.list = RemoveDup(this.list)
         },
 
         // 选择优惠券(有待提高版)

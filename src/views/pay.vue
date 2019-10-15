@@ -203,7 +203,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzA4NDQ2NTYsImV4cCI6MTU3MTE0NDY1NiwibmJmIjoxNTcwODQ0NjU2LCJqdGkiOiJOdXJMRVhvVmVVYUlseUdVIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.lSO4VS3lGm5R03CJOtmTfUgmL0mYsw1Bi1cZRgBoIG4"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzEwMzcxNjQsImV4cCI6MTU3MTMzNzE2NCwibmJmIjoxNTcxMDM3MTY0LCJqdGkiOiJoWkZiMUxJOTQ5ZUFIOFlmIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.rhFV0yj360rm2hVjBvfxVg5a3fhs9romkP2TS8AEmC0"
       );
     }
   },
@@ -244,10 +244,11 @@ export default {
               } else if (this.couponlist[a].coupons_id == arr[i] &&
                 this.couponlist[a].is_threshold == 1){
                   this.recommend_coupon = this.couponlist[a]
+                  arr1 = arr
                 }
               if ( this.couponlist[a].is_threshold == 1){
                   spendable_coupons.push( this.couponlist[a])
-                  best_coupon.push(list[a])
+                  best_coupon.push(this.couponlist[a])
                 } else if ( this.couponlist[a].full_money < this.sum * 1){
                   spendable_coupons.push( this.couponlist[a])
                 }
@@ -550,16 +551,25 @@ export default {
 
     // 监听从优惠券组件传回的值
     getCouponsid(id, sums) {
+      let is_have = false;
       if (id.length) {
         for (let i = 0; i < id.length; i ++){
           for ( let a = 0; a < this.couponlist.length; a ++ ){
             if (id[i] == this.couponlist[a].coupons_id ){
+              if (this.couponlist[a].is_threshold == 2){
+                is_have = true;
+              }
               this.is_choose_moneyoff = false;
               this.is_money_off = 0;
               this.manjian = 0;
               this.recommend_coupon = this.couponlist[a]
             }
           }
+        }
+        if(!is_have){
+          console.log(1231)
+          this.is_choose_moneyoff = true
+          this.manjian = this.key_value
         }
         this.couponsSum = sums;
         this.coupon_id = id;
