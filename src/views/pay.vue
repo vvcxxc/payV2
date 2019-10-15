@@ -24,7 +24,7 @@
         <p class="discount-tuijian" v-show="show_recommend">{{youhui}}</p>
         <p class="jianshao">
           <i style="font-size:14px"></i>
-          {{coupon}}
+          <span style="margin-right: .2rem">{{coupon}}</span>
           <img src="../assets/arro-right.png" />
         </p>
       </div>
