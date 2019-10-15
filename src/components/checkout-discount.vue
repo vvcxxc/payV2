@@ -114,11 +114,11 @@ export default {
           this.spendable_coupons[i].chooseable = 1;
         //   for (let a = 0; a < this.coupon_id.length; a++) {
         //     if (
-        //       this.spendable_list[i].coupons_id == this.coupon_id[a] &&
-        //       this.spendable_list[i].is_threshold == 2
+        //       this.spendable_coupons[i].coupons_id == this.coupon_id[a] &&
+        //       this.spendable_coupons[i].is_threshold == 2
         //     ) {
-        //         console.log(this.spendable_list[i])
-        //         this.spendable_list[i].chooseable = 1;
+        //         console.log(this.spendable_coupons[i])
+        //         this.spendable_coupons[i].chooseable = 0;
         //     }
         //   }
         }
@@ -172,6 +172,8 @@ export default {
               spendable[i].ischecked = true;
             }
           }
+        } else {
+            console.log(5)
         }
         spendable.sort(Compare("ischecked"));
         spendable.sort(Compare("chooseable"));

@@ -446,7 +446,7 @@ export default {
                 this.show_recommend = true;
                 this.couponsSum = best_coupon[0].money
               }else{
-                this.recommend_coupon = []
+                this.recommend_coupon = {}
               }
               this.spendable_coupons = spendable_coupons
               this.coupon_id = []
@@ -553,6 +553,7 @@ export default {
     // 监听从优惠券组件传回的值
     getCouponsid(id, sums) {
       let is_have = false;
+      let arr = []
       if (id.length) {
         for (let i = 0; i < id.length; i ++){
           for ( let a = 0; a < this.couponlist.length; a ++ ){
@@ -560,16 +561,20 @@ export default {
               if (this.couponlist[a].is_threshold == 2){
                 console.log('dasd')
                 is_have = true;
+                this.recommend_coupon = this.couponlist[a]
+              } else {
+                arr.push(this.couponlist[a])
               }
               this.is_choose_moneyoff = false;
               this.is_money_off = 0;
               this.manjian = 0;
-              this.recommend_coupon = this.couponlist[a]
             }
           }
         }
         if(!is_have){
-          console.log(523)
+          console.log(523) 
+          arr = arr.sort(Compare('money'))
+          this.recommend_coupon = arr[0]
           this.is_choose_moneyoff = true
           this.manjian = this.key_value
         }
