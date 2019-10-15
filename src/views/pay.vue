@@ -188,8 +188,6 @@ export default {
         this.show_recommend = false;
       } else if (a.length == 1 && a[0] == this.recommend_id[0]) {
         this.show_recommend = true;
-      } else {
-        // this.show_recommend = false;
       }
     },
   },
@@ -203,7 +201,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzEwMzcxNjQsImV4cCI6MTU3MTMzNzE2NCwibmJmIjoxNTcxMDM3MTY0LCJqdGkiOiJoWkZiMUxJOTQ5ZUFIOFlmIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.rhFV0yj360rm2hVjBvfxVg5a3fhs9romkP2TS8AEmC0"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzExMDUxMjksImV4cCI6MTU3MTQwNTEyOSwibmJmIjoxNTcxMTA1MTI5LCJqdGkiOiI4RGRNRDRtNzF2ZHNXT3M2Iiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.C6GnhCBT-BB-CL09wF1s76EWKNtCZi8diUQizpmq5LM"
       );
     }
   },
@@ -236,7 +234,10 @@ export default {
                 this.couponlist[a].is_threshold == 2
               ) {
                 arr1 = removeElement(this.coupon_id,arr[i])
-                this.couponsSum = this.couponsSum-this.couponlist[i].money
+                console.log(this.couponlist[a].money * 100)
+                this.couponsSum = (this.couponsSum * 100 - Math.floor(this.couponlist[a].money * 100)) / 100
+                console.log(this.couponlist[a].money)
+                // this.couponsSum = Math.floor(this.couponsSum * 100) / 100
                 if(this.couponsSum < 0){
                   this.couponsSum = 0
                 }
@@ -244,7 +245,7 @@ export default {
               } else if (this.couponlist[a].coupons_id == arr[i] &&
                 this.couponlist[a].is_threshold == 1){
                   this.recommend_coupon = this.couponlist[a]
-                  arr1 = arr
+                  arr1.push(this.couponlist[a].coupons_id)
                 }
               if ( this.couponlist[a].is_threshold == 1){
                   spendable_coupons.push( this.couponlist[a])
@@ -557,6 +558,7 @@ export default {
           for ( let a = 0; a < this.couponlist.length; a ++ ){
             if (id[i] == this.couponlist[a].coupons_id ){
               if (this.couponlist[a].is_threshold == 2){
+                console.log('dasd')
                 is_have = true;
               }
               this.is_choose_moneyoff = false;
@@ -567,7 +569,7 @@ export default {
           }
         }
         if(!is_have){
-          console.log(1231)
+          console.log(523)
           this.is_choose_moneyoff = true
           this.manjian = this.key_value
         }
@@ -580,6 +582,8 @@ export default {
         this.coupon_id = id;
         this.recommend_coupon = {};
         this.show_recommend = false;
+        this.is_choose_moneyoff = true
+        this.manjian = this.key_value
       }
       this.isclose = false;
     }

@@ -82,6 +82,7 @@ export default {
                    }
                }
            }
+           this.sums = Math.floor(this.sums * 100) / 100
            this.num = a.length
        }
    },
@@ -89,22 +90,24 @@ export default {
   
    
    created(){
-       console.log(this.coupon_id)
        if(this.sum){
-            this.id = this.coupon_id
+            this.id = RemoveDup(this.coupon_id)
+            // this.id = this.coupon_id
             if(this.spendable_coupons.length){
                     this.unusable_list = NewArrObj(this.couponlist,this.spendable_coupons);
                     this.spendable_list = NewArrObj(this.spendable_coupons,this.recommend_coupon);
                     for(let i = 0; i < this.spendable_coupons.length; i ++){
                         this.spendable_coupons[i].chooseable = 1;
-                    }
-                    for(let i = 0; i < this.spendable_list.length; i ++){
-                        // this.spendable_list[i].ischecked = false;
                         for(let a = 0; a < this.coupon_id.length; a ++){
-                            if(this.spendable_list[i].coupons_id == this.coupon_id[a]){
+                            if(this.spendable_coupons[i].coupons_id == this.coupon_id[a] && this.spendable_coupons[i].is_threshold == 2){
+                                if( this.spendable_coupons[i].coupons_id != this.coupon_id[a] && this.spendable_coupons[i].is_threshold == 2 ){
+                                    this.spendable_coupons[i].chooseable = 0
+                                    console.log(this.spendable_coupons[i])
+                                }
                             }
                         }
                     }
+                   
                     for(let i = 0; i < this.unusable_list.length; i ++){
                         this.unusable_list[i].chooseable = 0;
                         // this.unusable_list[i].ischecked = false;
@@ -216,6 +219,7 @@ export default {
                     this.list.push(this.unusable_list[b])
                 }
                 this.id.push(item.coupons_id);
+                this.list = RemoveDup(this.list)
             }else{
                 // 不选择
                 item.ischecked = false;
@@ -262,9 +266,8 @@ export default {
                     }
                 }
 
-
                 
-                
+                this.list = RemoveDup(this.list)
             }
             document.querySelectorAll('.coupons-box')[0].scrollTop = 0;
         },
