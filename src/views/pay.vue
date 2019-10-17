@@ -201,7 +201,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzExMDUxMjksImV4cCI6MTU3MTQwNTEyOSwibmJmIjoxNTcxMTA1MTI5LCJqdGkiOiI4RGRNRDRtNzF2ZHNXT3M2Iiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.C6GnhCBT-BB-CL09wF1s76EWKNtCZi8diUQizpmq5LM"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vcmVsZWFzZS5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzEyNzU5OTQsImV4cCI6MTU3MTU3NTk5NCwibmJmIjoxNTcxMjc1OTk0LCJqdGkiOiJMcW90UUN0VHJmeGxuWXlDIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.V2QbrdZRu5jnNRQU1PIT55rZW-utvzbCSxMecp9HWnI"
       );
     }
   },
@@ -417,9 +417,9 @@ export default {
               }
             }
             arr.sort(Compare("money"));
-            if (arr[0].money > this.key_value) {
+            if (arr[0].money*1 > this.key_value*1) {
               // 达到满减条件但是优惠券的金额大
-
+              console.log(1)
               best_coupon.push(arr[0]);
               couponSum = best_coupon[0].money;
               this.coupon_id.push(best_coupon[0].coupons_id);
@@ -430,6 +430,7 @@ export default {
               this.is_choose_moneyoff = false;
               this.manjian = 0;
             } else {
+              console.log(arr[0].money > this.key_value)
               // 达到满减条件但是优惠券的金额小
               console.log('走着了')
               for (let i = 0; i < list.length; i ++){

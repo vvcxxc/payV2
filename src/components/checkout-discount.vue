@@ -142,6 +142,7 @@ export default {
       }
       //默认选择最佳优惠
       this.Coupons();
+
     } else {
       for (let i = 0; i < this.couponlist.length; i++) {
         this.couponlist[i].chooseable = 0;
@@ -154,6 +155,7 @@ export default {
   methods: {
     // 初始化渲染
     Coupons() {
+      console.log(this.coupon_id)
       this.list = [];
       // this.recommend_coupon[0].ischecked = true;
       // let best = this.recommend_coupon[0];
@@ -171,8 +173,16 @@ export default {
               spendable[i].ischecked = true;
             }
           }
-        } else {
-            console.log(5)
+        } else if (best && best.is_threshold == 1) {
+            for (let i = 0; i < spendable.length; i++) {
+              spendable[i].chooseable = 1;
+            if (best.coupons_id == spendable[i].coupons_id) {
+              spendable[i].ischecked = true;
+              console.log(333)
+              console.log(spendable[i])
+              console.log(spendable[i].ischecked)
+            }
+          }
         }
         spendable.sort(Compare("ischecked"));
         spendable.sort(Compare("chooseable"));
