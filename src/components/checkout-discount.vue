@@ -20,8 +20,7 @@
               <div class="couponleft">
                 <div class="coupon-left">
                   <p class="sum">
-                    <i>￥</i>
-                    {{item.money}}
+                    <i>￥</i>{{item.money}}
                   </p>
                   <p class="amanjian">{{item.coupons_name}}</p>
                 </div>
@@ -396,8 +395,8 @@ export default {
 .coupon-left .sum {
   position: absolute;
   top: 0.21rem;
-  width: 1.24rem;
-  font-size: 0.31rem;
+  width: 1.25rem;
+  font-size: 0.29rem;
   text-align: center;
 }
 .coupon-left .amanjian {
