@@ -430,8 +430,8 @@ export default {
               this.is_choose_moneyoff = false;
               this.manjian = 0;
             } else {
-              console.log(arr[0].money > this.key_value)
               // 达到满减条件但是优惠券的金额小
+              console.log(arr[0].money > this.key_value)
               console.log('走着了')
               for (let i = 0; i < list.length; i ++){
                 if (list[i].is_threshold == 1){
