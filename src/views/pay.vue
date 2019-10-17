@@ -429,10 +429,14 @@ export default {
               this.spendable_coupons = arr;
               this.is_choose_moneyoff = false;
               this.manjian = 0;
+              if(this.recommend_coupon.is_threshold == 1){
+                this.is_choose_moneyoff = true;
+                this.is_money_off = 1
+                this.manjian = this.key_value
+              }
             } else {
               // 达到满减条件但是优惠券的金额小
               console.log(arr[0].money > this.key_value)
-              console.log('走着了')
               for (let i = 0; i < list.length; i ++){
                 if (list[i].is_threshold == 1){
                   spendable_coupons.push(list[i])
@@ -446,12 +450,21 @@ export default {
                 this.recommend_coupon = best_coupon[0]
                 this.show_recommend = true;
                 this.couponsSum = best_coupon[0].money
+                this.coupon_id = [best_coupon[0].coupons_id]
+                if(this.recommend_coupon.is_threshold == 2){
+                  this.is_money_off = 0
+                   this.is_choose_moneyoff = false;
+                }else{
+                  this.is_money_off = 1
+                   this.is_choose_moneyoff = true
+                }
               }else{
                 this.recommend_coupon = {}
+                this.spendable_coupons = spendable_coupons
+                this.coupon_id = []
+                this.is_money_off = 1;
               }
-              this.spendable_coupons = spendable_coupons
-              this.coupon_id = []
-              this.is_money_off = 1;
+              
             }
 
             //  ============================================================
