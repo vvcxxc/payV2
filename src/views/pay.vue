@@ -437,6 +437,7 @@ export default {
             } else {
               // 达到满减条件但是优惠券的金额小
               console.log(arr[0].money > this.key_value)
+              console.log(2)
               for (let i = 0; i < list.length; i ++){
                 if (list[i].is_threshold == 1){
                   spendable_coupons.push(list[i])
@@ -452,10 +453,14 @@ export default {
                 this.couponsSum = best_coupon[0].money
                 this.coupon_id = [best_coupon[0].coupons_id]
                 if(this.recommend_coupon.is_threshold == 2){
-                  this.is_money_off = 0
-                   this.is_choose_moneyoff = false;
+                  console.log(3)
+                    this.is_money_off = 0
+                    this.spendable_coupons = spendable_coupons
+                    this.is_choose_moneyoff = false;
                 }else{
+                  console.log(4)
                   this.is_money_off = 1
+                  this.spendable_coupons = spendable_coupons
                    this.is_choose_moneyoff = true
                 }
               }else{

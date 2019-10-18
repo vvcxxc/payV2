@@ -124,6 +124,7 @@ export default {
 
         for (let i = 0; i < this.unusable_list.length; i++) {
           this.unusable_list[i].chooseable = 0;
+          console.log(this.unusable_list)
           // this.unusable_list[i].ischecked = false;
         }
         this.best_coupon = this.recommend_coupon;
