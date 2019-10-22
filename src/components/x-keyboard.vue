@@ -78,6 +78,7 @@ export default {
       this.activity = a;
     },
     currentValue:function(a,b){
+      console.log(a)
       if(a > 100000){
         this.currentValue = b
       }
@@ -99,7 +100,16 @@ export default {
               this.currentValue = '0.'
               break;
             default:
-              this.currentValue += kb
+              if(this.currentValue == '0.0'){
+                console.log(kb)
+                if(kb == 0){
+                  this.currentValue = '0.0'
+                }else{
+                  this.currentValue += kb
+                }
+              }else{
+                this.currentValue += kb
+              }
           }
            let idx = this.currentValue.indexOf('.');
            if(idx > 0){

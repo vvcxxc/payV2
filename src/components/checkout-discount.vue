@@ -20,7 +20,8 @@
               <div class="couponleft">
                 <div class="coupon-left">
                   <p class="sum">
-                    <i>￥</i>{{item.money}}
+                    <i>￥</i>
+                    {{item.money}}
                   </p>
                   <p class="amanjian">{{item.coupons_name}}</p>
                 </div>
@@ -60,139 +61,75 @@ export default {
       text: "确定"
     };
   },
-  props: [
-    "couponlist",
-    "sum",
-    "spendable_coupons",
-    "recommend_coupon",
-    "coupon_id"
-  ],
+  props: ["couponlist", "sum", "spendable_coupons", "coupon_id"],
   watch: {
-    list: function(newVal) {
-      for (var i = 0; i < newVal.length; i++) {
-        if (newVal[i].chooseable == 2) {
-          this.$refs.couponbj[i].style.background =
-            "url(../assets/nouse-coupon.png)";
-        }
-      }
-    },
+    list: function(newVal) {},
     id: function(a) {
-      if (a.length) {
-        this.text = "确定";
-      } else {
-        this.text = "取消";
-      }
-      this.sums = 0;
-      for (let i = 0; i < this.couponlist.length; i++) {
-        this.couponlist[i].ischecked = false;
-      }
-      for (let i = 0; i < this.couponlist.length; i++) {
-        for (let c = 0; c < a.length; c++) {
-          if (this.couponlist[i].coupons_id == a[c]) {
-            this.sums += this.couponlist[i].money * 1;
-            this.couponlist[i].ischecked = true;
+      this.num = a.length;
+      let sums = 0;
+      for (let i in this.couponlist) {
+        for (let z in a) {
+          if (this.couponlist[i].coupons_id == a[z]) {
+            console.log(this.couponlist[i].money);
+            sums = (sums * 100 + this.couponlist[i].money * 100) / 100;
           }
         }
       }
-      this.sums = Math.floor(this.sums * 100) / 100;
-      this.num = a.length;
+      this.sums = sums;
+    },
+    coupon_id: function(){
+      // this.Coupons();
     }
   },
 
   created() {
-    if (this.sum) {
-      this.id = RemoveDup(this.coupon_id);
-      // this.id = this.coupon_id
-      if (this.spendable_coupons.length) {
-        this.unusable_list = NewArrObj(this.couponlist, this.spendable_coupons);
-        this.spendable_list = NewArrObj(
-          this.spendable_coupons,
-          this.recommend_coupon
-        );
-        for (let i = 0; i < this.spendable_coupons.length; i++) {
-          this.spendable_coupons[i].chooseable = 1;
-        //   for (let a = 0; a < this.coupon_id.length; a++) {
-        //     if (
-        //       this.spendable_coupons[i].coupons_id == this.coupon_id[a] &&
-        //       this.spendable_coupons[i].is_threshold == 2
-        //     ) {
-        //         console.log(this.spendable_coupons[i])
-        //         this.spendable_coupons[i].chooseable = 0;
-        //     }
-        //   }
-        }
 
-        for (let i = 0; i < this.unusable_list.length; i++) {
-          this.unusable_list[i].chooseable = 0;
-          console.log(this.unusable_list)
-          // this.unusable_list[i].ischecked = false;
-        }
-        this.best_coupon = this.recommend_coupon;
-      } else {
-        this.unusable_list = this.couponlist;
-        for (let j = 0; j < this.unusable_list.length; j++) {
-          this.unusable_list[j].chooseable = 0;
-          // this.unusable_list[j].ischecked = false
-        }
-      }
-      this.list = RemoveDup(this.couponlist);
-      if (this.sum == "") {
-        this.unusable_list = this.list;
-        this.best_coupon = [];
-        this.spendable_list = [];
-      }
-      //默认选择最佳优惠
-      this.Coupons();
-
-    } else {
-      for (let i = 0; i < this.couponlist.length; i++) {
-        this.couponlist[i].chooseable = 0;
-        this.couponlist[i].ischecked = false;
-      }
-      this.list = this.couponlist;
-    }
+    this.Coupons();
   },
 
   methods: {
     // 初始化渲染
     Coupons() {
-      console.log(this.coupon_id)
-      this.list = [];
-      // this.recommend_coupon[0].ischecked = true;
-      // let best = this.recommend_coupon[0];
-      let best = this.recommend_coupon;
-      let spendable = [...this.spendable_coupons];
+      console.log(this.coupon_id);
+      let spendable = this.spendable_coupons; // 可用券
+      let unusable_list = NewArrObj(this.couponlist, spendable); // 不可用券
+      this.id = this.coupon_id;
+      let list = []; // 所有的券
+      let is_ok = false; //判断是否选择了有门槛
       if (spendable.length) {
-        if (best && best.is_threshold == 2) {
-          for (let i = 0; i < spendable.length; i++) {
-              spendable[i].chooseable = 1;
-            if (best.coupons_id != spendable[i].coupons_id) {
-              if (spendable[i].is_threshold == 2) {
-                spendable[i].chooseable = 0;
-              }
-            } else {
+        for (let i in spendable) {
+          spendable[i].chooseable = 1;
+          spendable[i].ischecked = false;
+          for (let a in this.coupon_id) {
+            if (spendable[i].coupons_id == this.coupon_id[a]) {
               spendable[i].ischecked = true;
+              if (spendable[i].is_threshold == 2) is_ok = true;
             }
-          }
-        } else if (best && best.is_threshold == 1) {
-            for (let i = 0; i < spendable.length; i++) {
-              spendable[i].chooseable = 1;
-            if (best.coupons_id == spendable[i].coupons_id) {
-              spendable[i].ischecked = true;
-              console.log(333)
-              console.log(spendable[i])
-              console.log(spendable[i].ischecked)
+            if (is_ok) {
+              if (
+                spendable[i].ischecked == false &&
+                spendable[i].is_threshold == 2
+              ) {
+                spendable[i].chooseable = 0;
+                spendable[i].ischecked = false;
+              }
             }
           }
         }
-        spendable.sort(Compare("ischecked"));
         spendable.sort(Compare("chooseable"));
-        this.list = spendable;
+        spendable.sort(Compare("ischecked"));
+        for (let a in spendable) {
+          list.push(spendable[a]);
+        }
       }
-      for (let b = 0; b < this.unusable_list.length; b++) {
-        this.list.push(this.unusable_list[b]);
+      if (unusable_list) {
+        for (let i in unusable_list) {
+          unusable_list[i].chooseable = 0;
+          list.push(unusable_list[i]);
+        }
       }
-      this.list = RemoveDup(this.list);
+      this.unusable_list = unusable_list
+      this.list = list;
     },
 
     // 选择优惠券(有待提高版)
@@ -201,7 +138,6 @@ export default {
       let spendable = [...this.spendable_coupons];
       if (item.ischecked == false) {
         // 选择
-
         item.ischecked = true;
         if (item.is_threshold == 1) {
           this.list.unshift(item);
@@ -240,6 +176,7 @@ export default {
           this.list.push(spendable[a]);
         }
         for (let b = 0; b < this.unusable_list.length; b++) {
+          // console.log(this.unusable_list)
           this.list.push(this.unusable_list[b]);
         }
         this.id.push(item.coupons_id);
