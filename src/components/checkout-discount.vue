@@ -96,6 +96,12 @@ export default {
       this.id = this.coupon_id;
       let list = []; // 所有的券
       let is_ok = false; //判断是否选择了有门槛
+      if (unusable_list.length){
+        for(let i in unusable_list){
+          unusable_list[i].chooseable = 0
+          unusable_list[i].ischecked = false
+        }
+      }
       if (spendable.length) {
         for (let i in spendable) {
           spendable[i].chooseable = 1;

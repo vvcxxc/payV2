@@ -115,8 +115,9 @@ export default {
       if (a) {
         this.moneyOff();
         this.bestDiscount(a);
-        if(this.amount < 0){
-          this.amount = 0
+        this.amount = (a * 100 - this.sums * 100 - this.key_value * 100) / 100;
+        if (this.amount < 0) {
+          this.amount = 0;
         }
       } else {
         this.amount = 0;
@@ -128,19 +129,18 @@ export default {
       if (this.couponlist.length) this.havecoupon = true;
     },
     is_money_off: function(a) {
-      console.log(a);
       if (a) {
         this.amount =
           (this.sum * 100 - this.key_value * 100 - this.sums * 100) / 100;
       } else {
         this.amount = (this.sum * 100 - this.sums * 100) / 100;
       }
-      if(this.amount < 0){
-        this.amount = 0
+      if (this.amount < 0) {
+        this.amount = 0;
       }
     },
     coupon_id: function(a) {
-      console.log(a)
+      console.log(a);
       if (a.length) {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
@@ -164,8 +164,8 @@ export default {
         }
         this.coupon = this.couponlist.length + "张";
       }
-      if(this.amount < 0){
-        this.amount = 0
+      if (this.amount < 0) {
+        this.amount = 0;
       }
     }
   },
@@ -194,11 +194,11 @@ export default {
       console.log(this.is_money_off);
       if (this.is_money_off) {
         // 取消选择满减
-        this.manjian_rule = false
+        this.manjian_rule = false;
         this.is_money_off = 0;
       } else {
         // 选择满减
-        this.manjian_rule = true
+        this.manjian_rule = true;
         this.is_money_off = 1;
         let id = [];
         for (let i in this.couponlist) {
@@ -306,6 +306,9 @@ export default {
             this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
+          }else{
+            this.key_value = 0;
+            this.key = 0;
           }
         }
       }
@@ -357,20 +360,26 @@ export default {
         }
       }
       arr.unshift(best[0]);
-      if (best[0].money*1 <= this.key_value*1) {
-        console.log(1);
-        this.coupon_id = [];
-        this.is_money_off = 1;
-      } else {
-        console.log(2);
-        if (best[0].is_threshold == 1) {
+      if (this.sum * 1 > this.key * 1) {
+        console.log(this.sum,this.key)
+        if (best[0].money * 1 <= this.key_value * 1) {
+          console.log(1);
+          this.coupon_id = [];
           this.is_money_off = 1;
         } else {
-          this.is_money_off = 0;
+          console.log(2);
+          if (best[0].is_threshold == 1) {
+            this.is_money_off = 1;
+          } else {
+            this.is_money_off = 0;
+          }
+          id.push(best[0].coupons_id);
+          this.coupon_id = id;
         }
-        id.push(best[0].coupons_id);
-        this.coupon_id = id;
+      }else{
+        console.log(5234)
       }
+
       arr = RemoveDup(arr);
       this.spendable_coupons = arr;
     },
