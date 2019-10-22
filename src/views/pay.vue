@@ -115,6 +115,9 @@ export default {
       if (a) {
         this.moneyOff();
         this.bestDiscount(a);
+        if(this.amount < 0){
+          this.amount = 0
+        }
       } else {
         this.amount = 0;
         this.coupon_id = [];
@@ -131,6 +134,9 @@ export default {
           (this.sum * 100 - this.key_value * 100 - this.sums * 100) / 100;
       } else {
         this.amount = (this.sum * 100 - this.sums * 100) / 100;
+      }
+      if(this.amount < 0){
+        this.amount = 0
       }
     },
     coupon_id: function(a) {
@@ -157,6 +163,9 @@ export default {
           this.amount = (this.sum * 100) / 100;
         }
         this.coupon = this.couponlist.length + "张";
+      }
+      if(this.amount < 0){
+        this.amount = 0
       }
     }
   },
