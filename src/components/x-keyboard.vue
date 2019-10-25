@@ -78,7 +78,7 @@ export default {
       this.activity = a;
     },
     currentValue:function(a,b){
-      console.log(a)
+      // console.log(a)
       if(a > 100000){
         this.currentValue = b
       }
@@ -101,7 +101,7 @@ export default {
               break;
             default:
               if(this.currentValue == '0.0'){
-                console.log(kb)
+                // console.log(kb)
                 if(kb == 0){
                   this.currentValue = '0.0'
                 }else{

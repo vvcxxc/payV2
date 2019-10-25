@@ -126,7 +126,10 @@ export default {
     },
     info: function() {
       this.couponlist = this.info.coupons_required_products_list;
-      if (this.couponlist.length) this.havecoupon = true;
+      if (this.couponlist.length) {
+        this.havecoupon = true
+        this.coupon = this.couponlist.length + '张'
+      };
     },
     is_money_off: function(a) {
       if (a) {
@@ -140,7 +143,7 @@ export default {
       }
     },
     coupon_id: function(a) {
-      console.log(a);
+      // console.log(a);
       if (a.length) {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
@@ -179,7 +182,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzE2NDI3MDUsImV4cCI6MTU3MTk0MjcwNSwibmJmIjoxNTcxNjQyNzA1LCJqdGkiOiJqYUpNOThldnZEc293QmJ1Iiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.spIZ-AcnXXdruaEd660wlj4FDchuPhJWYlxK8__s9Ms"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzE5NjkzODEsImV4cCI6MTU3MjI2OTM4MSwibmJmIjoxNTcxOTY5MzgxLCJqdGkiOiI3UlRUOTBlcHp4NDN2dDhYIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.U6AblquSfObYGB2_ebiBIecmHF9FOvTEaSTvhTUeVx4"
       );
     }
   },
@@ -191,7 +194,7 @@ export default {
   methods: {
     // 是否选择满减
     chooseMoneyOff() {
-      console.log(this.is_money_off);
+      // console.log(this.is_money_off);
       if (this.is_money_off) {
         // 取消选择满减
         this.manjian_rule = false;
@@ -204,7 +207,7 @@ export default {
         for (let i in this.couponlist) {
           for (let a in this.coupon_id) {
             if (this.couponlist[i].coupons_id == this.coupon_id[a]) {
-              console.log(this.couponlist[i]);
+              // console.log(this.couponlist[i]);
               if (this.couponlist[i].is_threshold != 2) {
                 id.push(this.couponlist[i].coupons_id);
               }
@@ -299,17 +302,19 @@ export default {
       this.isshow = false;
       if (this.info.is_reduction_removed == 1) {
         let manjian = this.info.reduction_money_list;
-
         for (let key in manjian) {
+          // console.log(key)
           if (this.sum*1 >= key * 1) {
             // this.manjian = manjian[key];
             this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
-          }else{
-            this.key_value = 0;
-            this.key = 0;
           }
+        }
+        console.log(this.key,this.key_value)
+        if(this.sum*1 < this.key*1){
+          this.key = 0
+          this.key_value = 0
         }
       }
     },
@@ -361,13 +366,13 @@ export default {
       }
       arr.unshift(best[0]);
       if (this.sum * 1 > this.key * 1) {
-        console.log(this.sum,this.key)
+        // console.log(this.sum,this.key)
         if (best[0].money * 1 <= this.key_value * 1) {
-          console.log(1);
+          // console.log(1);
           this.coupon_id = [];
           this.is_money_off = 1;
         } else {
-          console.log(2);
+          // console.log(2);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -377,7 +382,7 @@ export default {
           this.coupon_id = id;
         }
       }else{
-        console.log(5234)
+        // console.log(5234)
       }
 
       arr = RemoveDup(arr);
