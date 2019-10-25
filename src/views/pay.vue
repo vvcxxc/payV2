@@ -295,14 +295,14 @@ export default {
     // 判断是否有满减
     moneyOff() {
       this.key = 0;
-      this.manjian = 0;
+      // this.manjian = 0;
       this.isshow = false;
       if (this.info.is_reduction_removed == 1) {
         let manjian = this.info.reduction_money_list;
 
         for (let key in manjian) {
-          if (this.sum >= key * 1) {
-            this.manjian = manjian[key];
+          if (this.sum*1 >= key * 1) {
+            // this.manjian = manjian[key];
             this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
