@@ -332,7 +332,7 @@ export default {
         // 存在优惠券
         let usable = []; //可以使用的优惠券
         for (let i = 0; i < this.couponlist.length; i++) {
-          if (sum > this.couponlist[i].full_money) {
+          if (sum >= this.couponlist[i].full_money) {
             usable.push(this.couponlist[i]);
           }
         }
