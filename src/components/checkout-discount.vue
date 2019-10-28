@@ -92,6 +92,11 @@ export default {
     Coupons() {
       console.log(this.coupon_id);
       let spendable = this.spendable_coupons; // 可用券
+      if(spendable.length){
+        this.text = '确定'
+      }else{
+        this.text = '取消'
+      }
       let unusable_list = NewArrObj(this.couponlist, spendable); // 不可用券
       this.id = this.coupon_id;
       let list = []; // 所有的券

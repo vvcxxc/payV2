@@ -182,7 +182,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzE5NjkzODEsImV4cCI6MTU3MjI2OTM4MSwibmJmIjoxNTcxOTY5MzgxLCJqdGkiOiI3UlRUOTBlcHp4NDN2dDhYIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.U6AblquSfObYGB2_ebiBIecmHF9FOvTEaSTvhTUeVx4"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzIyNDU2ODUsImV4cCI6MTU3MjU0NTY4NSwibmJmIjoxNTcyMjQ1Njg1LCJqdGkiOiJhSHM4MHFnMnRieGlGTFZqIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.nboPf9GrkDmGKJG0EfXU7L6h4Po-cSYxNXF7o_8_vlQ"
       );
     }
   },
@@ -365,14 +365,17 @@ export default {
         }
       }
       arr.unshift(best[0]);
-      if (this.sum * 1 > this.key * 1) {
+      console.log(best)
+      if (this.sum * 1 >= this.key * 1) {
         // console.log(this.sum,this.key)
         if (best[0].money * 1 <= this.key_value * 1) {
-          // console.log(1);
+          console.log(this.sum,this.key,1233)
+          console.log(1);
           this.coupon_id = [];
           this.is_money_off = 1;
         } else {
-          // console.log(2);
+          console.log(this.sum,this.key,123)
+          console.log(2);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -382,7 +385,7 @@ export default {
           this.coupon_id = id;
         }
       }else{
-        // console.log(5234)
+        console.log(5234)
       }
 
       arr = RemoveDup(arr);
