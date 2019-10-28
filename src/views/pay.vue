@@ -384,8 +384,6 @@ export default {
           id.push(best[0].coupons_id);
           this.coupon_id = id;
         }
-      }else{
-        console.log(5234)
       }
 
       arr = RemoveDup(arr);
