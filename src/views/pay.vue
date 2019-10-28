@@ -127,9 +127,9 @@ export default {
     info: function() {
       this.couponlist = this.info.coupons_required_products_list;
       if (this.couponlist.length) {
-        this.havecoupon = true
-        this.coupon = this.couponlist.length + '张'
-      };
+        this.havecoupon = true;
+        this.coupon = this.couponlist.length + "张";
+      }
     },
     is_money_off: function(a) {
       if (a) {
@@ -143,7 +143,6 @@ export default {
       }
     },
     coupon_id: function(a) {
-      // console.log(a);
       if (a.length) {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
@@ -194,7 +193,6 @@ export default {
   methods: {
     // 是否选择满减
     chooseMoneyOff() {
-      // console.log(this.is_money_off);
       if (this.is_money_off) {
         // 取消选择满减
         this.manjian_rule = false;
@@ -207,7 +205,6 @@ export default {
         for (let i in this.couponlist) {
           for (let a in this.coupon_id) {
             if (this.couponlist[i].coupons_id == this.coupon_id[a]) {
-              // console.log(this.couponlist[i]);
               if (this.couponlist[i].is_threshold != 2) {
                 id.push(this.couponlist[i].coupons_id);
               }
@@ -303,18 +300,16 @@ export default {
       if (this.info.is_reduction_removed == 1) {
         let manjian = this.info.reduction_money_list;
         for (let key in manjian) {
-          // console.log(key)
-          if (this.sum*1 >= key * 1) {
+          if (this.sum * 1 >= key * 1) {
             // this.manjian = manjian[key];
             this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
           }
         }
-        console.log(this.key,this.key_value)
-        if(this.sum*1 < this.key*1){
-          this.key = 0
-          this.key_value = 0
+        if (this.sum * 1 < this.key * 1) {
+          this.key = 0;
+          this.key_value = 0;
         }
       }
     },
@@ -365,17 +360,11 @@ export default {
         }
       }
       arr.unshift(best[0]);
-      console.log(best)
       if (this.sum * 1 >= this.key * 1) {
-        // console.log(this.sum,this.key)
         if (best[0].money * 1 <= this.key_value * 1) {
-          console.log(this.sum,this.key,1233)
-          console.log(1);
           this.coupon_id = [];
           this.is_money_off = 1;
         } else {
-          console.log(this.sum,this.key,123)
-          console.log(2);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {

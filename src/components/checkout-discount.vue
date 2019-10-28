@@ -77,37 +77,35 @@ export default {
       }
       this.sums = sums;
     },
-    coupon_id: function(){
+    coupon_id: function() {
       // this.Coupons();
     }
   },
 
   created() {
-
     this.Coupons();
   },
 
   methods: {
     // 初始化渲染
     Coupons() {
-      console.log(this.coupon_id);
       let spendable = this.spendable_coupons; // 可用券
-      if(spendable.length){
-        this.text = '确定'
-      }else{
-        this.text = '取消'
+      if (spendable.length) {
+        this.text = "确定";
+      } else {
+        this.text = "取消";
       }
       let unusable_list = NewArrObj(this.couponlist, spendable); // 不可用券
       this.id = this.coupon_id;
       let list = []; // 所有的券
       let is_ok = false; //判断是否选择了有门槛
-      if (unusable_list.length){
-        for(let i in unusable_list){
-          unusable_list[i].chooseable = 0
-          unusable_list[i].ischecked = false
+      if (unusable_list.length) {
+        for (let i in unusable_list) {
+          unusable_list[i].chooseable = 0;
+          unusable_list[i].ischecked = false;
         }
       }
-      if (spendable.length) {
+      if (spendable.length && this.sum) {
         for (let i in spendable) {
           spendable[i].chooseable = 1;
           spendable[i].ischecked = false;
@@ -139,26 +137,34 @@ export default {
           list.push(unusable_list[i]);
         }
       }
-      this.unusable_list = unusable_list
+      this.unusable_list = unusable_list;
+      if (!this.sum) {
+        let arr = [...this.couponlist];
+        for (let i in arr) {
+          arr[i].chooseable = 0;
+          arr[i].ischecked = false;
+        }
+        list = arr;
+      }
 
       this.list = this.SortList(list);
     },
 
     // 优惠券排序
-    SortList (list){
-      let arr1 = [] // 可以使用的
-      let arr2 = [] // 不可以使用的
-      for ( let i in list ){
-        if(list[i].chooseable){
-          arr1.push(list[i])
-        }else{
-          arr2.push(list[i])
+    SortList(list) {
+      let arr1 = []; // 可以使用的
+      let arr2 = []; // 不可以使用的
+      for (let i in list) {
+        if (list[i].chooseable) {
+          arr1.push(list[i]);
+        } else {
+          arr2.push(list[i]);
         }
       }
-      arr1.sort(Compare('money'))
-      arr2.sort(Compare('money'))      
-      let arr = [...arr1,...arr2]
-      return arr
+      arr1.sort(Compare("money"));
+      arr2.sort(Compare("money"));
+      let arr = [...arr1, ...arr2];
+      return arr;
     },
 
     // 选择优惠券(有待提高版)
