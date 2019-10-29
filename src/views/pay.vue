@@ -173,6 +173,7 @@ export default {
   },
 
   created() {
+    console.log('可以了')
     this.getStoreinfo();
     let type = process.env.NODE_ENV;
     console.log(type);
