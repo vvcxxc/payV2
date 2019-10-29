@@ -113,6 +113,7 @@ export default {
           this.currentValue = this.currentValue.substring(0, idx * 1 + 3);
         }
       }
+      console.log(this.currentValue,123)
       this.$emit("change-sum", this.currentValue, this.showSum);
     },
     // 回退
