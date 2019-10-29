@@ -125,8 +125,8 @@ export default {
             }
           }
         }
-        spendable.sort(Compare("chooseable"));
-        spendable.sort(Compare("ischecked"));
+        // spendable.sort(Compare("chooseable"));
+        // spendable.sort(Compare("ischecked"));
         for (let a in spendable) {
           list.push(spendable[a]);
         }
@@ -162,6 +162,7 @@ export default {
         }
       }
       arr1.sort(Compare("money"));
+      arr1.sort(Compare("ischecked"));
       arr2.sort(Compare("money"));
       let arr = [...arr1, ...arr2];
       return arr;
