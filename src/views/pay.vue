@@ -308,7 +308,6 @@ export default {
             this.isshow = true;
           }
         }
-        console.log(this.sum,this.key)
         if (this.sum * 1 < this.key * 1) {
           this.key = 0;
           this.key_value = 0;

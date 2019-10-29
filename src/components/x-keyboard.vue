@@ -78,9 +78,9 @@ export default {
       this.activity = a;
     },
     currentValue: function(a, b) {
-      if (a > 100000) {
-        this.currentValue = b;
-      }
+      // if (a > 100000) {
+      //   this.currentValue = b;
+      // }
     }
   },
   methods: {
@@ -114,6 +114,10 @@ export default {
         }
       }
       console.log(this.currentValue,123)
+      if(this.currentValue > 100000){
+        let str = this.currentValue
+        this.currentValue = str.substr(0,str.length-1)
+      }
       this.$emit("change-sum", this.currentValue, this.showSum);
     },
     // 回退
