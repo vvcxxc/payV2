@@ -101,7 +101,8 @@ export default {
       havecoupon: false,
       coupon: "",
       sums: 0,
-      manjian_rule: false
+      manjian_rule: false,
+      no_door: [], // 无门槛券的列表
     };
   },
 
@@ -129,6 +130,13 @@ export default {
       if (this.couponlist.length) {
         this.havecoupon = true;
         this.coupon = this.couponlist.length + "张";
+        let arr = []
+        for(let i in this.couponlist){
+          if(this.couponlist[i].is_threshold == 1){
+            arr.push(this.couponlist[i])
+          }
+        }
+        this.no_door = arr
       }
     },
     is_money_off: function(a) {
@@ -182,7 +190,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzIyNDU2ODUsImV4cCI6MTU3MjU0NTY4NSwibmJmIjoxNTcyMjQ1Njg1LCJqdGkiOiJhSHM4MHFnMnRieGlGTFZqIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.nboPf9GrkDmGKJG0EfXU7L6h4Po-cSYxNXF7o_8_vlQ"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzI0OTAxODQsImV4cCI6MTU3Mjc5MDE4NCwibmJmIjoxNTcyNDkwMTg0LCJqdGkiOiJ4R0lRRWUxdTJxVGs1Wkt1Iiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.2vLh4ke7YpIViWLKVqmF2IsCkD1urIxumRY0YPMLzco"
       );
     }
   },
@@ -366,9 +374,17 @@ export default {
       arr.unshift(best[0]);
       if (this.sum * 1 >= this.key * 1) {
         if (best[0].money * 1 <= this.key_value * 1) {
-          this.coupon_id = [];
-          this.is_money_off = 1;
+          console.log(1)
+          if(this.no_door.length){
+            this.no_door.sort(Compare('money'))
+            this.coupon_id = [this.no_door[0].coupons_id]
+            this.is_money_off = 1
+          }else{
+            this.coupon_id = [];
+            this.is_money_off = 1;
+          }
         } else {
+          console.log(2)
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
