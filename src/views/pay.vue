@@ -157,7 +157,7 @@ export default {
         for (let i in arr) {
           sums = (arr[i].money * 100 + sums * 100) / 100;
         }
-        this.coupon = "- " + sums;
+        this.coupon = "- " + sums + '元';
         this.sums = sums;
         if (this.is_money_off) {
           this.amount =
@@ -404,7 +404,7 @@ export default {
       this.is_show = false;
       this.coupon_id = id;
       if (sums) {
-        this.coupon = "-" + sums;
+        this.coupon = "-" + sums + '元';
         this.sums = sums;
       } else {
         this.sums = 0;
@@ -423,7 +423,7 @@ export default {
       if (is_ok) {
         this.is_money_off = 0;
       } else {
-        if (this.sum > this.key) {
+        if (this.sum >= this.key) {
           this.is_money_off = 1;
         }
       }
