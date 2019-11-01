@@ -109,9 +109,9 @@ export default {
       //  只可进行一次抽奖
       is_one: true,
       //  显示遮罩层
-      is_show: false,
+      is_show: true,
       //  抽中奖品
-      is_lottery: false,
+      is_lottery: true,
       //  获得奖品
       is_get: false,
       //  抽奖返回的数据
@@ -126,7 +126,7 @@ export default {
       // 是否显示实付金额
       is_result_money: true,
       is_ok: true,
-      win_id: 0
+      win_id: 4
     };
   },
   components: {
@@ -168,7 +168,7 @@ export default {
     }
   },
   mounted() {
-    _hmt.push(["_trackEvent", "活动页", "跳转到活动页"]);
+    _hmt.push(["_trackEvent", "抽奖页", "进入抽奖界面人次"]);
     this.getList();
     // this.move();
 
@@ -243,7 +243,7 @@ export default {
       // } else {
       //   sessionStorage.setItem("is_ok", 1);
       // }
-      _hmt.push(["_trackEvent", "抽奖", "点击抽奖"]);
+      _hmt.push(["_trackEvent", "全程寻爱抽奖", "点击抽奖"]);
       if (this.isMoving) {
         return false;
       }
@@ -357,7 +357,7 @@ export default {
 
     // 立即领取
     async getCoupon() {
-      _hmt.push(["_trackEvent", "领取", "领取奖品"]);
+      // _hmt.push(["_trackEvent", "领取", "领取奖品"]);
       let data = await requestGetCoupon();
       // 还需要操作
       this.is_show = false;
@@ -699,8 +699,8 @@ main {
     no-repeat;
   background-size: 100%;
   position: absolute;
-  bottom: 0.25rem;
-  left: 48%;
+  bottom: 0.4rem;
+  left: 50%;
   transform: translateX(-50%);
 }
 .closePrize-cup {
@@ -721,7 +721,7 @@ main {
     no-repeat;
   background-size: 100%;
   position: absolute;
-  bottom: 0.25rem;
+  bottom: 0.4rem;
   left: 41%;
   transform: translateX(-50%);
 }
@@ -743,8 +743,8 @@ main {
     no-repeat;
   background-size: 100%;
   position: absolute;
-  bottom: 0.25rem;
-  left: 53%;
+  bottom: 0.4rem;
+  left: 54%;
   transform: translateX(-50%);
 }
 .closePrize {
