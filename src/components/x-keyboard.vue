@@ -204,8 +204,7 @@ export default {
                       // 统计
                       _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
                       // if (this.is_area && amount*1 >= 3) {
-                      alert(this.is_area);
-                      if (this.is_area) {
+                        if (_this.is_area) {
                         _this.$router.push({
                           name: "activity_card",
                           params: message
@@ -233,7 +232,6 @@ export default {
                 // 统计
                 _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
                 // if (this.is_area && amount*1 >= 3) {
-                alert(this.is_area);
                 if (this.is_area) {
                   _this.$router.push({
                     name: "activity_card",
@@ -289,7 +287,7 @@ export default {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                       // if (this.is_area && amount*1 >= 3) {
-                      if (this.is_area) {
+                      if (_this.is_area) {
                         _this.$router.push({
                           name: "activity_card",
                           params: message
@@ -321,7 +319,7 @@ export default {
               } else if (code == 201) {
                 _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                 // if (this.is_area && amount*1 >= 3) {
-                if (this.is_area) {
+                if (_this.is_area) {
                   _this.$router.push({
                     name: "activity_card",
                     params: message
