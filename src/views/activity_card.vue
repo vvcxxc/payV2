@@ -53,15 +53,15 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <div class="drawCoupon-cup" v-if="win_id == 2">
         <div class="getPrize-cup" @click="getPrize"></div>
-        <div class="closePrize-cup" @click="closePrize"></div>
+        <!-- <div class="closePrize-cup" @click="closePrize"></div> -->
         </div>
         <div class="drawCoupon" v-else-if="win_id == 4">
         <div class="getPrize" @click="getPrize"></div>
-        <div class="closePrize" @click="closePrize"></div>
+        <!-- <div class="closePrize" @click="closePrize"></div> -->
         </div>
         <div class="drawCoupon-mianmo" v-else-if="win_id == 3">
           <div class="getPrize-mianmo" @click="getPrize"></div>
-          <div class="closePrize-mianmo" @click="closePrize"></div>
+          <!-- <div class="closePrize-mianmo" @click="closePrize"></div> -->
         </div>
       </div>
 
