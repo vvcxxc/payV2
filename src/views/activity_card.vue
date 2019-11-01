@@ -327,12 +327,12 @@ export default {
             setTimeout(()=>{
               this.is_show = true;
               this.is_thanks = true;
-            },800)
+            },1500)
           } else {
             setTimeout(()=>{
               this.is_show = true;
               this.is_lottery = true;
-            },800)
+            },1500)
             
           }
         }
