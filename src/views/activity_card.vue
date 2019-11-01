@@ -324,11 +324,16 @@ export default {
           this.luckyTimes--;
           // 结束后-----
           if (JSON.stringify(this.lottery_data).indexOf("参") > 0) {
-            this.is_show = true;
-            this.is_thanks = true;
+            setTimeout(()=>{
+              this.is_show = true;
+              this.is_thanks = true;
+            },800)
           } else {
-            this.is_show = true;
-            this.is_lottery = true;
+            setTimeout(()=>{
+              this.is_show = true;
+              this.is_lottery = true;
+            },800)
+            
           }
         }
       }, 300);
