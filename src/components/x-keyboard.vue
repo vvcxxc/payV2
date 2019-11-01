@@ -231,7 +231,6 @@ export default {
               } else if (code == 201) {
                 // 统计
                 _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
-
                 // if (this.is_area && amount*1 >= 3) {
                   if(this.is_area ){
                   _this.$router.push({
