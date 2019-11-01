@@ -109,9 +109,9 @@ export default {
       //  只可进行一次抽奖
       is_one: true,
       //  显示遮罩层
-      is_show: true,
+      is_show: false,
       //  抽中奖品
-      is_lottery: true,
+      is_lottery: false,
       //  获得奖品
       is_get: false,
       //  抽奖返回的数据
@@ -126,7 +126,7 @@ export default {
       // 是否显示实付金额
       is_result_money: true,
       is_ok: true,
-      win_id: 4
+      win_id: 0
     };
   },
   components: {
