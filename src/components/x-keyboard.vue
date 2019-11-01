@@ -58,7 +58,14 @@ export default {
   computed: {
     ...mapGetters(["ajaxLoading"])
   },
-  props: ["sum", "amount", "coupon_id", "is_reduction_removed", "storename"],
+  props: [
+    "sum",
+    "amount",
+    "coupon_id",
+    "is_reduction_removed",
+    "storename",
+    "is_area"
+  ],
   watch: {
     sum: function(newVal) {
       if (newVal == 0) {
@@ -113,10 +120,9 @@ export default {
           this.currentValue = this.currentValue.substring(0, idx * 1 + 3);
         }
       }
-      console.log(this.currentValue,123)
-      if(this.currentValue > 100000){
-        let str = this.currentValue
-        this.currentValue = str.substr(0,str.length-1)
+      if (this.currentValue > 100000) {
+        let str = this.currentValue;
+        this.currentValue = str.substr(0, str.length - 1);
       }
       this.$emit("change-sum", this.currentValue, this.showSum);
     },
@@ -197,8 +203,17 @@ export default {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                       // 统计
                       _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
-
-                      _this.$router.push({ name: "activity", params: message });
+                      if (this.is_area) {
+                        _this.$router.push({
+                          name: "activity_card",
+                          params: message
+                        });
+                      } else {
+                        _this.$router.push({
+                          name: "activity",
+                          params: message
+                        });
+                      }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
                     ) {
@@ -216,7 +231,14 @@ export default {
                 // 统计
                 _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
 
-                this.$router.push({ name: "activity", params: message });
+                if (this.is_area) {
+                  _this.$router.push({
+                    name: "activity_card",
+                    params: message
+                  });
+                } else {
+                  _this.$router.push({ name: "activity", params: message });
+                }
               }
             })
             .catch(err => {
@@ -263,7 +285,17 @@ export default {
                   res => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
-                      _this.$router.push({ name: "activity", params: message });
+                      if (this.is_area) {
+                        _this.$router.push({
+                          name: "activity_card",
+                          params: message
+                        });
+                      } else {
+                        _this.$router.push({
+                          name: "activity",
+                          params: message
+                        });
+                      }
                       return {
                         message: "ok"
                       };
@@ -284,7 +316,14 @@ export default {
                 );
               } else if (code == 201) {
                 _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
-                this.$router.push({ name: "activity", params: message });
+                if (this.is_area) {
+                  _this.$router.push({
+                    name: "activity_card",
+                    params: message
+                  });
+                } else {
+                  _this.$router.push({ name: "activity", params: message });
+                }
               }
             })
             .catch(err => {

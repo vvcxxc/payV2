@@ -54,6 +54,7 @@
         :coupon_id="coupon_id"
         :is_reduction_removed="is_money_off"
         :storename="info.store_name"
+        :is_area="info.is_area"
       />
     </div>
 
@@ -190,7 +191,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzI0OTAxODQsImV4cCI6MTU3Mjc5MDE4NCwibmJmIjoxNTcyNDkwMTg0LCJqdGkiOiJ4R0lRRWUxdTJxVGs1Wkt1Iiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.2vLh4ke7YpIViWLKVqmF2IsCkD1urIxumRY0YPMLzco"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzI1NzA3MzUsImV4cCI6MTU3Mjg3MDczNSwibmJmIjoxNTcyNTcwNzM1LCJqdGkiOiJPNjRSekJXMDNSY1R6cXMxIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.9rqovWlNXYPUmcQq4GVAejKECWtIyPNHa3y949h-Rcw"
       );
     }
   },
