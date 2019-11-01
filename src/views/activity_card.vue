@@ -645,7 +645,7 @@ main {
   position: relative;
 }
 .drawCoupon {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/KHwpQGxi3feQbQRKtexQJrhSte2TwkmN.png");
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/krxMmrJENizrwWr7rwYYanwFiB7hcfsM.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -661,7 +661,7 @@ main {
   flex-direction: column;
 }
 .drawCoupon-mianmo {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/8mHXtDPFDNmdaYdncxW5wpz6a3y7MxDH.png");
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/e2xAyxd6KW3t8dFJFe7yd6tRKY5QtFr6.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -677,7 +677,7 @@ main {
   flex-direction: column;
 }
 .drawCoupon-cup {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/pxtsxQEX7QyADG3EjaBztrW2zfMfF24h.png");
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/BBD3aJmAMzNBP3wbBCJ6DBRbrGtzHXsA.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -948,7 +948,7 @@ main {
   left: 0.1rem;
 }
 .thankYou {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/Prr3iyDx6tTtN2nyX6J8AYndAyN7iFJx.png");
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/3yMebHXyHCAxC4ZyCPjdEc8N8EwQECae.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
