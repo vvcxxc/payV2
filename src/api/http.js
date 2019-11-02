@@ -5,7 +5,7 @@ import { FETCH_OK, NOT_SIGN, NOT_FIND, SERVER_ERROR } from "../utils/global"
 import store from "../store/index"
 const config = {
   baseURL: process.env.VUE_APP_BASE_DOMAIN,
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     Accept: "application/json"
   }

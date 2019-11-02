@@ -1,6 +1,6 @@
 <template>
   <div class="activity">
-    <div class="header">
+    <!-- <div class="header">
       <img :src="success_icon" /> 支付完成！
     </div>
     <div class="order-num" ref="order" @click="showOrder" v-if="!isshow">
@@ -22,7 +22,7 @@
       <i class="iconfont bottom-arro">&#xe61f;</i>
     </div>
 
-    <div class="order-num-zhanwei"></div>
+    <div class="order-num-zhanwei"></div> -->
 
     <!-- 文字轮播 -->
     <div class="scroll-top">
