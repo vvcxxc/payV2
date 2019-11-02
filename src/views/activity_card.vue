@@ -233,28 +233,28 @@ export default {
     },
     play() {
       //点击开始游戏
-      // let is_ok = sessionStorage.getItem("is_ok");
-      // if (is_ok) {
-      //   Dialog.alert({
-      //     message: "您已抽奖",
-      //     confirmButtonColor: "#fc4833"
-      //   });
-      //   return;
-      // } else {
-      //   sessionStorage.setItem("is_ok", 1);
-      // }
+      let is_ok = sessionStorage.getItem("is_ok");
+      if (is_ok) {
+        Dialog.alert({
+          message: "您已抽奖",
+          confirmButtonColor: "#fc4833"
+        });
+        return;
+      } else {
+        sessionStorage.setItem("is_ok", 1);
+      }
       _hmt.push(["_trackEvent", "全程寻爱抽奖", "点击抽奖"]);
       if (this.isMoving) {
         return false;
       }
-      // if (!this.is_one) {
-      //   Dialog.alert({
-      //     message: "您已抽奖",
-      //     confirmButtonColor: "#fc4833"
-      //   });
-      //   return false;
-      // }
-      // this.is_one = false;
+      if (!this.is_one) {
+        Dialog.alert({
+          message: "您已抽奖",
+          confirmButtonColor: "#fc4833"
+        });
+        return false;
+      }
+      this.is_one = false;
       this.isMoving = true;
       this.ajaxEnd = false;
       this.timerEnd = false;
