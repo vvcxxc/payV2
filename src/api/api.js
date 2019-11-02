@@ -110,3 +110,23 @@ export const vendingMachineAlipay = (data) =>
     method: 'post',
     data
   })
+
+
+/**
+ * 获取“全城寻爱”抽奖列表
+ */
+export const getCityLoveLotterys = (params) =>
+  http({
+    url: 'v3/Lotterys/activity_raffle_prize',
+    method: 'get',
+    params
+  })
+
+/**
+ *  获取“全城寻爱”抽奖结果
+ */
+export const getCityLoveResult = () =>
+  http({
+    url: 'v3/Lotterys/activity_raffle',
+    method: 'put',
+  })
