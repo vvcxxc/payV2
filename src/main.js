@@ -5,8 +5,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import FastClick from 'fastclick';
-
-
+import Vconsole from 'vconsole'
+let vConsole = new Vconsole()
+Vue.use(vConsole)
 if ('addEventListener' in document) { 
      document.addEventListener('DOMContentLoaded', function() { 
          FastClick.attach(document.body);
