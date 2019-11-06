@@ -119,7 +119,7 @@ export default {
         console.log(a)
         this.moneyOff();
         this.bestDiscount(a);
-        this.amount = (a * 10000 - this.sums * 10000 - this.key_value * 10000) / 10000;
+        this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
         if (this.amount < 0) {
           this.amount = 0;
         }
@@ -146,10 +146,10 @@ export default {
       if (a) {
         console.log(1)
         this.amount =
-          (this.sum * 10000 - this.key_value * 10000 - this.sums * 10000) / 10000;
+          (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
       } else {
         console.log(2)
-        this.amount = (this.sum * 10000 - this.sums * 10000) / 10000;
+        this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
       }
       if (this.amount < 0) {
         this.amount = 0;
@@ -160,22 +160,22 @@ export default {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
         for (let i in arr) {
-          sums = (arr[i].money * 10000 + sums * 10000) / 10000;
+          sums = (parseInt(arr[i].money * 10000) + parseInt(sums * 10000)) / 10000;
         }
         this.coupon = "- " + sums + "元";
         this.sums = sums;
         if (this.is_money_off) {
           this.amount =
-            (this.sum * 10000 - this.key_value * 10000 - sums * 10000) / 10000;
+            (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
         } else {
-          this.amount = (this.sum * 10000 - this.sums * 10000) / 10000;
+          this.amount = (parseInt(this.sum * 10000) - parseInt(sums * 10000)) / 10000;
         }
       } else {
         this.sums = 0;
         if (this.is_money_off) {
-          this.amount = (this.sum * 10000 - this.key_value * 10000) / 10000;
+          this.amount = (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000)) / 10000;
         } else {
-          this.amount = (this.sum * 10000) / 10000;
+          this.amount = (parseInt(this.sum * 10000)) / 10000;
         }
         this.coupon = this.couponlist.length + "张";
       }
@@ -192,7 +192,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzI5MjY0MzcsImV4cCI6MTU3MzIyNjQzNywibmJmIjoxNTcyOTI2NDM3LCJqdGkiOiIzUUNmSmRicTdWYVlhb3NtIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.ujeiMtWAEzuat2qibLFkpNKSlzkkspY_o57OiGIcc8E"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzMwMjU4MTUsImV4cCI6MTU3MzMyNTgxNSwibmJmIjoxNTczMDI1ODE1LCJqdGkiOiJGTEpjQkNGdEpvQktVN1pvIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.q-4TA1wG10sfKYHdFlsMI-qlW0EoKf1dnKMrJBV0Kn4"
       );
     }
     if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
