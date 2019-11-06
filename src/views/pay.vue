@@ -195,6 +195,7 @@ export default {
       );
     }
     if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
+      console.log('来登录了')
       this.login()
       return
     }
