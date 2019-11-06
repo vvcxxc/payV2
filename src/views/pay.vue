@@ -194,8 +194,7 @@ export default {
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzI5MjY0MzcsImV4cCI6MTU3MzIyNjQzNywibmJmIjoxNTcyOTI2NDM3LCJqdGkiOiIzUUNmSmRicTdWYVlhb3NtIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.ujeiMtWAEzuat2qibLFkpNKSlzkkspY_o57OiGIcc8E"
       );
     }
-
-    if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined'){
+    if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
       this.login()
       return
     }
