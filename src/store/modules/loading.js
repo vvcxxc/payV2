@@ -9,7 +9,7 @@ const AJAX_AFTER = 'AJAX_AFTER'
 
 
 const state = {
-  ajaxLoading: false
+  ajaxLoading: true
 }
 
 const actions = {
