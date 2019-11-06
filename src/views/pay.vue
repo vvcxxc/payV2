@@ -188,7 +188,6 @@ export default {
   created() {
     console.log("可以了");
     let type = process.env.NODE_ENV;
-    console.log(type);
     if (type == "development") {
       Cookie.set("test_open_id", "oy6pQ05896O22gUAljVH4uqvCnhU");
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
