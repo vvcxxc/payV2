@@ -116,9 +116,10 @@ export default {
   watch: {
     sum: function(a) {
       if (a) {
+        console.log(a)
         this.moneyOff();
         this.bestDiscount(a);
-        this.amount = (a * 100 - this.sums * 100 - this.key_value * 100) / 100;
+        this.amount = (a * 10000 - this.sums * 10000 - this.key_value * 10000) / 10000;
         if (this.amount < 0) {
           this.amount = 0;
         }
@@ -143,9 +144,11 @@ export default {
     },
     is_money_off: function(a) {
       if (a) {
+        console.log(1)
         this.amount =
           (this.sum * 100 - this.key_value * 100 - this.sums * 100) / 100;
       } else {
+        console.log(2)
         this.amount = (this.sum * 100 - this.sums * 100) / 100;
       }
       if (this.amount < 0) {
