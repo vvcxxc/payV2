@@ -80,7 +80,8 @@ import { Compare, RemoveDup } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
-
+import { Toast } from 'vant';
+import { isString } from 'util';
 export default {
   data() {
     return {
@@ -103,7 +104,7 @@ export default {
       coupon: "",
       sums: 0,
       manjian_rule: false,
-      no_door: [], // 无门槛券的列表
+      no_door: [] // 无门槛券的列表
     };
   },
 
@@ -131,13 +132,13 @@ export default {
       if (this.couponlist.length) {
         this.havecoupon = true;
         this.coupon = this.couponlist.length + "张";
-        let arr = []
-        for(let i in this.couponlist){
-          if(this.couponlist[i].is_threshold == 1){
-            arr.push(this.couponlist[i])
+        let arr = [];
+        for (let i in this.couponlist) {
+          if (this.couponlist[i].is_threshold == 1) {
+            arr.push(this.couponlist[i]);
           }
         }
-        this.no_door = arr
+        this.no_door = arr;
       }
     },
     is_money_off: function(a) {
@@ -158,7 +159,7 @@ export default {
         for (let i in arr) {
           sums = (arr[i].money * 100 + sums * 100) / 100;
         }
-        this.coupon = "- " + sums + '元';
+        this.coupon = "- " + sums + "元";
         this.sums = sums;
         if (this.is_money_off) {
           this.amount =
@@ -182,8 +183,7 @@ export default {
   },
 
   created() {
-    console.log('可以了')
-    this.getStoreinfo();
+    console.log("可以了");
     let type = process.env.NODE_ENV;
     console.log(type);
     if (type == "development") {
@@ -194,6 +194,12 @@ export default {
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzI5MjY0MzcsImV4cCI6MTU3MzIyNjQzNywibmJmIjoxNTcyOTI2NDM3LCJqdGkiOiIzUUNmSmRicTdWYVlhb3NtIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.ujeiMtWAEzuat2qibLFkpNKSlzkkspY_o57OiGIcc8E"
       );
     }
+
+    if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined'){
+      this.login()
+      return
+    }
+    this.getStoreinfo();
   },
 
   mounted() {
@@ -246,59 +252,75 @@ export default {
       this.amount = 0;
     },
     //  获取商店信息
-    async getStoreinfo() {
+    getStoreinfo() {
       let code_id = getUrlParams().code_id;
       let params = {
         code_id
       };
-      let { data } = await storeInfo(params).catch(err => {
-        if (err.status == 401) {
-          let from = process.env.VUE_APP_FROM;
-          let browsertype = getBrowserType();
-          if (browsertype == "wechat") {
-            let codeid = getUrlParams().code_id;
-            let url =
-              process.env.VUE_APP_BASE_DOMAIN +
-              "wechat/wxoauth?code_id=" +
-              codeid +
-              "&from=" +
-              from;
-            url = encodeURIComponent(url);
-            let urls =
-              "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
-              url +
-              "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-            return (window.location.href = urls);
-          } else if (browsertype == "alipay") {
-            let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
-            let codeid = getUrlParams().code_id;
-            url = encodeURIComponent(url);
-            window.location.href =
-              process.env.VUE_APP_BASE_DOMAIN +
-              "/ali/zfbUserAuth?code_id=" +
-              codeid +
-              "&from=" +
-              from +
-              "&url=" +
-              url;
+      storeInfo(params)
+        .then(res => {
+          let { data, code } = res;
+          if (code == 200) {
+            requestGetAd({ position_id: 1, store_id: data.store_id }).then(
+              res => {
+                this.ads = res.data;
+              }
+            );
+            this.info = data;
+            if (getBrowserType() == "alipay") {
+              try {
+                AlipayJSBridge.call("setTitle", {
+                  title: data.store_name || "小熊敬礼支付"
+                });
+              } catch (err) {
+                document.title = this.storeinfo.name || "小熊敬礼支付";
+              }
+            } else {
+              document.title = data.store_name || "小熊敬礼支付";
+            }
+          }else if(code == 401){
+            this.login()
+          }else{
+            Toast(res.message)
           }
-        }
-        throw Error("--- 获取店铺基本信息出错 ---");
-      });
-      requestGetAd({ position_id: 1, store_id: data.store_id }).then(res => {
-        this.ads = res.data;
-      });
-      this.info = data;
-      if (getBrowserType() == "alipay") {
-        try {
-          AlipayJSBridge.call("setTitle", {
-            title: data.store_name || "小熊敬礼支付"
-          });
-        } catch (err) {
-          document.title = this.storeinfo.name || "小熊敬礼支付";
-        }
-      } else {
-        document.title = data.store_name || "小熊敬礼支付";
+        })
+        .catch(err => {
+          if (err.status == 401) {
+            this.login();
+          }
+          throw Error("--- 获取店铺基本信息出错 ---");
+        });
+    },
+
+    login() {
+      let from = process.env.VUE_APP_FROM;
+      let browsertype = getBrowserType();
+      if (browsertype == "wechat") {
+        let codeid = getUrlParams().code_id;
+        let url =
+          process.env.VUE_APP_BASE_DOMAIN +
+          "wechat/wxoauth?code_id=" +
+          codeid +
+          "&from=" +
+          from;
+        url = encodeURIComponent(url);
+        let urls =
+          "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
+          url +
+          "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
+        return (window.location.href = urls);
+      } else if (browsertype == "alipay") {
+        let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
+        let codeid = getUrlParams().code_id;
+        url = encodeURIComponent(url);
+        window.location.href =
+          process.env.VUE_APP_BASE_DOMAIN +
+          "/ali/zfbUserAuth?code_id=" +
+          codeid +
+          "&from=" +
+          from +
+          "&url=" +
+          url;
       }
     },
 
@@ -352,10 +374,10 @@ export default {
         }
         if (usable.length) {
           this.isMoney(usable);
-        }else{
-          if(this.sum *1 >= this.key*1){
-            console.log(1111)
-            this.is_money_off = 1
+        } else {
+          if (this.sum * 1 >= this.key * 1) {
+            console.log(1111);
+            this.is_money_off = 1;
           }
         }
       }
@@ -380,17 +402,17 @@ export default {
       arr.unshift(best[0]);
       if (this.sum * 1 >= this.key * 1) {
         if (best[0].money * 1 <= this.key_value * 1) {
-          console.log(1)
-          if(this.no_door.length){
-            this.no_door.sort(Compare('money'))
-            this.coupon_id = [this.no_door[0].coupons_id]
-            this.is_money_off = 1
-          }else{
+          console.log(1);
+          if (this.no_door.length) {
+            this.no_door.sort(Compare("money"));
+            this.coupon_id = [this.no_door[0].coupons_id];
+            this.is_money_off = 1;
+          } else {
             this.coupon_id = [];
             this.is_money_off = 1;
           }
         } else {
-          console.log(2)
+          console.log(2);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -410,7 +432,7 @@ export default {
       this.is_show = false;
       this.coupon_id = id;
       if (sums) {
-        this.coupon = "-" + sums + '元';
+        this.coupon = "-" + sums + "元";
         this.sums = sums;
       } else {
         this.sums = 0;
