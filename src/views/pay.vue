@@ -146,10 +146,10 @@ export default {
       if (a) {
         console.log(1)
         this.amount =
-          (this.sum * 100 - this.key_value * 100 - this.sums * 100) / 100;
+          (this.sum * 10000 - this.key_value * 10000 - this.sums * 10000) / 10000;
       } else {
         console.log(2)
-        this.amount = (this.sum * 100 - this.sums * 100) / 100;
+        this.amount = (this.sum * 10000 - this.sums * 10000) / 10000;
       }
       if (this.amount < 0) {
         this.amount = 0;
@@ -160,22 +160,22 @@ export default {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
         for (let i in arr) {
-          sums = (arr[i].money * 100 + sums * 100) / 100;
+          sums = (arr[i].money * 10000 + sums * 10000) / 10000;
         }
         this.coupon = "- " + sums + "元";
         this.sums = sums;
         if (this.is_money_off) {
           this.amount =
-            (this.sum * 100 - this.key_value * 100 - sums * 100) / 100;
+            (this.sum * 10000 - this.key_value * 10000 - sums * 10000) / 10000;
         } else {
-          this.amount = (this.sum * 100 - this.sums * 100) / 100;
+          this.amount = (this.sum * 10000 - this.sums * 10000) / 10000;
         }
       } else {
         this.sums = 0;
         if (this.is_money_off) {
-          this.amount = (this.sum * 100 - this.key_value * 100) / 100;
+          this.amount = (this.sum * 10000 - this.key_value * 10000) / 10000;
         } else {
-          this.amount = (this.sum * 100) / 100;
+          this.amount = (this.sum * 10000) / 10000;
         }
         this.coupon = this.couponlist.length + "张";
       }
