@@ -257,7 +257,7 @@ export default {
             is_activities,
             result_money
           };
-          let { data, code } = await requestAlpayPayment(params);
+          // let { data, code } = await requestAlpayPayment(params);
           requestAlpayPayment(params)
             .then(res => {
               let { code, data } = res;
