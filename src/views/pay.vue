@@ -76,7 +76,7 @@
 import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
-import { Compare, RemoveDup } from "../utils/common.js";
+import { Compare, RemoveDup,accAdd,accSub } from "../utils/common.js";
 import { storeInfo, requestGetAd } from "../api/api";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
@@ -119,7 +119,10 @@ export default {
         console.log(a)
         this.moneyOff();
         this.bestDiscount(a);
-        this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
+        // this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
+        let w = accSub(a,this.sums)
+        let b = accSub(w,this.key_value)
+        this.amount = b
         if (this.amount < 0) {
           this.amount = 0;
         }
@@ -145,11 +148,14 @@ export default {
     is_money_off: function(a) {
       if (a) {
         console.log(1)
-        this.amount =
-          (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
+        // this.amount =
+        //   (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
+        let w = accSub(this.sum,this.key_value)
+        this.amount = accSub(w,this.sums)
       } else {
         console.log(2)
-        this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
+        // this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
+        this.amount = accSub(this.sum,this.sums)
       }
       if (this.amount < 0) {
         this.amount = 0;
@@ -160,22 +166,27 @@ export default {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
         for (let i in arr) {
-          sums = (parseInt(arr[i].money * 10000) + parseInt(sums * 10000)) / 10000;
+          // sums = (parseInt(arr[i].money * 10000) + parseInt(sums * 10000)) / 10000;
+          sums = accAdd(arr[i].money,sums)
         }
         this.coupon = "- " + sums + "元";
         this.sums = sums;
         if (this.is_money_off) {
-          this.amount =
-            (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
+          // this.amount =
+            // (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
+            let w = accSub(this.sum,this.key_value)
+            this.amount = accSub(w,sums)
         } else {
-          this.amount = (parseInt(this.sum * 10000) - parseInt(sums * 10000)) / 10000;
+          // this.amount = (parseInt(this.sum * 10000) - parseInt(sums * 10000)) / 10000;
+          this.amount = accSub(this.sum,sums)
         }
       } else {
         this.sums = 0;
         if (this.is_money_off) {
-          this.amount = (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000)) / 10000;
+          // this.amount = (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000)) / 10000;
+          this.amount = accSub(this.sum,this.key_value)
         } else {
-          this.amount = (parseInt(this.sum * 10000)) / 10000;
+          this.amount = this.sum
         }
         this.coupon = this.couponlist.length + "张";
       }
