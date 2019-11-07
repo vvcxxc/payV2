@@ -385,6 +385,7 @@ export default {
           this.isMoney(usable);
         } else {
           console.log(2)
+          this.spendable_coupons = []
           this.coupon_id = []
           if (this.sum * 1 >= this.key * 1) {
             this.is_money_off = 1;
