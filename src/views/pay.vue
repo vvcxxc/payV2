@@ -116,7 +116,6 @@ export default {
   watch: {
     sum: function(a) {
       if (a) {
-        console.log(a)
         this.moneyOff();
         this.bestDiscount(a);
         // this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
@@ -147,13 +146,11 @@ export default {
     },
     is_money_off: function(a) {
       if (a) {
-        console.log(1)
         // this.amount =
         //   (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
         let w = accSub(this.sum,this.key_value)
         this.amount = accSub(w,this.sums)
       } else {
-        console.log(2)
         // this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
         this.amount = accSub(this.sum,this.sums)
       }
@@ -207,7 +204,6 @@ export default {
       );
     }
     if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
-      console.log('来登录了')
       this.login()
       return
     }
@@ -385,16 +381,17 @@ export default {
           }
         }
         if (usable.length) {
+          console.log(1)
           this.isMoney(usable);
         } else {
+          console.log(2)
+          this.coupon_id = []
           if (this.sum * 1 >= this.key * 1) {
-            console.log(1111);
             this.is_money_off = 1;
           }
         }
       }else{
          if(this.sum *1 >= this.key*1){
-            console.log(1111)
             this.is_money_off = 1
           }
       }
@@ -419,7 +416,6 @@ export default {
       arr.unshift(best[0]);
       if (this.sum * 1 >= this.key * 1) {
         if (best[0].money * 1 <= this.key_value * 1) {
-          console.log(1);
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
             this.coupon_id = [this.no_door[0].coupons_id];
@@ -429,7 +425,6 @@ export default {
             this.is_money_off = 1;
           }
         } else {
-          console.log(2);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
