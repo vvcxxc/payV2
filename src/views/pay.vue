@@ -116,7 +116,6 @@ export default {
   watch: {
     sum: function(a) {
       if (a) {
-        console.log(a)
         this.moneyOff();
         this.bestDiscount(a);
         // this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
@@ -147,13 +146,11 @@ export default {
     },
     is_money_off: function(a) {
       if (a) {
-        console.log(1)
         // this.amount =
         //   (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
         let w = accSub(this.sum,this.key_value)
         this.amount = accSub(w,this.sums)
       } else {
-        console.log(2)
         // this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
         this.amount = accSub(this.sum,this.sums)
       }
@@ -203,11 +200,10 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzMwMjU4MTUsImV4cCI6MTU3MzMyNTgxNSwibmJmIjoxNTczMDI1ODE1LCJqdGkiOiJGTEpjQkNGdEpvQktVN1pvIiwic3ViIjozMzY3LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.q-4TA1wG10sfKYHdFlsMI-qlW0EoKf1dnKMrJBV0Kn4"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzMwODk2NDgsImV4cCI6MTU3MzM4OTY0OCwibmJmIjoxNTczMDg5NjQ4LCJqdGkiOiJhUmJDaWFCckNsak9pYnp1Iiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.C1S86qtJj1rXzAs-xvZEvIzj48XvR8k9Bbbrt4SnJqo"
       );
     }
     if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
-      console.log('来登录了')
       this.login()
       return
     }
@@ -385,16 +381,17 @@ export default {
           }
         }
         if (usable.length) {
+          console.log(1)
           this.isMoney(usable);
         } else {
+          console.log(2)
+          this.coupon_id = []
           if (this.sum * 1 >= this.key * 1) {
-            console.log(1111);
             this.is_money_off = 1;
           }
         }
       }else{
          if(this.sum *1 >= this.key*1){
-            console.log(1111)
             this.is_money_off = 1
           }
       }
@@ -419,7 +416,6 @@ export default {
       arr.unshift(best[0]);
       if (this.sum * 1 >= this.key * 1) {
         if (best[0].money * 1 <= this.key_value * 1) {
-          console.log(1);
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
             this.coupon_id = [this.no_door[0].coupons_id];
@@ -429,7 +425,6 @@ export default {
             this.is_money_off = 1;
           }
         } else {
-          console.log(2);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
