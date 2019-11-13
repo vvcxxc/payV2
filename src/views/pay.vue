@@ -77,6 +77,7 @@ import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
 import { Compare, RemoveDup,accAdd,accSub } from "../utils/common.js";
+import { Login } from '../utils/handle_login.js'
 import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
@@ -194,6 +195,7 @@ export default {
   },
 
   created() {
+    console.log(a)
     let type = process.env.NODE_ENV;
     if (type == "development") {
       Cookie.set("test_open_id", "oy6pQ05896O22gUAljVH4uqvCnhU");
@@ -204,7 +206,7 @@ export default {
       );
     }
     if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
-      this.login()
+      Login()
       return
     }
     this.getStoreinfo();
@@ -287,50 +289,19 @@ export default {
               document.title = data.store_name || "小熊敬礼支付";
             }
           }else if(code == 401){
-            this.login()
+            Login()
           }else{
             Toast(res.message)
           }
         })
         .catch(err => {
           if (err.status == 401) {
-            // this.login();
+            Login()
             console.log('未登录')
           }
           throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
-
-    login() {
-      let from = process.env.VUE_APP_FROM;
-      let browsertype = getBrowserType();
-      if (browsertype == "wechat") {
-        let codeid = getUrlParams().code_id;
-        let url =
-          process.env.VUE_APP_BASE_DOMAIN +
-          "wechat/wxoauth?code_id=" +
-          codeid +
-          "&from=" +
-          from;
-        url = encodeURIComponent(url);
-        let urls =
-          "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
-          url +
-          "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-        return (window.location.href = urls);
-      } else if (browsertype == "alipay") {
-        let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
-        let codeid = getUrlParams().code_id;
-        url = encodeURIComponent(url);
-        window.location.href =
-          process.env.VUE_APP_BASE_DOMAIN +
-          "/ali/zfbUserAuth?code_id=" +
-          codeid +
-          "&from=" +
-          from +
-          "&url=" +
-          url;
-      }
     },
 
     // 判断是否有满减
