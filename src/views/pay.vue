@@ -303,7 +303,6 @@ export default {
           throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
-    },
 
     // 判断是否有满减
     moneyOff() {
