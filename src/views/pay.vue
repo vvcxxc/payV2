@@ -438,7 +438,7 @@ export default {
       if (is_ok) {
         this.is_money_off = 0;
       } else {
-        if (this.sum >= this.key) {
+        if (this.sum*1 >= this.key*1) {
           this.is_money_off = 1;
         }
       }
