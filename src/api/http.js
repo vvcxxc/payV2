@@ -3,6 +3,7 @@ import qs from "qs"
 import { getToken } from "../utils/get_info"
 import { FETCH_OK, NOT_SIGN, NOT_FIND, SERVER_ERROR } from "../utils/global"
 import store from "../store/index"
+import { Toast } from "vant"
 const config = {
   baseURL: process.env.VUE_APP_BASE_DOMAIN,
   timeout: 10000,
@@ -21,6 +22,7 @@ instance.interceptors.request.use(
     return config
   },
   err => {
+    // console.log(err)
     store.dispatch("ajaxAfter")
     return Promise.error(err)
   }
@@ -38,6 +40,11 @@ instance.interceptors.response.use(
   err => {
     store.dispatch("ajaxAfter")
     const { response } = err
+    // console.log(JSON.stringify(err).includes('timeout'))
+    if(JSON.stringify(err).includes('timeout')){
+      Toast('网络异常，请重新扫码支付')
+    }
+    if(err)
     if (response) {
       const { status, data } = response
       switch (status) {

@@ -76,12 +76,13 @@
 import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
-import { Compare, RemoveDup,accAdd,accSub } from "../utils/common.js";
-import { storeInfo, requestGetAd } from "../api/api";
+import { Compare, RemoveDup, accAdd, accSub } from "../utils/common.js";
+import { Login } from "../utils/handle_login.js";
+import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
-import { Toast } from 'vant';
-import { isString } from 'util';
+import { Toast } from "vant";
+import { isString } from "util";
 export default {
   data() {
     return {
@@ -119,9 +120,9 @@ export default {
         this.moneyOff();
         this.bestDiscount(a);
         // this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
-        let w = accSub(a,this.sums)
-        let b = accSub(w,this.key_value)
-        this.amount = b
+        let w = accSub(a, this.sums);
+        let b = accSub(w, this.key_value);
+        this.amount = b;
         if (this.amount < 0) {
           this.amount = 0;
         }
@@ -148,11 +149,11 @@ export default {
       if (a) {
         // this.amount =
         //   (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
-        let w = accSub(this.sum,this.key_value)
-        this.amount = accSub(w,this.sums)
+        let w = accSub(this.sum, this.key_value);
+        this.amount = accSub(w, this.sums);
       } else {
         // this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
-        this.amount = accSub(this.sum,this.sums)
+        this.amount = accSub(this.sum, this.sums);
       }
       if (this.amount < 0) {
         this.amount = 0;
@@ -164,26 +165,26 @@ export default {
         let arr = this.chooseList(this.couponlist, a);
         for (let i in arr) {
           // sums = (parseInt(arr[i].money * 10000) + parseInt(sums * 10000)) / 10000;
-          sums = accAdd(arr[i].money,sums)
+          sums = accAdd(arr[i].money, sums);
         }
         this.coupon = "- " + sums + "元";
         this.sums = sums;
         if (this.is_money_off) {
           // this.amount =
-            // (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
-            let w = accSub(this.sum,this.key_value)
-            this.amount = accSub(w,sums)
+          // (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
+          let w = accSub(this.sum, this.key_value);
+          this.amount = accSub(w, sums);
         } else {
           // this.amount = (parseInt(this.sum * 10000) - parseInt(sums * 10000)) / 10000;
-          this.amount = accSub(this.sum,sums)
+          this.amount = accSub(this.sum, sums);
         }
       } else {
         this.sums = 0;
         if (this.is_money_off) {
           // this.amount = (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000)) / 10000;
-          this.amount = accSub(this.sum,this.key_value)
+          this.amount = accSub(this.sum, this.key_value);
         } else {
-          this.amount = this.sum
+          this.amount = this.sum;
         }
         this.coupon = this.couponlist.length + "张";
       }
@@ -200,12 +201,15 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzMwODk2NDgsImV4cCI6MTU3MzM4OTY0OCwibmJmIjoxNTczMDg5NjQ4LCJqdGkiOiJhUmJDaWFCckNsak9pYnp1Iiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.C1S86qtJj1rXzAs-xvZEvIzj48XvR8k9Bbbrt4SnJqo"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzM2MDg1NjAsImV4cCI6MTU3MzkwODU2MCwibmJmIjoxNTczNjA4NTYwLCJqdGkiOiJKUzFNekg4M2l5QU5JdjlHIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.0TlCbcrDFY2i7wGfB65EbHFw5yRSon_UE9u788B2Wig"
       );
     }
-    if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
-      this.login()
-      return
+    if (
+      Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
+      Cookie.get(process.env.VUE_APP_TOKEN) == ""
+    ) {
+      Login();
+      return;
     }
     this.getStoreinfo();
   },
@@ -286,50 +290,20 @@ export default {
             } else {
               document.title = data.store_name || "小熊敬礼支付";
             }
-          }else if(code == 401){
-            this.login()
-          }else{
-            Toast(res.message)
+          } else if (code == 401) {
+            Login();
+          } else {
+            Toast(res.message);
           }
         })
         .catch(err => {
           if (err.status == 401) {
-            this.login();
+            Login();
+            console.log("未登录");
           }
+          console.log(err)
           throw Error("--- 获取店铺基本信息出错 ---");
         });
-    },
-
-    login() {
-      let from = process.env.VUE_APP_FROM;
-      let browsertype = getBrowserType();
-      if (browsertype == "wechat") {
-        let codeid = getUrlParams().code_id;
-        let url =
-          process.env.VUE_APP_BASE_DOMAIN +
-          "wechat/wxoauth?code_id=" +
-          codeid +
-          "&from=" +
-          from;
-        url = encodeURIComponent(url);
-        let urls =
-          "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
-          url +
-          "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-        return (window.location.href = urls);
-      } else if (browsertype == "alipay") {
-        let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
-        let codeid = getUrlParams().code_id;
-        url = encodeURIComponent(url);
-        window.location.href =
-          process.env.VUE_APP_BASE_DOMAIN +
-          "/ali/zfbUserAuth?code_id=" +
-          codeid +
-          "&from=" +
-          from +
-          "&url=" +
-          url;
-      }
     },
 
     // 判断是否有满减
@@ -381,20 +355,20 @@ export default {
           }
         }
         if (usable.length) {
-          console.log(1)
+          console.log(1);
           this.isMoney(usable);
         } else {
-          console.log(2)
-          this.spendable_coupons = []
-          this.coupon_id = []
+          console.log(2);
+          this.spendable_coupons = [];
+          this.coupon_id = [];
           if (this.sum * 1 >= this.key * 1) {
             this.is_money_off = 1;
           }
         }
-      }else{
-         if(this.sum *1 >= this.key*1){
-            this.is_money_off = 1
-          }
+      } else {
+        if (this.sum * 1 >= this.key * 1) {
+          this.is_money_off = 1;
+        }
       }
     },
     /**
@@ -464,7 +438,7 @@ export default {
       if (is_ok) {
         this.is_money_off = 0;
       } else {
-        if (this.sum >= this.key) {
+        if (this.sum*1 >= this.key*1) {
           this.is_money_off = 1;
         }
       }
