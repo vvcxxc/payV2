@@ -243,7 +243,7 @@ export default {
               }
             })
             .catch(err => {
-              Toast("连接超时，请稍后重试");
+              // Toast("连接超时，请稍后重试");
             });
         } else if (browsertype == "alipay") {
           // 支付宝支付
@@ -330,7 +330,7 @@ export default {
               }
             })
             .catch(err => {
-              Toast("连接超时，请稍后重试");
+              // Toast("连接超时，请稍后重试");
             });
         }
       }

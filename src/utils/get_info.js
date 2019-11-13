@@ -1,8 +1,5 @@
 import {Cookie} from './common';
 import { WECHAT, ALIPAY, PRODUCTION, DEVELOPMENT } from './global'
-import wx from 'weixin-js-sdk';
-const production = process.env.NODE_ENV === PRODUCTION
-import axios from "axios"
 /**
  * 获取浏览器类型
  */ 

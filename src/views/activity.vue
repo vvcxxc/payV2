@@ -151,7 +151,7 @@ import {
   requestGetResult,
   requestGetCoupon,
   requestOrderCoupons
-} from "../api/api";
+} from "../api/api_pay";
 import { Loading, Dialog } from "vant";
 export default {
   data() {
