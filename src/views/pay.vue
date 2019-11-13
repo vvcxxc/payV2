@@ -77,7 +77,7 @@ import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
 import { getBrowserType, getUrlParams } from "../utils/get_info.js";
 import { Compare, RemoveDup,accAdd,accSub } from "../utils/common.js";
-import { storeInfo, requestGetAd } from "../api/api";
+import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
 import { Toast } from 'vant';
@@ -200,7 +200,7 @@ export default {
       Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
       Cookie.set(
         "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzMwODk2NDgsImV4cCI6MTU3MzM4OTY0OCwibmJmIjoxNTczMDg5NjQ4LCJqdGkiOiJhUmJDaWFCckNsak9pYnp1Iiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.C1S86qtJj1rXzAs-xvZEvIzj48XvR8k9Bbbrt4SnJqo"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzM2MDg1NjAsImV4cCI6MTU3MzkwODU2MCwibmJmIjoxNTczNjA4NTYwLCJqdGkiOiJKUzFNekg4M2l5QU5JdjlHIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.0TlCbcrDFY2i7wGfB65EbHFw5yRSon_UE9u788B2Wig"
       );
     }
     if(Cookie.get(process.env.VUE_APP_TOKEN) == 'undefined' || Cookie.get(process.env.VUE_APP_TOKEN) == ''){
@@ -294,7 +294,8 @@ export default {
         })
         .catch(err => {
           if (err.status == 401) {
-            this.login();
+            // this.login();
+            console.log('未登录')
           }
           throw Error("--- 获取店铺基本信息出错 ---");
         });
