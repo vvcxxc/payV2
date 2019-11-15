@@ -195,6 +195,7 @@ export default {
   },
 
   created() {
+    console.log(this.a())
     let type = process.env.NODE_ENV;
     if (type == "development") {
       Cookie.set("test_open_id", "oy6pQ05896O22gUAljVH4uqvCnhU");
