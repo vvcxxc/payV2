@@ -67,15 +67,6 @@ router.onError(error => {
       }
       router.replace(targetPath);
       window.sessionStorage.setItem('LoadingChunkPath', targetPath);
-      const sa = window.sa;
-      if (sa && sa.track) {
-        sa.track('element_click', {
-          page_title: 'LoadingChunk',
-          element_type: 'view',
-          page_source: targetPath, // 当前路由
-          element_name: `刷新页面${LoadingChunk - 0}次` // 尝试 打开次数
-        });
-      }
     }
   } catch (e) {
     console.log(e);
