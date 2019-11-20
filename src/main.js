@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import App from './App.vue'
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
+import VueRouter from 'vue-router'
+import App from './App.vue'
 import router from './router'
 import store from './store'
 import FastClick from 'fastclick';

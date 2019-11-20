@@ -179,10 +179,8 @@ export default {
       
     },
     created(){
-        let type = process.env.NODE_ENV;
         this.data = this.$route.query
         let message = sessionStorage.getItem('message');
-        console.log(this.data)
         this.store_id = this.data.store_id
         if(!message){
             sessionStorage.setItem('message', JSON.stringify(this.data))
@@ -392,7 +390,6 @@ export default {
                         from +
                         "&url=" +
                         url;
-                    console.log(message.store_id)
                     }
                 }
             });

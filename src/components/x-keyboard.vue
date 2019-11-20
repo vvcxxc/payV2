@@ -84,11 +84,6 @@ export default {
     is_reduction_removed: function(a) {
       this.activity = a;
     },
-    currentValue: function(a, b) {
-      // if (a > 100000) {
-      //   this.currentValue = b;
-      // }
-    }
   },
   methods: {
     inputNum(ev) {
@@ -242,7 +237,7 @@ export default {
                 }
               }
             })
-            .catch(err => {
+            .catch(() => {
               // Toast("连接超时，请稍后重试");
             });
         } else if (browsertype == "alipay") {
