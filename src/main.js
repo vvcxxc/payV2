@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import FastClick from 'fastclick';
-import Vconsole from 'vconsole';
+import Vconsole from 'vconsole'
 if(process.env.VUE_APP_FLAG == 'test' || process.env.VUE_APP_FLAG == 'release' || process.env.VUE_APP_FLAG == 'production'){
   Sentry.init({
     dsn: 'http://7e203dd3d7fc40e292addab1cba910c0@sentry.tdianyi.com/2',
