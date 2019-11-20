@@ -302,7 +302,7 @@ export default {
             console.log("未登录");
           }
           console.log(err)
-          throw Error("--- 获取店铺基本信息出错 ---");
+          // throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
 
