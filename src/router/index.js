@@ -7,11 +7,12 @@ import VueRouter from 'vue-router';
 // import Ad from '../views/activity_ad.vue'
 // import ActivityCard from '../views/activity_card.vue'
 Vue.use(VueRouter);
-const Pay = () => import('../views/pay.vue')
-const Activity = () => import('../views/activity.vue')
-const Vending = () => import('../views/vendingMachine.vue')
-const Ad = () => import('../views/activity_ad.vue')
-const ActivityCard = () => import('../views/activity_card.vue')
+const Pay = () => import('@/views/pay.vue')
+const Activity = () => import('@/views/activity.vue')
+const Vending = () => import('@/views/vendingMachine.vue')
+const Ad = () => import('@/views/activity_ad.vue')
+const ActivityCard = () => import('@/views/activity_card.vue')
+
 var router = new VueRouter({
   // 命名:组件名大驼峰、path/name小驼峰
   mode: 'history',
