@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
+import {Login} from '../utils/handle_login'
+import { Cookie } from "../utils/common";
 // import Pay from '../views/pay.vue';
 // import Activity from '../views/activity.vue';
 // import Vending from '../views/vendingMachine.vue';
@@ -47,6 +48,21 @@ var router = new VueRouter({
     }
   ]
 })
+
+// 路由守卫
+router.beforeEach((to,from,next) => {
+  if(to.name == 'pay'){
+    if (
+      Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
+      Cookie.get(process.env.VUE_APP_TOKEN) == ""
+    ) {
+      Login();
+      return;
+    }
+  }
+  next()
+})
+
 
 // 为了解决 loading chunk failed 错误
 router.onError(error => {
