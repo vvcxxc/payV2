@@ -195,22 +195,6 @@ export default {
   },
 
   created() {
-    // let type = process.env.NODE_ENV;
-    // if (type == "development") {
-    //   Cookie.set("test_open_id", "oy6pQ05896O22gUAljVH4uqvCnhU");
-    //   Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
-    //   Cookie.set(
-    //     "test_token_auth",
-    //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzQzMDczMDcsImV4cCI6MTU3NDMxMzMwNywibmJmIjoxNTc0MzA3MzA3LCJqdGkiOiJKQTJRcEhQNkNWR3pUN29lIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.GO-lZgfO0w_VTow3xiHCbhqkVSqBgpW_ulKfwSIlkv0"
-    //   );
-    // }
-    // if (
-    //   Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
-    //   Cookie.get(process.env.VUE_APP_TOKEN) == ""
-    // ) {
-    //   Login();
-    //   return;
-    // }
     this.getStoreinfo();
   },
 
