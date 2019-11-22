@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
+import {Login} from '../utils/handle_login'
+import { Cookie } from "../utils/common";
 // import Pay from '../views/pay.vue';
 // import Activity from '../views/activity.vue';
 // import Vending from '../views/vendingMachine.vue';
 // import Ad from '../views/activity_ad.vue'
 // import ActivityCard from '../views/activity_card.vue'
 Vue.use(VueRouter);
-const Pay = () => import('@/views/pay.vue')
-const Activity = () => import('@/views/activity.vue')
+const Pay = () => import(/* webpackChunkName: "Pay" */ '@/views/pay.vue')
+const Activity = () => import(/* webpackChunkName: "Pay" */ '@/views/activity.vue')
 const Vending = () => import('@/views/vendingMachine.vue')
 const Ad = () => import('@/views/activity_ad.vue')
 const ActivityCard = () => import('@/views/activity_card.vue')
@@ -48,6 +49,24 @@ var router = new VueRouter({
   ]
 })
 
+// 路由守卫
+router.beforeEach((to,from,next) => {
+  if(process.env.VUE_APP_FLAG == 'development'){
+    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzQzMjYxNDgsImV4cCI6MTU3NDMzMjE0OCwibmJmIjoxNTc0MzI2MTQ4LCJqdGkiOiJKTHJxYjQzWDZnN2tSZDBVIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.20lwERUjHJ2UphS1yFM1vNDBYbJm8Pt5KLvEqBcEWXs')
+  }
+  if(to.name == 'pay'){
+    if (
+      Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
+      Cookie.get(process.env.VUE_APP_TOKEN) == ""
+    ) {
+      Login();
+      return;
+    }
+  }
+  next()
+})
+
+
 // 为了解决 loading chunk failed 错误
 router.onError(error => {
   const pattern = /Loading chunk (\d)+ failed/g;
@@ -67,15 +86,6 @@ router.onError(error => {
       }
       router.replace(targetPath);
       window.sessionStorage.setItem('LoadingChunkPath', targetPath);
-      const sa = window.sa;
-      if (sa && sa.track) {
-        sa.track('element_click', {
-          page_title: 'LoadingChunk',
-          element_type: 'view',
-          page_source: targetPath, // 当前路由
-          element_name: `刷新页面${LoadingChunk - 0}次` // 尝试 打开次数
-        });
-      }
     }
   } catch (e) {
     console.log(e);
