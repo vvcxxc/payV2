@@ -130,3 +130,14 @@ export const getCityLoveResult = () =>
     url: 'v3/Lotterys/activity_raffle',
     method: 'put',
   })
+
+
+/**
+ *    广告分润接口
+ */
+export const adShareProfit = (data) =>
+http({
+  url: 'v3/gatherAd',
+  method: 'post',
+  data
+})
