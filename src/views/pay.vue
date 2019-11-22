@@ -55,6 +55,7 @@
         :is_reduction_removed="is_money_off"
         :storename="info.store_name"
         :is_area="info.is_area"
+        :ids="ids"
       />
     </div>
 
@@ -105,7 +106,8 @@ export default {
       coupon: "",
       sums: 0,
       manjian_rule: false,
-      no_door: [] // 无门槛券的列表
+      no_door: [] ,// 无门槛券的列表,
+      ids: {}
     };
   },
 
@@ -260,6 +262,12 @@ export default {
             requestGetAd({ position_id: 1, store_id: data.store_id }).then(
               res => {
                 this.ads = res.data;
+                if (res.data.adLogId){
+                  this.ids = {
+                    store_id: data.store_id,
+                    adLogId: res.data.adLogId
+                  }
+                }
               }
             );
             this.info = data;
