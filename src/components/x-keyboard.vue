@@ -32,7 +32,7 @@
 <script>
 import { getUrlParams, getBrowserType } from "../utils/get_info";
 import { Cookie } from "../utils/common";
-import { requestWechatPayment, requestAlpayPayment } from "../api/api";
+import { requestWechatPayment, requestAlpayPayment, adShareProfit } from "../api/api_pay";
 import { Dialog, Loading, Toast } from "vant";
 import { mapGetters } from "vuex";
 export default {
@@ -64,7 +64,8 @@ export default {
     "coupon_id",
     "is_reduction_removed",
     "storename",
-    "is_area"
+    "is_area",
+    "ids"
   ],
   watch: {
     sum: function(newVal) {
@@ -139,6 +140,7 @@ export default {
 
     // 点击支付
     async toPay() {
+      console.log(this.ids)
       _hmt.push(["_trackEvent", "确认支付", "用户点击了确认按钮"]);
       let _this = this;
       let browsertype = getBrowserType();
@@ -196,10 +198,15 @@ export default {
                   },
                   function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
+
+                      // 广告分润
+                      if (amount*1 >= 1){
+                        adShareProfit({..._this.ids,order_sn})
+                      }
+
                       // 统计
                       _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
                       if (_this.is_area && amount*1 >= 3) {
-                        // if (_this.is_area) {
                         _this.$router.push({
                           name: "activity_card",
                           params: message
@@ -281,6 +288,11 @@ export default {
                   res => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
+                       // 广告分润
+                      if (amount*1 >= 1){
+                        adShareProfit({..._this.ids,order_sn})
+                      }
+
                       if (_this.is_area && amount*1 >= 3) {
                       // if (_this.is_area) {
                         _this.$router.push({
@@ -313,6 +325,12 @@ export default {
                 );
               } else if (code == 201) {
                 _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
+
+                // 广告分润
+                if (amount*1 >= 1){
+                  adShareProfit({..._this.ids,order_sn})
+                }
+
                 if (this.is_area && amount*1 >= 3) {
                 // if (_this.is_area) {
                   _this.$router.push({

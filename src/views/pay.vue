@@ -58,6 +58,7 @@
         :is_reduction_removed="is_money_off"
         :storename="info.store_name"
         :is_area="info.is_area"
+        :ids="ids"
       />
     </div>
 
@@ -85,7 +86,6 @@ import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
 import { Toast } from "vant";
-import { isString } from "util";
 export default {
   data() {
     return {
@@ -108,7 +108,8 @@ export default {
       coupon: "",
       sums: 0,
       manjian_rule: false,
-      no_door: [] // 无门槛券的列表
+      no_door: [] ,// 无门槛券的列表,
+      ids: {}
     };
   },
 
@@ -263,6 +264,12 @@ export default {
             requestGetAd({ position_id: 1, store_id: data.store_id }).then(
               res => {
                 this.ads = res.data;
+                if (res.data.adLogId){
+                  this.ids = {
+                    store_id: data.store_id,
+                    adLogId: res.data.adLogId
+                  }
+                }
               }
             );
             this.info = data;
@@ -528,7 +535,7 @@ header {
   align-items: center;
 }
 .area-AD {
-  height: 1.54rem;
+  height: 2.25rem;
   width: 100%;
 }
 .area-AD img {
