@@ -1,6 +1,9 @@
 <template>
   <div class="payment">
-    <!-- <header>{{this.info.store_name}}</header> -->
+    <header v-if="info.is_reduction_removed">
+      <i class="icon_tanhao"></i>
+      <span v-for="(value,key) in info.reduction_money_list" :key='key' class="header_item">满{{key}}减{{value}}</span>
+    </header>
     <div class="area-AD">
       <img :src="ads.pic" alt />
     </div>
@@ -432,6 +435,10 @@ export default {
 </script>
 
 <style scoped>
+.header_item {
+  display: inline-block;
+  margin-left: 4px;
+}
 .choose_moneyoff {
   display: inline-block;
   width: 18px;
