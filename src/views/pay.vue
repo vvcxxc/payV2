@@ -436,8 +436,8 @@ export default {
 
 <style scoped>
 .header_item {
-  display: inline-block;
-  margin-left: 4px;
+  display: inline-block;
+  margin-left: 4px;
 }
 .choose_moneyoff {
   display: inline-block;
@@ -517,11 +517,15 @@ export default {
 }
 
 header {
-  height: 47px;
-  font-size: 17px;
-  text-align: center;
-  line-height: 47px;
-  background: #fff;
+  height: 28px;
+  font-size: 13px;
+  line-height: 28px;
+  background:rgba(243,108,107,.2);
+  color: #FF3622;
+  padding-left: .12rem;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 .area-AD {
   height: 1.54rem;
