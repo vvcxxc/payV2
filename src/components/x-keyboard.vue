@@ -288,6 +288,11 @@ export default {
                   res => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
+                       // 广告分润
+                      if (amount*1 >= 1){
+                        adShareProfit({..._this.ids,order_sn})
+                      }
+
                       if (_this.is_area && amount*1 >= 3) {
                       // if (_this.is_area) {
                         _this.$router.push({
