@@ -83,6 +83,7 @@ export default {
   },
 
   created() {
+    console.log(this.couponlist)
     this.Coupons();
   },
 
@@ -277,10 +278,12 @@ export default {
 </script>
 <style scoped>
 .checkout {
-  position: fixed;
-  bottom: 0;
+  /* position: fixed;
+  bottom: 0; */
+  position: relative;
   width: 100vw;
   height: auto;
+  z-index: 999;
 }
 .discounts::after {
   content: ".";
@@ -293,8 +296,8 @@ export default {
 }
 
 .discounts {
-  position: absolute;
-  bottom: 0;
+  /* position: absolute;
+  bottom: 0; */
   width: 100vw;
   background: #f6f6f6;
   max-height: 462px;

@@ -1,9 +1,13 @@
 <template>
   <div class="payment">
-    <header v-if="info.is_reduction_removed">
-      <i class="icon_tanhao"></i>
-      <span v-for="(value,key) in info.reduction_money_list" :key='key' class="header_item">满{{key}}减{{value}}</span>
-    </header>
+    <header v-if="info.is_reduction_removed">
+      <i class="icon_tanhao"></i>
+      <span
+        v-for="(value,key) in info.reduction_money_list"
+        :key="key"
+        class="header_item"
+      >满{{key}}减{{value}}</span>
+    </header>
     <div class="area-AD">
       <img :src="ads.pic" alt />
     </div>
@@ -16,7 +20,6 @@
             <div>{{sum}}</div>
             <div class="like-input"></div>
           </span>
-          <!-- <input class="have-sum" type="text" :value="sum" v-if="!havesum" ref='input'/> -->
           <span @click="cleansum" v-if="!havesum">
             <img src="../assets/quxiao.png" alt />
           </span>
@@ -24,22 +27,21 @@
       </div>
       <div class="discount" @click="handlecoupons" v-if="havecoupon">
         <p style="float:left">优惠券</p>
-        <!-- <p class="discount-tuijian" v-show="show_recommend">{{youhui}}</p> -->
         <p class="jianshao">
           <i style="font-size:14px"></i>
           <span>{{coupon}}</span>
           <img src="../assets/arro-right.png" />
         </p>
       </div>
-      <div class="manjian" v-show="isshow" @click="chooseMoneyOff">
-        <span>满减优惠</span>
-        <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span>
-        <span class="manjian-fudu flex">
-          满 {{this.key}} 减 {{this.key_value}}
-          <span class="choose_moneyoff" v-if="is_money_off"></span>
-          <span class="no_choose_moneyoff" v-else></span>
-        </span>
-      </div>
+      <!-- <div class="manjian" v-show="isshow" @click="chooseMoneyOff"> -->
+      <!-- <span>满减优惠</span> -->
+      <!-- <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span> -->
+      <!-- <span class="manjian-fudu flex"> -->
+      <!-- 满 {{this.key}} 减 {{this.key_value}} -->
+      <!-- <span class="choose_moneyoff" v-if="is_money_off"></span> -->
+      <!-- <span class="no_choose_moneyoff" v-else></span> -->
+      <!-- </span> -->
+      <!-- </div> -->
       <div class="amount">
         <span>合计：</span>
         <span class="total">
@@ -62,17 +64,25 @@
       />
     </div>
 
-    <!-- 选择优惠券 -->
-    <div class="area-mask" v-if="is_show">
-      <div class="mask"></div>
-      <checkout-discount
-        :couponlist="couponlist"
-        :sum="sum"
-        :spendable_coupons="spendable_coupons"
-        :coupon_id="coupon_id"
-        v-on:ListenToCoupon="getCouponsid"
-      />
-    </div>
+    <van-popup 
+      round
+      closeable
+      v-model="is_show"
+      position="bottom"
+      :style="{ height: '463px', }"
+    >
+      <div class="area-mask" v-if="is_show">
+        <div class="mask"></div>
+        <checkout-discount
+          :couponlist="couponlist"
+          :sum="sum"
+          :spendable_coupons="spendable_coupons"
+          :coupon_id="coupon_id"
+          v-on:ListenToCoupon="getCouponsid"
+        />
+      </div>
+    </van-popup>
+
   </div>
 </template>
 
@@ -108,7 +118,7 @@ export default {
       coupon: "",
       sums: 0,
       manjian_rule: false,
-      no_door: [] ,// 无门槛券的列表,
+      no_door: [], // 无门槛券的列表,
       ids: {}
     };
   },
@@ -151,12 +161,9 @@ export default {
     },
     is_money_off: function(a) {
       if (a) {
-        // this.amount =
-        //   (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
         let w = accSub(this.sum, this.key_value);
         this.amount = accSub(w, this.sums);
       } else {
-        // this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
         this.amount = accSub(this.sum, this.sums);
       }
       if (this.amount < 0) {
@@ -168,24 +175,19 @@ export default {
         let sums = 0;
         let arr = this.chooseList(this.couponlist, a);
         for (let i in arr) {
-          // sums = (parseInt(arr[i].money * 10000) + parseInt(sums * 10000)) / 10000;
           sums = accAdd(arr[i].money, sums);
         }
         this.coupon = "- " + sums + "元";
         this.sums = sums;
         if (this.is_money_off) {
-          // this.amount =
-          // (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
           let w = accSub(this.sum, this.key_value);
           this.amount = accSub(w, sums);
         } else {
-          // this.amount = (parseInt(this.sum * 10000) - parseInt(sums * 10000)) / 10000;
           this.amount = accSub(this.sum, sums);
         }
       } else {
         this.sums = 0;
         if (this.is_money_off) {
-          // this.amount = (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000)) / 10000;
           this.amount = accSub(this.sum, this.key_value);
         } else {
           this.amount = this.sum;
@@ -264,11 +266,11 @@ export default {
             requestGetAd({ position_id: 1, store_id: data.store_id }).then(
               res => {
                 this.ads = res.data;
-                if (res.data.adLogId){
+                if (res.data.adLogId) {
                   this.ids = {
                     store_id: data.store_id,
                     adLogId: res.data.adLogId
-                  }
+                  };
                 }
               }
             );
@@ -295,7 +297,7 @@ export default {
             Login();
             console.log("未登录");
           }
-          console.log(err)
+          console.log(err);
           throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
@@ -331,7 +333,7 @@ export default {
       for (let i in list) {
         for (let a in id) {
           if (list[i].coupons_id == id[a]) {
-               arr.push(list[i]);
+            arr.push(list[i]);
           }
         }
       }
@@ -432,7 +434,7 @@ export default {
       if (is_ok) {
         this.is_money_off = 0;
       } else {
-        if (this.sum*1 >= this.key*1) {
+        if (this.sum * 1 >= this.key * 1) {
           this.is_money_off = 1;
         }
       }
@@ -442,9 +444,17 @@ export default {
 </script>
 
 <style scoped>
-.header_item {
-  display: inline-block;
-  margin-left: 4px;
+.header_item  {
+  display: inline-block;
+  margin-left: 4px;
+}
+.icon_tanhao {
+  width: 0.16rem;
+  height: 0.16rem;
+  display: inline-block;
+  background: url("../assets/tanhao.png") no-repeat;
+  background-size: 100%;
+  margin-right: 5px;
 }
 .choose_moneyoff {
   display: inline-block;
@@ -527,9 +537,9 @@ header {
   height: 28px;
   font-size: 13px;
   line-height: 28px;
-  background:rgba(243,108,107,.2);
-  color: #FF3622;
-  padding-left: .12rem;
+  background: rgba(243, 108, 107, 0.2);
+  color: #ff3622;
+  padding-left: 0.12rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -616,19 +626,6 @@ header {
 .jianshao img {
   width: 5px;
   margin-top: -2px;
-}
-.discount-tuijian {
-  float: left;
-  font-size: 0.12rem;
-  line-height: 0.17rem;
-  width: auto;
-  padding: 0 0.04rem;
-  height: 0.17rem;
-  border: 1px solid #de1e13;
-  border-radius: 2px;
-  margin-top: 0.14rem;
-  margin-left: 0.09rem;
-  color: #de1e13;
 }
 .discount .jianshao,
 .manjian-fudu {
