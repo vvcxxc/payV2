@@ -72,7 +72,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
