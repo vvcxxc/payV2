@@ -33,15 +33,15 @@
           <img src="../assets/arro-right.png" />
         </p>
       </div>
-      <!-- <div class="manjian" v-show="isshow" @click="chooseMoneyOff"> -->
-      <!-- <span>满减优惠</span> -->
-      <!-- <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span> -->
-      <!-- <span class="manjian-fudu flex"> -->
-      <!-- 满 {{this.key}} 减 {{this.key_value}} -->
-      <!-- <span class="choose_moneyoff" v-if="is_money_off"></span> -->
-      <!-- <span class="no_choose_moneyoff" v-else></span> -->
-      <!-- </span> -->
-      <!-- </div> -->
+      <!-- <div class="manjian" v-show="isshow" @click="chooseMoneyOff">
+        <span>满减优惠</span>
+        <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span>
+        <span class="manjian-fudu flex">
+          满 {{this.key}} 减 {{this.key_value}}
+          <span class="choose_moneyoff" v-if="is_money_off"></span>
+          <span class="no_choose_moneyoff" v-else></span>
+        </span>
+      </div> -->
       <div class="amount">
         <span>合计：</span>
         <span class="total">
@@ -69,7 +69,7 @@
       closeable
       v-model="is_show"
       position="bottom"
-      :style="{ height: '463px', }"
+      :style="{ height: '463px'}"
     >
       <div class="area-mask" v-if="is_show">
         <div class="mask"></div>
@@ -82,7 +82,6 @@
         />
       </div>
     </van-popup>
-
   </div>
 </template>
 
@@ -96,6 +95,8 @@ import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
 import { Toast } from "vant";
+import store from "../store/index"
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -127,13 +128,15 @@ export default {
     XKeyboard,
     CheckoutDiscount
   },
+  computed: {
+    ...mapGetters(["coupon_list"])
+  },
 
   watch: {
     sum: function(a) {
       if (a) {
         this.moneyOff();
         this.bestDiscount(a);
-        // this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
         let w = accSub(a, this.sums);
         let b = accSub(w, this.key_value);
         this.amount = b;
@@ -206,6 +209,8 @@ export default {
 
   mounted() {
     this.reduction_money_list = this.info.reduction_money_list;
+    store.dispatch("setCouponList",this.couponlist)
+    console.log(2)
   },
 
   methods: {
@@ -275,6 +280,7 @@ export default {
               }
             );
             this.info = data;
+            console.log(1)
             if (getBrowserType() == "alipay") {
               try {
                 AlipayJSBridge.call("setTitle", {

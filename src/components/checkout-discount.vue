@@ -83,7 +83,6 @@ export default {
   },
 
   created() {
-    console.log(this.couponlist)
     this.Coupons();
   },
 
