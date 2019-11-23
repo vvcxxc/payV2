@@ -82,7 +82,6 @@ import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
 import { Cookie } from "../utils/common";
 import { Toast } from "vant";
-import { isString } from "util";
 export default {
   data() {
     return {
