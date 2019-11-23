@@ -1,0 +1,35 @@
+.checkout{
+    position: relative;
+    width: 100vw;
+    height: 5.65rem;
+    z-index: 999;
+    background: #fff;
+    .checkout-header {
+      text-align: center;
+      font-size: .16rem;
+      width: 100%;
+      height: .56rem;
+      line-height: .56rem;
+    }
+    .money_off {
+      width: 100%;
+      height: .28rem;
+      background:rgba(243,108,107,.2);
+      color: #FF3622;
+      font-size: .14rem;
+      line-height: .28rem;
+      display: flex;
+      align-items: center;
+      i {
+        width: .16rem;
+        height: .16rem;
+        // width: 160px;
+        // height: 160px;
+        background-position: -50px -18px;
+      }
+      span {
+        display: inline-block;
+        margin-right: .07rem;
+      }
+    }
+  }

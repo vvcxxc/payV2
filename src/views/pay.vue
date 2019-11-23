@@ -207,12 +207,6 @@ export default {
     this.getStoreinfo();
   },
 
-  mounted() {
-    this.reduction_money_list = this.info.reduction_money_list;
-    store.dispatch("setCouponList",this.couponlist)
-    console.log(2)
-  },
-
   methods: {
     // 是否选择满减
     chooseMoneyOff() {
@@ -280,7 +274,9 @@ export default {
               }
             );
             this.info = data;
-            console.log(1)
+            this.reduction_money_list = this.info.reduction_money_list;
+            store.dispatch("setCouponList",this.info.coupons_required_products_list)
+            store.dispatch("setMoneyOffList",this.info.reduction_money_list)
             if (getBrowserType() == "alipay") {
               try {
                 AlipayJSBridge.call("setTitle", {
