@@ -4,6 +4,7 @@
     height: 5.65rem;
     z-index: 999;
     background: #fff;
+    overflow: hidden;
     .checkout-header {
       text-align: center;
       font-size: .16rem;
@@ -21,15 +22,190 @@
       display: flex;
       align-items: center;
       i {
-        width: .16rem;
-        height: .16rem;
-        // width: 160px;
-        // height: 160px;
+        width: 17px;
+        height: 16px;
         background-position: -50px -18px;
+        margin: 0 .08rem 0 .12rem;
       }
       span {
         display: inline-block;
         margin-right: .07rem;
+        font-weight: bold;
       }
+    }
+    .discount-tabs {
+      padding: 0 .16rem;
+      box-sizing: border-box;
+      font-size: .15rem;
+      div {
+        height: .49rem;
+        line-height: .49rem;
+      }
+      .money-off-tab {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #F0F2F5;
+        .money-off-title {
+          width: 1.5rem;
+          display: flex;
+          align-items: center;
+          i {
+            width: 24px;
+            height: 22.5px;
+            background-position: -159px -16px;
+            margin: 0 .07rem 0 .1rem;
+          }
+        }
+        .money-off-choose {
+          display: flex;
+          align-items: center;
+          i {
+            width: 19px;
+            height: 19px;
+            background-position: -85px -17px;
+            margin: 0 .08rem 0 .11rem;
+          }
+        } 
+      }
+      .coupon-tab {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .coupon-title {
+          display: flex;
+          align-items: center;
+          width: 1.5rem;
+          i {
+            width: 24px;
+            height: 22.5px;
+            background-position: -199px -16px;
+            margin: 0 .07rem 0 .1rem;
+          }
+        }
+        .coupon-num {
+          color: #98A6AD;
+          margin-right: .12rem;
+        }
+      }
+    }
+    .list-main {
+      height: 3.36rem;
+      position: relative;
+      background: #F3F5F9;
+      .list {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        .list-items {
+          width: 100%;
+          height: .92rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          .item {
+            width: 3.27rem;
+            height: .82rem;
+            background: url('../assets/coupon.png') no-repeat;
+            background-size: 100%;
+            .item-left {
+              width: 1.15rem;
+              height: 100%;
+              color: #fff;
+              text-align: center;
+              .item-money {
+                font-size: .24rem;
+                padding: .16rem 0 .04rem 0;
+              }
+              .item-text {
+                font-size: .13rem;
+              }
+            }
+            .item-right {
+              width: 2.12rem;
+              height: 100%;
+              padding: 0 .12rem;
+              justify-content: space-between;
+              .right-box {
+                width: 1.5rem;
+                height: .59rem;
+                flex-wrap: wrap;
+                align-content: space-between;
+                .item-name {
+                  justify-content: space-between;
+                  font-size: .14rem;
+                  width: 100%;
+                  font-weight: bold;
+                  .item-store {
+                    width: 1.55rem;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                  }
+                  .item-label {
+                    width: .6rem;
+                    height: .18rem;
+                    background:rgba(77,155,251,1);
+                    border-radius:18px;
+                    font-size: .12rem;
+                    text-align: center;
+                    line-height: .18rem;
+                    font-weight: normal;
+                    color: #fff;
+                  }
+                }
+                .item-date {
+                  font-size: .12rem;
+                  color: #5F666C;
+                }
+              }
+              .check-box {
+                width: 19px;
+                height: 19px;
+              }
+              .checked {
+                background-position: -122px -18px;
+              }
+              .no-checked {
+                background-position: -85px -17px;
+              }
+              
+            }
+          }
+        }
+      }
+      .no-data {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        
+      }
+      .no-data-bj {
+        width: 1.51rem;
+        height: .9rem;
+        margin-top: .96rem;
+        margin-left: 1.1rem;
+        img {
+          width: 100%;
+          height: 100%;
+          vertical-align: top
+        }
+      }
+      .no-data-text {
+        color: #98A6AD;
+        font-size: .15rem;
+        width: 100%;
+        text-align: center;
+        margin-top: .15rem;
+      }
+    }
+    .confirm {
+      width: 100%;
+      height: .49rem;
+      font-size: .17rem;
+      color: #fff;
+      text-align: center;
+      line-height: .49rem;
+      background:linear-gradient(142deg,rgba(254,119,82,1) 0%,rgba(255,67,51,1) 100%);
     }
   }

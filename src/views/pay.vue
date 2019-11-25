@@ -69,18 +69,15 @@
       closeable
       v-model="is_show"
       position="bottom"
-      :style="{ height: '463px'}"
+      :style="{ height: '5.65rem'}"
     >
-      <div class="area-mask" v-if="is_show">
-        <div class="mask"></div>
         <checkout-discount
-          :couponlist="couponlist"
+          v-if="is_show"
           :sum="sum"
           :spendable_coupons="spendable_coupons"
           :coupon_id="coupon_id"
           v-on:ListenToCoupon="getCouponsid"
         />
-      </div>
     </van-popup>
   </div>
 </template>
@@ -188,6 +185,14 @@ export default {
         } else {
           this.amount = accSub(this.sum, sums);
         }
+        for (let i in this.couponlist){
+          for (let z in a){
+            if(this.couponlist[i].coupons_id == a[z]){
+              this.couponlist[i].ischecked = true
+            }
+          }
+        }
+        store.dispatch("setCouponList",this.couponlist)
       } else {
         this.sums = 0;
         if (this.is_money_off) {
