@@ -129,11 +129,12 @@ export default {
         this.moneyOff();
         this.bestDiscount(a);
         let w = accSub(a, this.sums);
-        let b = accSub(w, this.key_value);
-        this.amount = b;
+        this.amount = w;
+        console.log(this.sums,'sums',this.key_value,'key_value')
         if (this.amount < 0) {
           this.amount = 0;
         }
+
       } else {
         this.amount = 0;
         this.coupon_id = [];
@@ -162,8 +163,8 @@ export default {
       if (a.length) {
         if (this.is_money_off) {
           console.log(4)
-          let w = accSub(this.sum, this.key_value);
-          this.amount = accSub(w, this.sums);
+          let w = accSub(this.sum, this.sums);
+          this.amount = w
         } else {
           console.log(3)
           this.amount = accSub(this.sum, this.sums);
@@ -178,7 +179,7 @@ export default {
         store.dispatch("setCouponList",this.couponlist)
       }else{
         if (this.is_money_off) {
-          let w = accSub(this.sum, this.key_value);
+          let w = accSub(this.sum, this.sums);
           this.amount = w;
         } else {
           this.amount = this.sum;
