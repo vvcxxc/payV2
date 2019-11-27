@@ -26,22 +26,15 @@
         </p>
       </div>
       <div class="discount" @click="handlecoupons" v-if="havecoupon">
-        <p style="float:left">优惠券</p>
-        <p class="jianshao">
-          <i style="font-size:14px"></i>
-          <span>{{coupon}}</span>
-          <img src="../assets/arro-right.png" />
-        </p>
+        <p>优惠信息</p>
+        <div class="jianshao">
+          <div class="youhui_text">{{youhui_text}}</div>
+          <div class="jianshao_right">
+            <div>-￥ {{sums}}</div>
+            <img src="../assets/arro-right.png" />
+          </div>
+        </div>
       </div>
-      <!-- <div class="manjian" v-show="isshow" @click="chooseMoneyOff">
-        <span>满减优惠</span>
-        <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span>
-        <span class="manjian-fudu flex">
-          满 {{this.key}} 减 {{this.key_value}}
-          <span class="choose_moneyoff" v-if="is_money_off"></span>
-          <span class="no_choose_moneyoff" v-else></span>
-        </span>
-      </div> -->
       <div class="amount">
         <span>合计：</span>
         <span class="total">
@@ -69,13 +62,14 @@
       closeable
       v-model="is_show"
       position="bottom"
-      :style="{ height: '5.65rem'}"
+      :style="{ height: 'auto'}"
     >
         <checkout-discount
           v-if="is_show"
           :sum="sum"
           :spendable_coupons="spendable_coupons"
           :coupon_id="coupon_id"
+          :is_money_off='is_money_off'
           v-on:ListenToCoupon="getCouponsid"
         />
     </van-popup>
@@ -117,7 +111,8 @@ export default {
       sums: 0,
       manjian_rule: false,
       no_door: [], // 无门槛券的列表,
-      ids: {}
+      ids: {},
+      youhui_text: ''
     };
   },
 
@@ -159,31 +154,18 @@ export default {
         this.no_door = arr;
       }
     },
-    is_money_off: function(a) {
-      if (a) {
-        let w = accSub(this.sum, this.key_value);
-        this.amount = accSub(w, this.sums);
-      } else {
-        this.amount = accSub(this.sum, this.sums);
-      }
-      if (this.amount < 0) {
-        this.amount = 0;
+    amount: function(a) {
+      if (a*1 < 0){
+        this.amount = 0
       }
     },
     coupon_id: function(a) {
       if (a.length) {
-        let sums = 0;
-        let arr = this.chooseList(this.couponlist, a);
-        for (let i in arr) {
-          sums = accAdd(arr[i].money, sums);
-        }
-        this.coupon = "- " + sums + "元";
-        this.sums = sums;
         if (this.is_money_off) {
           let w = accSub(this.sum, this.key_value);
-          this.amount = accSub(w, sums);
+          this.amount = accSub(w, this.sums);
         } else {
-          this.amount = accSub(this.sum, sums);
+          this.amount = accSub(this.sum, this.sums);
         }
         for (let i in this.couponlist){
           for (let z in a){
@@ -193,17 +175,6 @@ export default {
           }
         }
         store.dispatch("setCouponList",this.couponlist)
-      } else {
-        this.sums = 0;
-        if (this.is_money_off) {
-          this.amount = accSub(this.sum, this.key_value);
-        } else {
-          this.amount = this.sum;
-        }
-        this.coupon = this.couponlist.length + "张";
-      }
-      if (this.amount < 0) {
-        this.amount = 0;
       }
     }
   },
@@ -334,18 +305,6 @@ export default {
         }
       }
     },
-    // 返回已选择的优惠券列表
-    chooseList(list, id) {
-      let arr = [];
-      for (let i in list) {
-        for (let a in id) {
-          if (list[i].coupons_id == id[a]) {
-            arr.push(list[i]);
-          }
-        }
-      }
-      return arr;
-    },
 
     // 最佳优惠
     bestDiscount(sum) {
@@ -373,6 +332,26 @@ export default {
           this.is_money_off = 1;
         }
       }
+      let num = 0
+      let sums = 0
+      if(this.coupon_id.length){
+        for (let i in this.couponlist){
+          if(this.coupon_id[i]){
+            if(this.coupon_id[i] == this.couponlist[i].coupons_id){
+              sums = accAdd(sums , this.couponlist[i].money)
+            }
+          }
+        }
+        num ++
+      }
+      if(this.is_money_off){
+        sums = accAdd(sums, this.key_value)
+        num ++
+      }
+      if(num){
+        this.sums = sums
+        this.youhui_text = '已选'+num+'项'
+      }
     },
     /**
      * @arr 传入可用的优惠券的数组
@@ -392,7 +371,7 @@ export default {
         }
       }
       arr.unshift(best[0]);
-      if (this.sum * 1 >= this.key * 1) {
+      if (this.sum * 1 >= this.key * 1 && this.key*1 != 0) {
         if (best[0].money * 1 <= this.key_value * 1) {
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
@@ -411,6 +390,8 @@ export default {
           id.push(best[0].coupons_id);
           this.coupon_id = id;
         }
+      }else{
+        this.is_money_off = 0;
       }
 
       arr = RemoveDup(arr);
@@ -418,7 +399,8 @@ export default {
     },
 
     // 监听从优惠券组件传回的值
-    getCouponsid(id, sums) {
+    getCouponsid(id, sums, acticity) {
+      this.is_money_off = acticity
       this.is_show = false;
       this.coupon_id = id;
       if (sums) {
@@ -427,23 +409,6 @@ export default {
       } else {
         this.sums = 0;
         this.coupon = this.couponlist.length + "张";
-      }
-      let is_ok = false;
-      for (let i in this.couponlist) {
-        for (let a in id) {
-          if (this.couponlist[i].coupons_id == id[a]) {
-            if (this.couponlist[i].is_threshold == 2) {
-              is_ok = true;
-            }
-          }
-        }
-      }
-      if (is_ok) {
-        this.is_money_off = 0;
-      } else {
-        if (this.sum * 1 >= this.key * 1) {
-          this.is_money_off = 1;
-        }
       }
     }
   }
@@ -620,27 +585,43 @@ header {
 .input-price span img {
   width: 0.18rem;
 }
-.discount,
-.manjian {
+.discount {
   height: 0.45rem;
-  line-height: 0.45rem;
   color: #313131;
   font-size: 0.13rem;
   margin: 0 0.11rem;
   border-bottom: 1px solid #ebebeb;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+.jianshao {
+  width: 2.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+.youhui_text {
+  color: #BAC3C7;
+  font-size: .12rem
+}
+.jianshao_right {
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jianshao_right div {
+  margin-right: .1rem;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: unset
 }
 .jianshao img {
+  height: 14px;
   width: 5px;
-  margin-top: -2px;
 }
-.discount .jianshao,
-.manjian-fudu {
-  float: right;
-  height: 0.45rem;
-  line-height: 0.45rem;
-  font-size: 0.12rem;
-}
+
 .amount {
   font-size: 0.13rem;
   line-height: 0.45rem;

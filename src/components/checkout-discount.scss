@@ -1,7 +1,8 @@
 .checkout{
     position: relative;
     width: 100vw;
-    height: 5.65rem;
+    // height: 5.65rem;
+    height: auto;
     z-index: 999;
     background: #fff;
     overflow: hidden;
@@ -63,8 +64,13 @@
           i {
             width: 19px;
             height: 19px;
-            background-position: -85px -17px;
             margin: 0 .08rem 0 .11rem;
+          }
+          .choose_money_off {
+            background-position: -122px -18px;
+          }
+          .no_choose {
+            background-position: -85px -17px;
           }
         } 
       }
@@ -94,7 +100,7 @@
       position: relative;
       background: #F3F5F9;
       .list {
-        width: 100%;
+        width: 100%;  
         height: 100%;
         overflow: auto;
         .list-items {
@@ -103,10 +109,16 @@
           display: flex;
           align-items: center;
           justify-content: space-around;
+          .spendable {
+            background: url('../assets/coupon.png') no-repeat;
+          }
+          .no-use {
+            background: url('../assets/coupon1.png') no-repeat;
+          }
           .item {
             width: 3.27rem;
             height: .82rem;
-            background: url('../assets/coupon.png') no-repeat;
+           
             background-size: 100%;
             .item-left {
               width: 1.15rem;
