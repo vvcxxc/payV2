@@ -52,7 +52,7 @@ instance.interceptors.response.use(
           window.console.log("HTTP: 400")
           break
         case NOT_SIGN:
-          import("../utils/handle_login").then(({ Login }) => {
+          import("../utils/handle_login").then(({ Login1 }) => {
             window.console.log("execute Login method")
             // return Login()
           })

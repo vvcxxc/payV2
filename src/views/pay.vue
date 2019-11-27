@@ -162,9 +162,11 @@ export default {
     coupon_id: function(a) {
       if (a.length) {
         if (this.is_money_off) {
+          console.log(4)
           let w = accSub(this.sum, this.key_value);
           this.amount = accSub(w, this.sums);
         } else {
+          console.log(3)
           this.amount = accSub(this.sum, this.sums);
         }
         for (let i in this.couponlist){
@@ -175,6 +177,13 @@ export default {
           }
         }
         store.dispatch("setCouponList",this.couponlist)
+      }else{
+        if (this.is_money_off) {
+          let w = accSub(this.sum, this.key_value);
+          this.amount = w;
+        } else {
+          this.amount = this.sum;
+        }
       }
     }
   },
@@ -184,29 +193,6 @@ export default {
   },
 
   methods: {
-    // 是否选择满减
-    chooseMoneyOff() {
-      if (this.is_money_off) {
-        // 取消选择满减
-        this.manjian_rule = false;
-        this.is_money_off = 0;
-      } else {
-        // 选择满减
-        this.manjian_rule = true;
-        this.is_money_off = 1;
-        let id = [];
-        for (let i in this.couponlist) {
-          for (let a in this.coupon_id) {
-            if (this.couponlist[i].coupons_id == this.coupon_id[a]) {
-              if (this.couponlist[i].is_threshold != 2) {
-                id.push(this.couponlist[i].coupons_id);
-              }
-            }
-          }
-        }
-        this.coupon_id = id;
-      }
-    },
     haveSum() {
       this.havesum = !this.havesum;
     },
@@ -372,6 +358,7 @@ export default {
       }
       arr.unshift(best[0]);
       if (this.sum * 1 >= this.key * 1 && this.key*1 != 0) {
+        console.log(5)
         if (best[0].money * 1 <= this.key_value * 1) {
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
@@ -382,6 +369,7 @@ export default {
             this.is_money_off = 1;
           }
         } else {
+          console.log(6)
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -391,7 +379,11 @@ export default {
           this.coupon_id = id;
         }
       }else{
+        console.log(7)
         this.is_money_off = 0;
+        arr.sort(Compare('money'))
+        id.push(arr[0].coupons_id)
+        this.coupon_id = id
       }
 
       arr = RemoveDup(arr);
@@ -427,22 +419,6 @@ export default {
   background: url("../assets/tanhao.png") no-repeat;
   background-size: 100%;
   margin-right: 5px;
-}
-.choose_moneyoff {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url("../assets/checked.png");
-  background-size: 100%;
-  margin-left: 10px;
-}
-.no_choose_moneyoff {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url("../assets/no-checked.png");
-  background-size: 100%;
-  margin-left: 10px;
 }
 .manjian-rule {
   font-size: 12px;
