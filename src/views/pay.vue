@@ -1,6 +1,6 @@
 <template>
   <div class="payment">
-    <header v-if="info.is_reduction_removed">
+    <header v-if="info.reduction_money_list">
       <i class="icon_tanhao"></i>
       <span
         v-for="(value,key) in info.reduction_money_list"
@@ -213,6 +213,9 @@ export default {
       this.sum = "";
       this.havesum = true;
       this.amount = 0;
+      this.sums = 0;
+      this.coupons_id = [];
+      this.is_money_off = 0
     },
     //  获取商店信息
     getStoreinfo() {
@@ -562,9 +565,10 @@ header {
   width: 0.18rem;
 }
 .discount {
-  height: 0.45rem;
+  height: 0.49rem;
   color: #313131;
-  font-size: 0.13rem;
+  font-size: 0.15rem;
+  font-weight: bold;
   margin: 0 0.11rem;
   border-bottom: 1px solid #ebebeb;
   display: flex;
@@ -572,7 +576,7 @@ header {
   align-items: center
 }
 .jianshao {
-  width: 2.9rem;
+  width: 2.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center
@@ -599,8 +603,9 @@ header {
 }
 
 .amount {
-  font-size: 0.13rem;
-  line-height: 0.45rem;
+  font-size: 0.15rem;
+  font-weight: bold;
+  line-height: 0.49rem;
   margin: 0 0.11rem;
   color: #313131;
 }

@@ -117,7 +117,15 @@ export default {
   },
   mounted() {
     this.is_activity = this.is_money_off;
-    this.list = this.coupon_list;
+    let list = [...this.coupon_list]
+    for (let i in list){
+      for (let a in this.coupon_id){
+        if (this.coupon_id[a] == list[i].coupons_id){
+          list[i].ischecked = true
+        }
+      }
+    }
+    this.list = list;
     this.isMoneyOff();
     this.compareList();
   },
@@ -196,11 +204,11 @@ export default {
           }
         }
         if (id.length) {
+          list[i].ischecked = false;
           for (let a in id) {
             if (list[i].coupons_id == id[a]) {
+              console.log(2123)
               list[i].ischecked = true;
-            } else {
-              list[i].ischecked = false;
             }
           }
         }
