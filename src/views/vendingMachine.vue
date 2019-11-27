@@ -34,6 +34,7 @@ import {
   vendingMachineAlipay
 } from "../api/api";
 import { Cookie } from "../utils/common";
+import { Login1 } from '../utils/handle_login'
 import { decode } from 'punycode';
 export default {
   data() {
@@ -107,30 +108,7 @@ export default {
             
           let { status } = err;
           if (status == 401) {
-            let from = process.env.VUE_APP_FROM1;
-            from = encodeURIComponent(from)
-            let browsertype = getBrowserType();
-            if (browsertype == "wechat") {
-              let url =
-                process.env.VUE_APP_BASE_DOMAIN +
-                "wechat/wxoauth?code_id=0&from=" +
-                from;
-              url = encodeURIComponent(url);
-              let urls =
-                "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
-                url +
-                "&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE";
-                return window.location.href = urls;
-            } else if (browsertype == "alipay") {
-              let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
-              url = encodeURIComponent(url);
-              window.location.href =
-                process.env.VUE_APP_BASE_DOMAIN +
-                "ali/zfbUserAuth?code_id=0&store_id="+this.store_id+"&from=" +
-                from +
-                "&url=" +
-                url;
-            }
+            Login1()
           }
         });
     },
@@ -174,11 +152,13 @@ export default {
             },
             function(res) {
               if (res.err_msg == "get_brand_wcpay_request:ok") {
+                // 等待新的跳转路径（跳到新的活动项目）
                 _this.$router.push({ name: "activity", params: message });
               }
             }
           );
         } else if (code == 201) {
+          // 等待新的跳转路径（跳到新的活动项目）
           this.$router.push({ name: "activity", params: message });
         }
       } else {
@@ -203,6 +183,8 @@ export default {
             },
             res => {
               if (res.resultCode === "9000") {
+
+                // 等待新的跳转路径（跳到新的活动项目）
                 _this.$router.push({ name: "activity", params: message });
                 return {
                   message: "ok"
