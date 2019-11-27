@@ -116,6 +116,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.coupon_id)
     this.is_activity = this.is_money_off;
     let list = [...this.coupon_list]
     for (let i in list){

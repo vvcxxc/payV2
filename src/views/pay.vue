@@ -119,9 +119,6 @@ export default {
     XKeyboard,
     CheckoutDiscount
   },
-  computed: {
-    ...mapGetters(["coupon_list"])
-  },
 
   watch: {
     sum: function(a) {
@@ -130,7 +127,6 @@ export default {
         this.bestDiscount(a);
         let w = accSub(a, this.sums);
         this.amount = w;
-        console.log(this.sums,'sums',this.key_value,'key_value')
         if (this.amount < 0) {
           this.amount = 0;
         }
@@ -138,6 +134,8 @@ export default {
       } else {
         this.amount = 0;
         this.coupon_id = [];
+        this.youhui_text = '';
+        this.sums = 0
       }
     },
     info: function() {
@@ -162,7 +160,6 @@ export default {
     coupon_id: function(a) {
       if (a.length) {
         if (this.is_money_off) {
-          console.log(4)
           let w = accSub(this.sum, this.sums);
           this.amount = w
         } else {
@@ -171,6 +168,7 @@ export default {
         }
         for (let i in this.couponlist){
           for (let z in a){
+            this.couponlist[i].ischecked = false
             if(this.couponlist[i].coupons_id == a[z]){
               this.couponlist[i].ischecked = true
             }
@@ -183,6 +181,9 @@ export default {
           this.amount = w;
         } else {
           this.amount = this.sum;
+        }
+        for (let i in this.couponlist){
+          this.couponlist[i].ischecked = false
         }
       }
     }
