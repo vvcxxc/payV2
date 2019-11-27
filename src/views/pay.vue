@@ -214,7 +214,8 @@ export default {
       this.amount = 0;
       this.sums = 0;
       this.coupons_id = [];
-      this.is_money_off = 0
+      this.is_money_off = 0;
+      this.youhui_text = ''
     },
     //  获取商店信息
     getStoreinfo() {
