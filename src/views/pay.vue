@@ -151,6 +151,9 @@ export default {
         }
         this.no_door = arr;
       }
+      if (this.info.reduction_money_list){
+        this.havecoupon = true;
+      }
     },
     amount: function(a) {
       if (a*1 <= 0 || a == ''){
