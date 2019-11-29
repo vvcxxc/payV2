@@ -405,7 +405,7 @@ export default {
         this.sums = sums;
         let num = 0
         if(id.length){
-          num ++
+          num = accAdd(num, id.length)
         }
         if (acticity){
           num ++
