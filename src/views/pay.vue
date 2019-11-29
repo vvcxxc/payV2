@@ -405,6 +405,7 @@ export default {
         this.sums = sums;
       } else {
         this.sums = 0;
+        this.youhui_text = ''
         this.coupon = this.couponlist.length + "张";
       }
     }
