@@ -21,7 +21,7 @@
             <div class="like-input"></div>
           </span>
           <span @click="cleansum" v-if="!havesum">
-            <img src="../assets/quxiao.png" alt />
+            <img src="../assets/quxiao.png" />
           </span>
         </p>
       </div>
@@ -30,7 +30,7 @@
         <div class="jianshao">
           <div class="youhui_text">{{youhui_text}}</div>
           <div class="jianshao_right">
-            <div>-￥ {{sums}}</div>
+            <div v-if="sums">-￥ {{sums}}</div>
             <img src="../assets/arro-right.png" />
           </div>
         </div>
@@ -153,7 +153,7 @@ export default {
       }
     },
     amount: function(a) {
-      if (a*1 < 0){
+      if (a*1 <= 0 || a == ''){
         this.amount = 0
       }
     },
@@ -403,6 +403,16 @@ export default {
       if (sums) {
         this.coupon = "-" + sums + "元";
         this.sums = sums;
+        let num = 0
+        if(id.length){
+          num ++
+        }
+        if (acticity){
+          num ++
+        }
+        if(num){
+          this.youhui_text = '已选' + num + '项'
+        }
       } else {
         this.sums = 0;
         this.youhui_text = ''
