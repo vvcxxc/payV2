@@ -25,7 +25,7 @@
           </span>
         </p>
       </div>
-      <div class="discount" @click="handlecoupons" v-if="havecoupon">
+      <div class="discount" @click="handlecoupons" v-if="youhui_text">
         <p>优惠信息</p>
         <div class="jianshao">
           <div class="youhui_text">{{youhui_text}}</div>
