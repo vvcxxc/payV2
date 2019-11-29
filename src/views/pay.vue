@@ -330,9 +330,11 @@ export default {
       let sums = 0
       if(this.coupon_id.length){
         for (let i in this.couponlist){
-          if(this.coupon_id[i]){
-            if(this.coupon_id[i] == this.couponlist[i].coupons_id){
-              sums = accAdd(sums , this.couponlist[i].money)
+          if(this.coupon_id){
+            for (let a in this.coupon_id){
+              if(this.coupon_id[a] == this.couponlist[i].coupons_id){
+                sums = accAdd(sums , this.couponlist[i].money)
+              }
             }
           }
         }
