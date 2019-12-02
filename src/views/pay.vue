@@ -323,6 +323,9 @@ export default {
       } else {
         if (this.sum * 1 >= this.key * 1 && this.key) {
           this.is_money_off = 1;
+        }else{
+          console.log(5132)
+          this.is_money_off = 0
         }
       }
       let num = 0
@@ -347,6 +350,9 @@ export default {
       if(num){
         this.sums = sums
         this.youhui_text = '已选'+num+'项'
+      }else{
+        this.sums = 0
+        this.youhui_text = ''
       }
     },
     /**

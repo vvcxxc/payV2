@@ -168,8 +168,8 @@ export default {
           }
         }
       }
-      list.sort(Compare("choose"));
       list.sort(Compare("money"));
+      list.sort(Compare("choose"));
       list.sort(Compare("ischecked"));
       this.list = list;
     },
@@ -243,8 +243,8 @@ export default {
           }
         }
       }
-      list.sort(Compare("choose"));
       list.sort(Compare("money"));
+      list.sort(Compare("choose"));
       list.sort(Compare("ischecked"));
       return list;
     },
@@ -293,8 +293,8 @@ export default {
           }
         }
       }
-      list.sort(Compare("choose"));
       list.sort(Compare("money"));
+      list.sort(Compare("choose"));
       list.sort(Compare("ischecked"));
       return list;
     },

@@ -210,7 +210,7 @@ export default {
 
 
                       // 等待新的跳转路径（跳到新的活动项目）
-
+                      location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
                       if (_this.is_area && amount*1 >= 3) {
                         _this.$router.push({
@@ -242,7 +242,7 @@ export default {
 
 
                 // 等待新的跳转路径（跳到新的活动项目）
-
+                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
 
                 if (this.is_area && amount*1 >= 3) {
@@ -307,7 +307,7 @@ export default {
                       
 
                 // 等待新的跳转路径（跳到新的活动项目）
-
+                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
                 
 
@@ -352,7 +352,7 @@ export default {
 
 
                 // 等待新的跳转路径（跳到新的活动项目）
-
+                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
                 
                 if (this.is_area && amount*1 >= 3) {
