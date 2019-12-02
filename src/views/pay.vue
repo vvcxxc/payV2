@@ -283,7 +283,6 @@ export default {
         let manjian = this.info.reduction_money_list;
         for (let key in manjian) {
           if (this.sum * 1 >= key * 1) {
-            // this.manjian = manjian[key];
             this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
@@ -317,18 +316,19 @@ export default {
           console.log(2);
           this.spendable_coupons = [];
           this.coupon_id = [];
-          if (this.sum * 1 >= this.key * 1) {
+          if (this.sum * 1 >= this.key * 1 && this.key) {
             this.is_money_off = 1;
           }
         }
       } else {
-        if (this.sum * 1 >= this.key * 1) {
+        if (this.sum * 1 >= this.key * 1 && this.key) {
           this.is_money_off = 1;
         }
       }
       let num = 0
       let sums = 0
       if(this.coupon_id.length){
+        console.log(323)
         for (let i in this.couponlist){
           if(this.coupon_id){
             for (let a in this.coupon_id){
