@@ -210,18 +210,11 @@ export default {
 
 
                       // 等待新的跳转路径（跳到新的活动项目）
-                      location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
                       if (_this.is_area && amount*1 >= 3) {
-                        _this.$router.push({
-                          name: "activity_card",
-                          params: message
-                        });
+                         location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                       } else {
-                        _this.$router.push({
-                          name: "activity",
-                          params: message
-                        });
+                         location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                       }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
@@ -242,16 +235,12 @@ export default {
 
 
                 // 等待新的跳转路径（跳到新的活动项目）
-                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
 
                 if (this.is_area && amount*1 >= 3) {
-                  _this.$router.push({
-                    name: "activity_card",
-                    params: message
-                  });
+                 location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                 } else {
-                  _this.$router.push({ name: "activity", params: message });
+                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                 }
               }
             })
@@ -307,21 +296,14 @@ export default {
                       
 
                 // 等待新的跳转路径（跳到新的活动项目）
-                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
                 
 
                       if (_this.is_area && amount*1 >= 3) {
                       // if (_this.is_area) {
-                        _this.$router.push({
-                          name: "activity_card",
-                          params: message
-                        });
+                        location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                       } else {
-                        _this.$router.push({
-                          name: "activity",
-                          params: message
-                        });
+                         location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                       }
                       return {
                         message: "ok"
@@ -352,17 +334,13 @@ export default {
 
 
                 // 等待新的跳转路径（跳到新的活动项目）
-                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
 
                 
                 if (this.is_area && amount*1 >= 3) {
                 // if (_this.is_area) {
-                  _this.$router.push({
-                    name: "activity_card",
-                    params: message
-                  });
+                  location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                 } else {
-                  _this.$router.push({ name: "activity", params: message });
+                   location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                 }
               }
             })
