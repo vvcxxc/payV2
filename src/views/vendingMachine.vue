@@ -117,13 +117,14 @@ export default {
     async Pay() {
       let _this = this
       let type = getBrowserType();
-      let message = {
-        order_sn: this.order_sn,
-        store_name: this.store_name,
-        browsertype: type,
-        amount: this.amount,
-        result_money: this.amount
-      };
+      // let message = {
+      //   order_sn: this.order_sn,
+      //   store_name: this.store_name,
+      //   browsertype: type,
+      //   amount: this.amount,
+      //   result_money: this.amount
+      // };
+      let order_sn = this.order_sn
       if (type == "wechat") {
         // 微信支付
         let open_id = Cookie.get(process.env.VUE_APP_OPEN_ID);
@@ -153,13 +154,13 @@ export default {
             function(res) {
               if (res.err_msg == "get_brand_wcpay_request:ok") {
                 // 等待新的跳转路径（跳到新的活动项目）
-                _this.$router.push({ name: "activity", params: message });
+                window.location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
               }
             }
           );
         } else if (code == 201) {
           // 等待新的跳转路径（跳到新的活动项目）
-          this.$router.push({ name: "activity", params: message });
+           window.location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
         }
       } else {
         //   支付宝支付
@@ -185,7 +186,7 @@ export default {
               if (res.resultCode === "9000") {
 
                 // 等待新的跳转路径（跳到新的活动项目）
-                _this.$router.push({ name: "activity", params: message });
+                 window.location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
                 return {
                   message: "ok"
                 };
@@ -197,6 +198,8 @@ export default {
               }
             }
           );
+        }else if (code == 201){
+           window.location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
         }
       }
     }

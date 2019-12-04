@@ -324,7 +324,6 @@ export default {
         if (this.sum * 1 >= this.key * 1 && this.key) {
           this.is_money_off = 1;
         }else{
-          console.log(5132)
           this.is_money_off = 0
         }
       }
