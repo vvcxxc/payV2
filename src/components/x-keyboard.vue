@@ -140,7 +140,6 @@ export default {
 
     // 点击支付
     async toPay() {
-      console.log(this.ids)
       _hmt.push(["_trackEvent", "确认支付", "用户点击了确认按钮"]);
       let _this = this;
       let browsertype = getBrowserType();
@@ -198,7 +197,7 @@ export default {
                   },
                   function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
-                      alert({..._this.ids,order_sn})
+                      
                       // 广告分润
                       if (amount*1 >= 1){
                         adShareProfit({..._this.ids,order_sn})
