@@ -198,7 +198,7 @@ export default {
                   },
                   function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
-
+                      alert({..._this.ids,order_sn})
                       // 广告分润
                       if (amount*1 >= 1){
                         adShareProfit({..._this.ids,order_sn})
