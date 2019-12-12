@@ -258,6 +258,7 @@ export default {
             is_activities,
             result_money
           };
+          console.log(params)
           // let { data, code } = await requestAlpayPayment(params);
           requestAlpayPayment(params)
             .then(res => {
