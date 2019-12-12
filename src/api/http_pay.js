@@ -47,6 +47,7 @@ instance.interceptors.response.use(
     if(err)
     if (response) {
       const { status, data } = response
+      alert('出错了',status)
       switch (status) {
         case 400:
           window.console.log("HTTP: 400")
