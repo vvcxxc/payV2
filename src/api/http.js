@@ -40,6 +40,7 @@ instance.interceptors.response.use(
   err => {
     store.dispatch("ajaxAfter")
     const { response } = err
+    alert('出错了')
     // console.log(JSON.stringify(err).includes('timeout'))
     if(JSON.stringify(err).includes('timeout')){
       Toast('网络异常，请重新扫码支付')
