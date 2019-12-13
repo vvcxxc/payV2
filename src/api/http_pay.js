@@ -47,7 +47,6 @@ instance.interceptors.response.use(
     if(err)
     if (response) {
       const { status, data } = response
-      alert(status)
       switch (status) {
         case 400:
           window.console.log("HTTP: 400")
@@ -55,7 +54,7 @@ instance.interceptors.response.use(
         case NOT_SIGN:
           import("../utils/handle_login").then(({ Login }) => {
             window.console.log("execute Login method")
-            // return Login()
+            return Login()
           })
           break
         case NOT_FIND:
