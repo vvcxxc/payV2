@@ -32,7 +32,11 @@
 <script>
 import { getUrlParams, getBrowserType } from "../utils/get_info";
 import { Cookie } from "../utils/common";
-import { requestWechatPayment, requestAlpayPayment, adShareProfit } from "../api/api_pay";
+import {
+  requestWechatPayment,
+  requestAlpayPayment,
+  adShareProfit
+} from "../api/api_pay";
 import { Dialog, Loading, Toast } from "vant";
 import { mapGetters } from "vuex";
 import { async } from "q";
@@ -85,7 +89,7 @@ export default {
     },
     is_reduction_removed: function(a) {
       this.activity = a;
-    },
+    }
   },
   methods: {
     inputNum(ev) {
@@ -167,7 +171,7 @@ export default {
             result_money
           };
           requestWechatPayment(params)
-            .then((res) => {
+            .then(res => {
               let { code, data } = res;
               if (code == 2400) {
                 Dialog.alert({
@@ -198,11 +202,10 @@ export default {
                   },
                   async function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
-                      
                       // 广告分润
-                      if (amount*1 >= 1){
-                        if(this.ids){
-                          await adShareProfit({..._this.ids,order_sn})
+                      if (amount * 1 >= 1) {
+                        if (this.ids) {
+                          await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
 
@@ -210,10 +213,16 @@ export default {
                       _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
 
                       // 跳到新的活动项目
-                      if (_this.is_area && amount*1 >= 3) {
-                         location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                      if (_this.is_area && amount * 1 >= 3) {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn;
                       } else {
-                         location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn;
                       }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
@@ -232,14 +241,14 @@ export default {
                 // 统计
                 _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
 
-
                 // 等待新的跳转路径（跳到新的活动项目）
 
-
-                if (this.is_area && amount*1 >= 3) {
-                 location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                if (this.is_area && amount * 1 >= 3) {
+                  location.href =
+                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn;
                 } else {
-                location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                  location.href =
+                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn;
                 }
               }
             })
@@ -284,27 +293,27 @@ export default {
                   {
                     tradeNO: data.alipayOrderSn
                   },
-                 async res => {
+                  async res => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
-                       // 广告分润
-                      if (amount*1 >= 1){
-                        if(this.ids){
-                          await adShareProfit({..._this.ids,order_sn})
+                      // 广告分润
+                      if (amount * 1 >= 1) {
+                        if (_this.ids) {
+                          await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
 
-                      
-
-                // 等待新的跳转路径（跳到新的活动项目）
-
-                
-
-                      if (_this.is_area && amount*1 >= 3) {
-                      // if (_this.is_area) {
-                        location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                      if (_this.is_area && amount * 1 >= 3) {
+                        // if (_this.is_area) {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn;
                       } else {
-                         location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn;
                       }
                       return {
                         message: "ok"
@@ -332,16 +341,15 @@ export default {
                 //   adShareProfit({..._this.ids,order_sn})
                 // }
 
-
-
                 // 等待新的跳转路径（跳到新的活动项目）
 
-                
-                if (this.is_area && amount*1 >= 3) {
-                // if (_this.is_area) {
-                  location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                if (this.is_area && amount * 1 >= 3) {
+                  // if (_this.is_area) {
+                  location.href =
+                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn;
                 } else {
-                   location.href = process.env.VUE_APP_ACTIVITY + '?order_sn='+order_sn
+                  location.href =
+                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn;
                 }
               }
             })
