@@ -293,7 +293,7 @@ export default {
                   {
                     tradeNO: data.alipayOrderSn
                   },
-                  async res => {
+                  async (res) => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                       // 广告分润
@@ -302,7 +302,7 @@ export default {
                           await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
-
+                      console.log('跳转？')
                       if (_this.is_area && amount * 1 >= 3) {
                         // if (_this.is_area) {
                         location.href =
