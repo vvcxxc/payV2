@@ -201,7 +201,9 @@ export default {
                       
                       // 广告分润
                       if (amount*1 >= 1){
-                        await adShareProfit({..._this.ids,order_sn})
+                        if(this.ids){
+                          await adShareProfit({..._this.ids,order_sn})
+                        }
                       }
 
                       // 统计
@@ -256,7 +258,6 @@ export default {
             is_activities,
             result_money
           };
-          console.log(params)
           // let { data, code } = await requestAlpayPayment(params);
           requestAlpayPayment(params)
             .then(res => {
@@ -288,7 +289,9 @@ export default {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                        // 广告分润
                       if (amount*1 >= 1){
-                        await adShareProfit({..._this.ids,order_sn})
+                        if(this.ids){
+                          await adShareProfit({..._this.ids,order_sn})
+                        }
                       }
 
                       
@@ -325,9 +328,9 @@ export default {
                 _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
 
                 // 广告分润
-                if (amount*1 >= 1){
-                  adShareProfit({..._this.ids,order_sn})
-                }
+                // if (amount*1 >= 1){
+                //   adShareProfit({..._this.ids,order_sn})
+                // }
 
 
 
