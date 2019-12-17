@@ -303,18 +303,18 @@ export default {
                         }
                       }
                       console.log('跳转？')
-                      if (_this.is_area && amount * 1 >= 3) {
-                        // if (_this.is_area) {
-                        location.href =
-                          process.env.VUE_APP_ACTIVITY +
-                          "?order_sn=" +
-                          order_sn;
-                      } else {
-                        location.href =
-                          process.env.VUE_APP_ACTIVITY +
-                          "?order_sn=" +
-                          order_sn;
-                      }
+                      // if (_this.is_area && amount * 1 >= 3) {
+                      //   // if (_this.is_area) {
+                      //   location.href =
+                      //     process.env.VUE_APP_ACTIVITY +
+                      //     "?order_sn=" +
+                      //     order_sn;
+                      // } else {
+                      //   location.href =
+                      //     process.env.VUE_APP_ACTIVITY +
+                      //     "?order_sn=" +
+                      //     order_sn;
+                      // }
                       return {
                         message: "ok"
                       };
