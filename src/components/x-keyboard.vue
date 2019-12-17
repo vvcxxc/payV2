@@ -297,6 +297,7 @@ export default {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                       // 广告分润
+                      console.log(_this.ids)
                       if (amount * 1 >= 1) {
                         if (_this.ids) {
                           await adShareProfit({ ..._this.ids, order_sn });
