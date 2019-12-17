@@ -299,7 +299,7 @@ export default {
                       // 广告分润
                       console.log(_this.ids)
                       if (amount * 1 >= 1) {
-                        if (_this.ids) {
+                        if (_this.ids.adLogId) {
                           await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
