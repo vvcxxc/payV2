@@ -39,7 +39,7 @@ instance.interceptors.response.use(
   },
   err => {
     store.dispatch("ajaxAfter")
-    const { code, message } = err
+    const { code, message,response } = err
     if (code === 'ECONNABORTED' || message === 'Network Error') {
         Toast('网络异常，请重新扫码支付')
     }

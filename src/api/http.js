@@ -39,11 +39,9 @@ instance.interceptors.response.use(
   },
   err => {
     store.dispatch("ajaxAfter")
-    const { response } = err
-    
-    // console.log(JSON.stringify(err).includes('timeout'))
-    if(JSON.stringify(err).includes('timeout')){
-      Toast('网络异常，请重新扫码支付')
+    const { code, message, response } = err
+    if (code === 'ECONNABORTED' || message === 'Network Error') {
+        Toast('网络异常，请重新扫码支付')
     }
     if(err)
     if (response) {
