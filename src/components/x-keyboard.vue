@@ -203,6 +203,7 @@ export default {
                   async function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                       // 广告分润
+                      console.log(_this.ids)
                       if (amount * 1 >= 1) {
                         if (_this.ids) {
                           await adShareProfit({ ..._this.ids, order_sn });
@@ -213,17 +214,17 @@ export default {
                       _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
 
                       // 跳到新的活动项目
-                      if (_this.is_area && amount * 1 >= 3) {
-                        location.href =
-                          process.env.VUE_APP_ACTIVITY +
-                          "?order_sn=" +
-                          order_sn;
-                      } else {
-                        location.href =
-                          process.env.VUE_APP_ACTIVITY +
-                          "?order_sn=" +
-                          order_sn;
-                      }
+                      // if (_this.is_area && amount * 1 >= 3) {
+                      //   location.href =
+                      //     process.env.VUE_APP_ACTIVITY +
+                      //     "?order_sn=" +
+                      //     order_sn;
+                      // } else {
+                      //   location.href =
+                      //     process.env.VUE_APP_ACTIVITY +
+                      //     "?order_sn=" +
+                      //     order_sn;
+                      // }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
                     ) {
