@@ -2,6 +2,9 @@
   <div class="activity">
     <!-- 主题内容 -->
     <main>
+      <div class="prizeWheels_header">
+        <img src="../assets/header.png" alt />
+      </div>
       <div class="prizeWheels" v-if="is_ok">
         <div v-for="(item,idx) in list" :key="idx" class="item" :class="['item' + idx ]">
           <img :src="item.images" />
@@ -51,17 +54,31 @@
       </div>
       <div v-if="is_lottery">
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-        <div class="drawCoupon-cup" v-if="win_id == 2">
-        <div class="getPrize-cup" @click="getPrize"></div>
-        <!-- <div class="closePrize-cup" @click="closePrize"></div> -->
+        <!-- 杯子 -->
+        <div class="drawCoupon-cup drawCoupon" v-if="win_id == 3">
+          <div class="getPrize getPrize-cup" @click="getPrize"></div>
+          <!-- <div class="closePrize-cup" @click="closePrize"></div> -->
         </div>
-        <div class="drawCoupon" v-else-if="win_id == 4">
-        <div class="getPrize" @click="getPrize"></div>
-        <!-- <div class="closePrize" @click="closePrize"></div> -->
+        <!-- 烤箱 -->
+        <div class="drawCoupon-kaoxiang drawCoupon" v-else-if="win_id == 6">
+          <div class="getPrize getPrize-kaoxiang" @click="getPrize"></div>
+          <!-- <div class="closePrize" @click="closePrize"></div> -->
         </div>
-        <div class="drawCoupon-mianmo" v-else-if="win_id == 3">
-          <div class="getPrize-mianmo" @click="getPrize"></div>
-          <!-- <div class="closePrize-mianmo" @click="closePrize"></div> -->
+        <!-- 面膜 -->
+        <div class="drawCoupon-mianmo drawCoupon" v-else-if="win_id == 4">
+          <div class="getPrize getPrize-mianmo" @click="getPrize"></div>
+        </div>
+        <!-- 精美礼品 -->
+        <div class="drawCoupon-gift drawCoupon" v-if="win_id == 2">
+          <div class="getPrize getPrize-gift" @click="getPrize"></div>
+        </div>
+        <!-- 冰箱 -->
+        <div class="drawCoupon-bingxiang drawCoupon" v-if="win_id == 5">
+          <div class="getPrize" @click="getPrize"></div>
+        </div>
+        <!-- 机器人 -->
+        <div class="drawCoupon-robot drawCoupon" v-if="win_id == 7">
+          <div class="getPrize" @click="getPrize"></div>
         </div>
       </div>
 
@@ -109,9 +126,9 @@ export default {
       //  只可进行一次抽奖
       is_one: true,
       //  显示遮罩层
-      is_show: false,
+      is_show: false, // 111
       //  抽中奖品
-      is_lottery: false,
+      is_lottery: false, // 中奖弹框
       //  获得奖品
       is_get: false,
       //  抽奖返回的数据
@@ -187,7 +204,7 @@ export default {
       this.is_show = false;
     },
     // 领取奖品
-    getPrize (){
+    getPrize() {
       this.is_show = false;
       window.location.href = process.env.VUE_APP_PRIZE;
     },
@@ -324,16 +341,15 @@ export default {
           this.luckyTimes--;
           // 结束后-----
           if (JSON.stringify(this.lottery_data).indexOf("参") > 0) {
-            setTimeout(()=>{
+            setTimeout(() => {
               this.is_show = true;
               this.is_thanks = true;
-            },1500)
+            }, 1500);
           } else {
-            setTimeout(()=>{
+            setTimeout(() => {
               this.is_show = true;
               this.is_lottery = true;
-            },1500)
-            
+            }, 1500);
           }
         }
       }, 300);
@@ -376,6 +392,17 @@ export default {
 };
 </script>
 <style scoped>
+.prizeWheels_header {
+  position: absolute;
+  top: 1.8rem;
+  width: 100%;
+  height: 1.25rem;
+  z-index: 9;
+  right: 0.05rem;
+}
+.prizeWheels_header img {
+  width: 100%;
+}
 .loading-box {
   position: fixed;
   width: 100%;
@@ -509,7 +536,7 @@ export default {
 /* 主体内容 */
 main {
   width: 100vw;
-  height: 12.5rem;
+  height: 11.85rem;
   background: url("../assets/activity-card.png") no-repeat;
   background-size: 100%;
   position: relative;
@@ -520,7 +547,7 @@ main {
   height: 2.82rem;
   position: absolute;
   /* top: 2.15rem; */
-  top: 2.4rem;
+  top: 3rem;
   left: 0.11rem;
   background: url("../assets/biaopan.png") no-repeat;
   background-size: 100%;
@@ -602,7 +629,6 @@ main {
 .play {
   top: 0.99rem;
   left: 1.22rem;
-  background: none;
 }
 .play:active {
   background: #313131;
@@ -644,8 +670,25 @@ main {
   background-size: 100%;
   position: relative;
 }
+
+
+.drawCoupon-bingxiang {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/sKYtaNfj3cYbj7RZQYZhd2sCMaMC5MFM.png");
+}
+.drawCoupon-robot {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/JXnNZRCJa7AQzjDA3kd7sGxcwkKhHtbW.png");
+}
+.drawCoupon-kaoxiang {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kKXjZM3SQ4G5As68iJdZtyNtP5x6Ndmr.png");
+}
+.drawCoupon-cup {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/b83dD6xyB62bthNffrKpXtwynS3ETdGd.png");
+}
+.drawCoupon-gift {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/cHETdMZh8s5rQ4CNQAwnSbTWCGXPn8eY.png");
+}
+
 .drawCoupon {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/krxMmrJENizrwWr7rwYYanwFiB7hcfsM.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -660,82 +703,16 @@ main {
   align-items: center;
   flex-direction: column;
 }
-.drawCoupon-mianmo {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/e2xAyxd6KW3t8dFJFe7yd6tRKY5QtFr6.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translateY(-70%);
-  height: 3.915rem;
-  width: 3.7rem;
-  box-sizing: border-box;
-  padding-top: 0.6rem;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
 .drawCoupon-cup {
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/BBD3aJmAMzNBP3wbBCJ6DBRbrGtzHXsA.png");
+  left: 2%;
+}
+.drawCoupon-mianmo {
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/hQWJjb8ceW4TstSkExeMTBQ6KG3jHbn2.png");
+  left: 10%;
   background-size: 100% 100%;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 50%;
-  /* left: -1%; */
-  transform: translateY(-70%);
-  height: 3.915rem;
-  width: 3.7rem;
-  box-sizing: border-box;
-  padding-top: 0.6rem;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
-.getPrize-cup {
-  width: 1.6rem;
-  height: 0.4rem;
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/FYSKTtEhfRpYw6AcRxGdsyXkFECJB2Bc.png")
-    no-repeat;
-  background-size: 100%;
-  position: absolute;
-  bottom: 0.4rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.closePrize-cup {
-  width: 0.34rem;
-  height: 0.34rem;
-  position: absolute;
-  bottom: -0.5rem;
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bKbXsRD85NfSyahZ7zdMWjpQmSj5SWxf.png")
-    no-repeat;
-  background-size: 100%;
-  left: 48%;
-  transform: translateX(-50%);
-}
-.getPrize-mianmo {
-  width: 1.6rem;
-  height: 0.4rem;
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/FYSKTtEhfRpYw6AcRxGdsyXkFECJB2Bc.png")
-    no-repeat;
-  background-size: 100%;
-  position: absolute;
-  bottom: 0.4rem;
-  left: 41%;
-  transform: translateX(-50%);
-}
-.closePrize-mianmo {
-  width: 0.34rem;
-  height: 0.34rem;
-  position: absolute;
-  bottom: -0.5rem;
-  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bKbXsRD85NfSyahZ7zdMWjpQmSj5SWxf.png")
-    no-repeat;
-  background-size: 100%;
-  left: 40%;
-  transform: translateX(-50%);
-}
+
+
 .getPrize {
   width: 1.6rem;
   height: 0.4rem;
@@ -747,6 +724,24 @@ main {
   left: 54%;
   transform: translateX(-50%);
 }
+
+.getPrize-gift {
+  left: 52%;
+  bottom: .5rem
+}
+.getPrize-cup {
+  left: 49%;
+  bottom: .4rem
+}
+.getPrize-mianmo {
+  left: 41%;
+  bottom: .4rem
+}
+
+.getPrize-kaoxiang {
+  bottom: .3rem
+}
+
 .closePrize {
   width: 0.34rem;
   height: 0.34rem;
@@ -959,17 +954,18 @@ main {
   width: 100%;
 }
 .thanks_go {
-  background: url('http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/ByNpYWGpB2D2cK8xZN53jpQf5JaQK3Jp.png') no-repeat;
+  background: url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/ByNpYWGpB2D2cK8xZN53jpQf5JaQK3Jp.png")
+    no-repeat;
   background-size: 100%;
   position: absolute;
-  bottom: .2rem;
+  bottom: 0.2rem;
   left: 26%;
   width: 2rem;
-  height: .5rem;
+  height: 0.5rem;
 }
 .guize {
   width: 3.48rem;
-  height: 6.2rem;
+  height: 4.5rem;
   position: absolute;
   left: 50%;
   /* top: 5.29rem; */
