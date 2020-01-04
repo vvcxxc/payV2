@@ -1,6 +1,6 @@
 <template>
   <div class="payment">
-    <header v-if="info.reduction_money_list.length">
+    <header v-if="info.reduction_money_list">
       <i class="icon_tanhao"></i>
       <span
         v-for="(value,key) in info.reduction_money_list"
