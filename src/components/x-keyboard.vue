@@ -221,15 +221,15 @@ export default {
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
                           order_sn + 
-                          "&&area_id="+ _this.area_id +
-                          "&&store_id="+_this.store_id;
+                          "&area_id="+ _this.area_id +
+                          "&store_id="+_this.store_id;
                       } else {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
                           order_sn + 
-                          "&&area_id="+ _this.area_id +
-                          "&&store_id="+_this.store_id;
+                          "&area_id="+ _this.area_id +
+                          "&store_id="+_this.store_id;
                       }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
@@ -253,13 +253,13 @@ export default {
                 if (this.is_area && amount * 1 >= 3) {
                   location.href =
                     process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&&area_id="+ this.area_id +
-                          "&&store_id="+this.store_id;;
+                          "&area_id="+ this.area_id +
+                          "&store_id="+this.store_id;;
                 } else {
                   location.href =
                     process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&&area_id="+ this.area_id +
-                          "&&store_id="+this.store_id;;
+                          "&area_id="+ this.area_id +
+                          "&store_id="+this.store_id;;
                 }
               }
             })
@@ -321,15 +321,15 @@ export default {
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
                           order_sn + 
-                          "&&area_id="+ _this.area_id +
-                          "&&store_id="+_this.store_id;;
+                          "&area_id="+ _this.area_id +
+                          "&store_id="+_this.store_id;;
                       } else {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
                           order_sn + 
-                          "&&area_id="+ _this.area_id +
-                          "&&store_id="+_this.store_id;;
+                          "&area_id="+ _this.area_id +
+                          "&store_id="+_this.store_id;;
                       }
                       return {
                         message: "ok"
@@ -363,13 +363,13 @@ export default {
                   // if (_this.is_area) {
                   location.href =
                     process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&&area_id="+ this.area_id +
-                          "&&store_id="+this.store_id;;
+                          "&area_id="+ this.area_id +
+                          "&store_id="+this.store_id;;
                 } else {
                   location.href =
                     process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&&area_id="+ this.area_id +
-                          "&&store_id="+this.store_id;;
+                          "&area_id="+ this.area_id +
+                          "&store_id="+this.store_id;;
                 }
               }
             })
