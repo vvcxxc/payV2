@@ -1,6 +1,6 @@
 <template>
   <div class="payment">
-    <header v-if="info.reduction_money_list">
+    <header v-if="info.reduction_money_list.length">
       <i class="icon_tanhao"></i>
       <span
         v-for="(value,key) in info.reduction_money_list"
@@ -54,6 +54,8 @@
         :storename="info.store_name"
         :is_area="info.is_area"
         :ids="ids"
+        :area_id='info.area_id'
+        :store_id='info.store_id'
       />
     </div>
 
