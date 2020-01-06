@@ -21,6 +21,7 @@ export default {
 body,
 html {
   font-size: 16px;
+  -webkit-text-size-adjust: 100% !important;
   height: 100%;
   -webkit-user-select: none;
   -moz-user-select: none;
