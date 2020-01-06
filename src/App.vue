@@ -20,6 +20,7 @@ export default {
 <style>
 body,
 html {
+  font-size: 16px;
   height: 100%;
   -webkit-user-select: none;
   -moz-user-select: none;
