@@ -219,7 +219,7 @@ export default {
                       if (_this.is_area && amount * 1 >= 3) {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
-                          "/collectCard?order_sn=" +
+                          "collectCard?order_sn=" +
                           order_sn +
                           "&area_id=" +
                           _this.area_id +
@@ -256,7 +256,7 @@ export default {
                 if (this.is_area && amount * 1 >= 3) {
                   location.href =
                     process.env.VUE_APP_ACTIVITY +
-                      "/collectCard?order_sn=" +
+                      "collectCard?order_sn=" +
                     order_sn +
                     "&area_id=" +
                     this.area_id +
@@ -330,7 +330,7 @@ export default {
                         // if (_this.is_area) {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
-                            "/collectCard?order_sn=" +
+                            "collectCard?order_sn=" +
                           order_sn +
                           "&area_id=" +
                           _this.area_id +
@@ -387,7 +387,7 @@ export default {
                 } else {
                   location.href =
                     process.env.VUE_APP_ACTIVITY +
-                     "/collectCard?order_sn=" +
+                     "collectCard?order_sn=" +
                     order_sn +
                     "&area_id=" +
                     this.area_id +
