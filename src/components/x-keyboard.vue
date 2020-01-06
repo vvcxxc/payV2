@@ -409,7 +409,7 @@ li {
   font-size: 0.17rem;
   float: left;
   line-height: 0.5rem;
-  width: 0.89rem;
+  width: 0.88rem;
   /* height: .5rem; */
   height: 0.5rem;
   background: #fff;
