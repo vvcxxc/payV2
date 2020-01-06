@@ -1,16 +1,16 @@
 <template>
   <div class="keyboard-box">
     <div class="number">
-      <ul>
+       <ul class="number-area">
         <li v-for="(item,idx) in kb.first" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
-      <ul>
+      <ul class="number-area">
         <li v-for="(item,idx) in kb.second" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
-      <ul>
+      <ul class="number-area">
         <li v-for="(item,idx) in kb.third" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
-      <ul>
+      <ul class="number-area">
         <li style="width:1.82rem" @touchend="inputNum">0</li>
         <li @click="inputNum">.</li>
       </ul>
@@ -374,11 +374,14 @@ export default {
 .van-dialog__header {
   font-weight: bold;
 }
+.number-area {
+  display: flex;
+}
 li {
   font-size: 0.17rem;
-  float: left;
+  /* float: left; */
   line-height: 0.5rem;
-  width: 0.89rem;
+  width: 0.88rem;
   /* height: .5rem; */
   height: 0.5rem;
   background: #fff;
