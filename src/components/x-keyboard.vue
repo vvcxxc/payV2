@@ -205,9 +205,9 @@ export default {
                   async function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                       // 广告分润
-                      console.log(_this.ids)
+                      console.log(_this.ids);
                       if (amount * 1 >= 1) {
-                        if (_this.ids) {
+                        if (_this.ids.store_id) {
                           await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
@@ -220,16 +220,20 @@ export default {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
-                          order_sn + 
-                          "&area_id="+ _this.area_id +
-                          "&store_id="+_this.store_id;
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       } else {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
-                          order_sn + 
-                          "&area_id="+ _this.area_id +
-                          "&store_id="+_this.store_id;
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
@@ -249,17 +253,24 @@ export default {
                 _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
 
                 // 等待新的跳转路径（跳到新的活动项目）
-
                 if (this.is_area && amount * 1 >= 3) {
                   location.href =
-                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&area_id="+ this.area_id +
-                          "&store_id="+this.store_id;;
+                    process.env.VUE_APP_ACTIVITY +
+                    "?order_sn=" +
+                    order_sn +
+                    "&area_id=" +
+                    this.area_id +
+                    "&store_id=" +
+                    this.store_id;
                 } else {
                   location.href =
-                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&area_id="+ this.area_id +
-                          "&store_id="+this.store_id;;
+                    process.env.VUE_APP_ACTIVITY +
+                    "?order_sn=" +
+                    order_sn +
+                    "&area_id=" +
+                    this.area_id +
+                    "&store_id=" +
+                    this.store_id;
                 }
               }
             })
@@ -304,32 +315,36 @@ export default {
                   {
                     tradeNO: data.alipayOrderSn
                   },
-                  async (res) => {
+                  async res => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                       // 广告分润
-                      console.log(_this.ids)
+                      console.log(_this.ids);
                       if (amount * 1 >= 1) {
                         if (_this.ids.adLogId) {
                           await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
-                      console.log('跳转？')
+                      console.log("跳转？");
                       if (_this.is_area && amount * 1 >= 3) {
                         // if (_this.is_area) {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
-                          order_sn + 
-                          "&area_id="+ _this.area_id +
-                          "&store_id="+_this.store_id;;
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       } else {
                         location.href =
                           process.env.VUE_APP_ACTIVITY +
                           "?order_sn=" +
-                          order_sn + 
-                          "&area_id="+ _this.area_id +
-                          "&store_id="+_this.store_id;;
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       }
                       return {
                         message: "ok"
@@ -362,14 +377,22 @@ export default {
                 if (this.is_area && amount * 1 >= 3) {
                   // if (_this.is_area) {
                   location.href =
-                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&area_id="+ this.area_id +
-                          "&store_id="+this.store_id;;
+                    process.env.VUE_APP_ACTIVITY +
+                    "?order_sn=" +
+                    order_sn +
+                    "&area_id=" +
+                    this.area_id +
+                    "&store_id=" +
+                    this.store_id;
                 } else {
                   location.href =
-                    process.env.VUE_APP_ACTIVITY + "?order_sn=" + order_sn + 
-                          "&area_id="+ this.area_id +
-                          "&store_id="+this.store_id;;
+                    process.env.VUE_APP_ACTIVITY +
+                    "?order_sn=" +
+                    order_sn +
+                    "&area_id=" +
+                    this.area_id +
+                    "&store_id=" +
+                    this.store_id;
                 }
               }
             })
@@ -401,13 +424,13 @@ export default {
 }
 .keyboard-box {
   width: 100%;
-  display: flex
+  display: flex;
 }
 .van-dialog__header {
   font-weight: bold;
 }
 .number-area {
-  display: flex
+  display: flex;
 }
 li {
   font-size: 0.17rem;
