@@ -30,7 +30,7 @@ var router = new VueRouter({
 router.beforeEach((to,from,next) => {
   if(process.env.VUE_APP_FLAG == 'development'){
     Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
-    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzgxMDA5NDEsImV4cCI6MTU3ODQ2MDk0MSwibmJmIjoxNTc4MTAwOTQxLCJqdGkiOiJzSzhBZ2FXc2FGSWxIY3ZGIiwic3ViIjo3NTcwLCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.l54WxFIoRSJXEg1WDRjOpTYjzb_HpILXc4Io9YIb35E')
+    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1Nzg5MDE0MTUsImV4cCI6MTU3OTI2MTQxNSwibmJmIjoxNTc4OTAxNDE1LCJqdGkiOiJQekhuUHFYQXMzNzdkZWlhIiwic3ViIjo3NTcwLCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.UAepm7ftemDLMmvH4HuG6JjAHDJooGdlrzXmVgffveM')
   }
     if (
       Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
