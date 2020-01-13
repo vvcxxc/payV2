@@ -1,18 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import {Login} from '../utils/handle_login'
+import {Login,Login1} from '../utils/handle_login'
 import { Cookie } from "../utils/common";
-// import Pay from '../views/pay.vue';
-// import Activity from '../views/activity.vue';
-// import Vending from '../views/vendingMachine.vue';
-// import Ad from '../views/activity_ad.vue'
-// import ActivityCard from '../views/activity_card.vue'
 Vue.use(VueRouter);
 const Pay = () => import(/* webpackChunkName: "Pay" */ '@/views/pay.vue')
-const Activity = () => import(/* webpackChunkName: "Pay" */ '@/views/activity.vue')
 const Vending = () => import('@/views/vendingMachine.vue')
-const Ad = () => import('@/views/activity_ad.vue')
-const ActivityCard = () => import('@/views/activity_card.vue')
 
 var router = new VueRouter({
   // 命名:组件名大驼峰、path/name小驼峰
@@ -27,42 +19,34 @@ var router = new VueRouter({
       component: Pay
     },
     {
-      path: '/activity',
-      name: 'activity',
-      component: Activity
-    },
-    {
       path: '/vendingMachine',
       name: 'vendingMachine',
       component: Vending
     },
-    {
-      path: '/activity_ad',
-      name: 'activity_ad',
-      component: Ad
-    },
-    {
-      path: '/activity_card',
-      name: 'activity_card',
-      component: ActivityCard
-    }
   ]
 })
 
 // 路由守卫
 router.beforeEach((to,from,next) => {
   if(process.env.VUE_APP_FLAG == 'development'){
-    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYXBpLnRkaWFueWkuY29tL3dlY2hhdC93eG9hdXRoIiwiaWF0IjoxNTc3NTAzMzIwLCJleHAiOjE1Nzc4NjMzMjAsIm5iZiI6MTU3NzUwMzMyMCwianRpIjoiN0NnMUZJZGNLWVFoY0ZtUCIsInN1YiI6MzA4OTUsInBydiI6ImY2YjcxNTQ5ZGI4YzJjNDJiNzU4MjdhYTQ0ZjAyYjdlZTUyOWQyNGQifQ.SDH-KQWlOd9v5fw3sPjMgMrKP4PiDZiOjXuxGBUiOQE')
+    Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
+    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzgxMDA5NDEsImV4cCI6MTU3ODQ2MDk0MSwibmJmIjoxNTc4MTAwOTQxLCJqdGkiOiJzSzhBZ2FXc2FGSWxIY3ZGIiwic3ViIjo3NTcwLCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.l54WxFIoRSJXEg1WDRjOpTYjzb_HpILXc4Io9YIb35E')
   }
-  if(to.name == 'pay'){
     if (
       Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
       Cookie.get(process.env.VUE_APP_TOKEN) == ""
     ) {
-      Login();
-      return;
+      // 自己的页面
+      if(to.name == 'pay'){
+        Login();
+        return;
+      }
+      // 第三方的页面
+      if(to.name == 'vendingMachine'){
+        Login1();
+        return;
+      }
     }
-  }
   next()
 })
 
