@@ -23,6 +23,8 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100% !important;
   height: 100%;
+  font-size: 16px;
+   -webkit-text-size-adjust: 100% !important;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
