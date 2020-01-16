@@ -39,7 +39,7 @@ import {
 } from "../api/api_pay";
 import { Dialog, Loading, Toast } from "vant";
 import { mapGetters } from "vuex";
-import { async } from "q";
+// import { async } from "q";
 export default {
   data() {
     return {
