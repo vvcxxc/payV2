@@ -20,6 +20,8 @@ export default {
 <style>
 body,
 html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100% !important;
   height: 100%;
   font-size: 16px;
    -webkit-text-size-adjust: 100% !important;
