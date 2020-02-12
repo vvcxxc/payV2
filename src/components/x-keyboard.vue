@@ -394,6 +394,8 @@ export default {
                     "&store_id=" +
                     this.store_id;
                 }
+              }else if (code == 40004){
+                Toast("亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。");
               }
             })
             .catch(err => {
