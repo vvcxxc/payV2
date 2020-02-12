@@ -173,6 +173,7 @@ export default {
             result_money
           };
           requestWechatPayment(params)
+          console.log('更新了？')
             .then(res => {
               let { code, data } = res;
               if (code == 2400) {
