@@ -42,8 +42,8 @@ instance.interceptors.response.use(
     store.dispatch("ajaxAfter")
     const { code, message, response } = err
     if (code === 'ECONNABORTED' || message === 'Network Error') {
-        Toast('网络异常，请重新扫码支付')
-    } else (code == 40004){
+        Toast('网络异常，请重新扫码支付');
+    } else if (code == 40004){
       Toast("亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。");
     }
     // if(JSON.stringify(err).includes('timeout')){
