@@ -38,10 +38,11 @@ instance.interceptors.response.use(
     }
   },
   err => {
+    console.log(err)
     store.dispatch("ajaxAfter")
     const { code, message, response } = err
     if (code === 'ECONNABORTED' || message === 'Network Error') {
-        Toast('网络异常，请重新扫码支付')
+        Toast('网络异常，请重新扫码支付');
     }
     // if(JSON.stringify(err).includes('timeout')){
     // }

@@ -394,10 +394,12 @@ export default {
                     "&store_id=" +
                     this.store_id;
                 }
+              }else if (code == 40004){
+                Dialog({ message: '亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。' });
               }
             })
             .catch(err => {
-              // Toast("连接超时，请稍后重试");
+              console.log(err)
             });
         }
       }
