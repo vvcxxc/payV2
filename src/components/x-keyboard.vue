@@ -147,7 +147,6 @@ export default {
 
     // 点击支付
     async toPay() {
-      console.log('构建了？')
       _hmt.push(["_trackEvent", "确认支付", "用户点击了确认按钮"]);
       let _this = this;
       let browsertype = getBrowserType();
@@ -396,7 +395,8 @@ export default {
                     this.store_id;
                 }
               }else if (code == 40004){
-                Toast("亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。");
+                // Toast("亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。");
+                Dialog({ message: '亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。' });
               }
             })
             .catch(err => {
