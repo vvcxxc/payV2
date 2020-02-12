@@ -147,6 +147,7 @@ export default {
 
     // 点击支付
     async toPay() {
+      console.log('构建了？')
       _hmt.push(["_trackEvent", "确认支付", "用户点击了确认按钮"]);
       let _this = this;
       let browsertype = getBrowserType();
