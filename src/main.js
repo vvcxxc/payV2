@@ -8,9 +8,12 @@ import store from './store'
 import FastClick from 'fastclick';
 import Vconsole from 'vconsole'
 import {
-  Popup
+  Popup,Overlay, NavBar, CountDown
 } from 'vant';
 Vue.use(Popup);
+Vue.use(Overlay);
+Vue.use(NavBar);
+Vue.use(CountDown);
 
 (function() {
   if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {

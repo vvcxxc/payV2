@@ -1,13 +1,22 @@
 <template>
   <div class="checkout">
-    <div class="checkout-header">优惠信息</div>
+    <div class="checkout-header">
+      <div class="header-left">立即登录</div>
+      <div class="header-center">
+        优惠信息
+        <img src="../assets/question_mark.png" @click="openTips">
+      </div>
+      <div class="header-right" @click="close">
+        <img src="../assets/header-close.png" >
+      </div>
+    </div>
     <!-- 满减头部 -->
     <div class="money_off" v-if="money_off_list">
       <i class="icon" />
         <div v-for="(value,key) in money_off_list" :key="key">
           <span>满{{key}}减{{value}}</span>
         </div>
-      
+
     </div>
     <!-- 优惠栏 -->
     <div class="discount-tabs">
@@ -74,6 +83,22 @@
 
     <!-- 确认按钮 -->
     <div class="confirm" @click="Confirm">确认</div>
+
+    <!-- 提示信息-->
+   <van-overlay :show='tip_show' :z-index="1331" style="display:unset" @click="tip_show = false">
+     <div class="wrapper" @click.stop>
+        <div class="tips-box">
+          <div class="tips-title">优惠信息</div>
+          <div class="tips-text">
+            1.有门槛券和满减活动，只能选择一项；若需要更换优惠方式，请取消勾选后再做选择。
+          </div>
+          <div class="tips-text">
+            2.在支付宝与微信两个渠道上获取的券，可能会出现无法跨渠道使用的情况，请先登录同步卡券。
+          </div>
+          <div class="tips-button" @click="tip_show = false">确认</div>
+        </div>
+     </div>
+   </van-overlay>
   </div>
 </template>
 <script>
@@ -89,7 +114,8 @@ export default {
       key: 0, //满多少
       key_value: 0, //减多少
       is_activity: 0, //是否使用满减
-      is_ok: true, // 
+      is_ok: true, //
+      tip_show: false
     };
   },
 
@@ -116,7 +142,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.coupon_id)
     this.is_activity = this.is_money_off;
     let list = [...this.coupon_list]
     for (let i in list){
@@ -152,7 +177,7 @@ export default {
                 list[i].ischecked = true
                 list[i].choose = 1
               }else if (list[i].coupons_id != arr[0].coupons_id && list[i].is_threshold == 2){
-                list[i].ischecked = false
+                list[i].ischecked = false;
                 list[i].choose = 0
               }
             }
@@ -312,10 +337,19 @@ export default {
         this.is_ok = false
       }
     },
+    close() {
+      this.$emit('ListenCloseCoupon')
+      this.is_ok = false;
+    },
+  //  打开提示
+    openTips() {
+      this.tip_show = !this.tip_show
+      console.log(4123)
+    }
   },
   beforeDestroy() {
     if(this.is_ok){
-      this.is_ok = false
+      this.is_ok = false;
       this.Confirm();
     }
   }

@@ -5,7 +5,7 @@ import { Cookie } from "../utils/common";
 Vue.use(VueRouter);
 const Pay = () => import(/* webpackChunkName: "Pay" */ '@/views/pay.vue')
 const Vending = () => import('@/views/vendingMachine.vue')
-
+const LoginPage = () => import('@/views/login.vue')
 var router = new VueRouter({
   // 命名:组件名大驼峰、path/name小驼峰
   mode: 'history',
@@ -17,6 +17,11 @@ var router = new VueRouter({
       path: '/pay',
       name: 'pay',
       component: Pay
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
     },
     {
       path: '/vendingMachine',
