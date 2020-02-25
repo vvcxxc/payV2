@@ -374,26 +374,26 @@ export default {
 
                 // 等待新的跳转路径（跳到新的活动项目）
 
-                if (this.is_area && amount * 1 >= 3) {
-                  // if (_this.is_area) {
-                  location.href =
-                    process.env.VUE_APP_ACTIVITY +
-                    "?order_sn=" +
-                    order_sn +
-                    "&area_id=" +
-                    this.area_id +
-                    "&store_id=" +
-                    this.store_id;
-                } else {
-                  location.href =
-                    process.env.VUE_APP_ACTIVITY +
-                     "collectCard?order_sn=" +
-                    order_sn +
-                    "&area_id=" +
-                    this.area_id +
-                    "&store_id=" +
-                    this.store_id;
-                }
+                if (_this.is_area && amount * 1 >= 3) {
+                        // if (_this.is_area) {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                            "collectCard?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
+                      } else {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
+                      }
               }else if (code == 40004){
                 Dialog({ message: '亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。' });
               }
