@@ -88,10 +88,8 @@ import { Compare, RemoveDup, accAdd, accSub } from "../utils/common.js";
 import { Login } from "../utils/handle_login.js";
 import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
-import { Cookie } from "../utils/common";
 import { Toast } from "vant";
 import store from "../store/index";
-import { mapGetters } from "vuex";
 export default {
   data() {
     return {

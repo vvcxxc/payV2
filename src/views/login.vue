@@ -1,41 +1,70 @@
 <template>
   <div class="login-page">
     <div class="logo-box">
-      <img src="../assets/login.png">
+      <img src="../assets/login.png" />
       <div>登录账号后即可同步卡券</div>
     </div>
     <div class="login-main">
       <div class="input-box">
         <div class="input-label">+86 |</div>
-        <input type="phone" placeholder="请输入手机号" />
+        <input type="phone" v-model="phone" placeholder="请输入手机号" />
         <div class="code-button">
-          <div v-if="is_code" @click="is_code = false">发送验证码</div>
-          <van-count-down v-if="!is_code" :time="60000" format="ss"  @finish="is_code = true" />
+          <div v-if="is_code" @click="getPhoneCode">发送验证码</div>
+          <van-count-down v-if="!is_code" :time="60000" format="ss" @finish="is_code = true" />
         </div>
       </div>
       <div class="input-box">
         <div class="input-label">验证码</div>
-        <input type="text" placeholder="请输入验证码" />
+        <input type="text" placeholder="请输入验证码" v-model="code"/>
       </div>
     </div>
     <div style="width: 100%; padding: 0 .12rem">
-      <div class="login-button">登录</div>
+      <div class="login-button" @click="login">登录</div>
     </div>
-
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        phone: '',
-        is_code: true,
-        time: 60
-      };
+import { phoneLogin, getCode } from "../api/api_user";
+import { Toast } from "vant";
+import {Cookie} from '../utils/common'
+export default {
+  data() {
+    return {
+      phone: "",
+      is_code: true,
+      time: 60,
+      code: ""
+    };
+  },
+  methods: {
+    getPhoneCode() {
+      if (/^1[3456789]\d{9}$/.test(Number(this.phone))) {
+        getCode(this.phone).then(res => {
+          if(res.status_code == 200){
+            Toast.success(res.message)
+            this.is_code = false
+          }else{
+            Toast.fail(res.message)
+          }
+        });
+      } else {
+        Toast.fail("请输入正确的手机号");
+      }
     },
-    methods: {
+    login() {
+      if(this.phone && this.code){
+        phoneLogin({phone: this.phone, verify_code: this.code}).then(res => {
+          console.log(res)
+          if(res.code == 200){
+            console.log(process.env.VUE_APP_TOKEN)
+            Cookie.set(process.env.VUE_APP_TOKEN,res.data.token)
+            Cookie.set('expires_in',res.data.expires_in)
+          }
+        })
+      }
     }
   }
+};
 </script>
 <style lang="sass" scoped>
   @import "./login.scss"

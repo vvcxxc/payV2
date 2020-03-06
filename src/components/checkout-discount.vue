@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <div class="checkout-header">
-      <div class="header-left">立即登录</div>
+      <div class="header-left" @click="login">立即登录</div>
       <div class="header-center">
         优惠信息
         <img src="../assets/question_mark.png" @click="openTips">
@@ -197,6 +197,10 @@ export default {
       list.sort(Compare("choose"));
       list.sort(Compare("ischecked"));
       this.list = list;
+    },
+    // 跳转登录
+    login (){
+      this.$router.push({path: '/login'})
     },
     // 判断是否有满减
     isMoneyOff() {
