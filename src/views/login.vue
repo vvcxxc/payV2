@@ -15,7 +15,7 @@
       </div>
       <div class="input-box">
         <div class="input-label">验证码</div>
-        <input type="text" placeholder="请输入验证码" v-model="code"/>
+        <input type="text" placeholder="请输入验证码" v-model="code" />
       </div>
     </div>
     <div style="width: 100%; padding: 0 .12rem">
@@ -26,8 +26,8 @@
 <script>
 import { phoneLogin, getCode } from "../api/api_user";
 import { Toast } from "vant";
-import {Cookie} from '../utils/common'
-import { getBrowserType } from '../utils/get_info'
+import { Cookie } from "../utils/common";
+import { getBrowserType } from "../utils/get_info";
 export default {
   data() {
     return {
@@ -41,11 +41,11 @@ export default {
     getPhoneCode() {
       if (/^1[3456789]\d{9}$/.test(Number(this.phone))) {
         getCode(this.phone).then(res => {
-          if(res.status_code == 200){
-            Toast.success(res.message)
-            this.is_code = false
-          }else{
-            Toast.fail(res.message)
+          if (res.status_code == 200) {
+            Toast.success(res.message);
+            this.is_code = false;
+          } else {
+            Toast.fail(res.message);
           }
         });
       } else {
@@ -53,23 +53,38 @@ export default {
       }
     },
     login() {
-      if(this.phone && this.code){
-        let type = getBrowserType == 'wechat' ? 'wx' : 'ali'
-        phoneLogin({phone: this.phone, verify_code: this.code, from: type}).then(res => {
-          console.log(res)
-          if(res.status_code == 200){
-            Toast.success('登录成功')
-            Cookie.set(process.env.VUE_APP_TOKEN,res.data.token)
-            Cookie.set('expires_in',res.data.expires_in)
-            Cookie.set('phone_status',res.data.status)
-             this.$router.go(-1);//返回上一层
+      if (this.phone && this.code) {
+        let type = getBrowserType == "wechat" ? "wx" : "ali";
+        phoneLogin({
+          phone: this.phone,
+          verify_code: this.code,
+          from: type
+        }).then(res => {
+          console.log(res);
+          if (res.status_code == 200) {
+            Toast.success("登录成功");
+            // Cookie.set(process.env.VUE_APP_TOKEN,res.data.token)
+            // Cookie.set('expires_in',res.data.expires_in)
+            // Cookie.set('phone_status',res.data.status)
+            //  this.$router.go(-1);//返回上一层
+            let url = localStorage.getItem("url");
+            location.href =
+              process.env.VUE_APP_USER_API +
+              "/v1/user/auth/relogin?phone=" +
+              this.phone +
+              "&verify_code=" +
+              this.code +
+              "&url=" +
+              url +
+              "&from=" +
+              type;
           }
-        })
+        });
       }
     }
   }
 };
 </script>
 <style lang="sass" scoped>
-  @import "./login.scss"
+@import "./login.scss"
 </style>

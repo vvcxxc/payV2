@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <div class="checkout-header">
-      <div class="header-left" @click="login">立即登录</div>
+      <div class="header-left" @click="login" v-if="is_show">立即登录</div>
       <div class="header-center">
         优惠信息
         <img src="../assets/question_mark.png" @click="openTips">
@@ -105,6 +105,7 @@
 import { NewArrObj, Compare, RemoveDup,accAdd } from "../utils/common.js";
 import store from "../store/index";
 import { mapGetters } from "vuex";
+import {Cookie} from '../utils/common'
 export default {
   data() {
     return {
@@ -119,7 +120,12 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+    let phone_status = Cookie.get('phone_status');
+    if(phone_status == 'need_login'){
+      this.is_show = true
+    }
+  },
   computed: {
     ...mapGetters(["coupon_list", "money_off_list"])
   },
@@ -200,6 +206,7 @@ export default {
     },
     // 跳转登录
     login (){
+      localStorage.setItem('url',location.href)
       this.$router.push({path: '/login'})
     },
     // 判断是否有满减
