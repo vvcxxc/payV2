@@ -27,6 +27,7 @@
 import { phoneLogin, getCode } from "../api/api_user";
 import { Toast } from "vant";
 import {Cookie} from '../utils/common'
+import { getBrowserType } from '../utils/get_info'
 export default {
   data() {
     return {
@@ -53,12 +54,15 @@ export default {
     },
     login() {
       if(this.phone && this.code){
-        phoneLogin({phone: this.phone, verify_code: this.code}).then(res => {
+        let type = getBrowserType == 'wechat' ? 'wx' : 'ali'
+        phoneLogin({phone: this.phone, verify_code: this.code, from: type}).then(res => {
           console.log(res)
-          if(res.code == 200){
-            console.log(process.env.VUE_APP_TOKEN)
+          if(res.status_code == 200){
+            Toast.success('登录成功')
             Cookie.set(process.env.VUE_APP_TOKEN,res.data.token)
             Cookie.set('expires_in',res.data.expires_in)
+            Cookie.set('phone_status',res.data.status)
+             this.$router.go(-1);//返回上一层
           }
         })
       }
