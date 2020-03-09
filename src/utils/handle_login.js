@@ -4,7 +4,7 @@ import { getBrowserType, getUrlParams } from './get_info'
  * 自己的授权登录
  */
 export const Login = () => {
-    let from = process.env.VUE_APP_FROM;
+    let from = window.location.href;
     // if(process.env.VUE_APP_FLAG == 'development'){
     //   return
     // }
@@ -19,7 +19,7 @@ export const Login = () => {
       //   codeid +
       //   "&from=" +
       //   from;
-        let url = VUE_APP_USER_API + 'v1/user/auth/auth_h5?code_id='+codeid+'&from='+from
+      let url = VUE_APP_USER_API + 'v1/user/auth/auth_h5?code_id='+codeid+'&from='+from
       url = encodeURIComponent(url);
       // let urls =
       //   "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
