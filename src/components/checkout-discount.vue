@@ -149,7 +149,6 @@ export default {
     } else {
       this.is_show = false;
        getUserInfo().then(res => {
-        console.log(res)
         this.phone = res.data.phone
       })
     }
