@@ -26,7 +26,7 @@
 <script>
 import { phoneLogin, getCode } from "../api/api_user";
 import { Toast } from "vant";
-import { Cookie } from "../utils/common";
+
 import { getBrowserType } from "../utils/get_info";
 export default {
   data() {

@@ -105,7 +105,7 @@
      <div class="wrapper" @click.stop>
         <div class="check-box">
           <div class="check-title">温馨提示</div>
-          <div class="check-text">当前登录的账号为:12312222222</div>
+          <div class="check-text">当前登录的账号为:{{phone}}</div>
           <div class="check-text">是否需要切换账号</div>
           <div class="check-button-box">
             <div class="check-button-cancel" @click="check_show = false">关闭</div>
@@ -131,11 +131,13 @@ export default {
       is_activity: 0, //是否使用满减
       is_ok: true, //
       tip_show: false,
-      check_show: false
+      check_show: false,
+      phone: ''
     };
   },
 
   created() {
+    this.phone = Cookie.get('phone')
     let phone_status = Cookie.get('phone_status');
     if(phone_status != 'binded' && phone_status != 'bind_success' && phone_status != 'merge_success'){
       this.is_show = true
