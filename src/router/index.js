@@ -1,18 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
-// import Pay from '../views/pay.vue';
-// import Activity from '../views/activity.vue';
-// import Vending from '../views/vendingMachine.vue';
-// import Ad from '../views/activity_ad.vue'
-// import ActivityCard from '../views/activity_card.vue'
+import {Login,Login1} from '../utils/handle_login'
+import { Cookie } from "../utils/common";
 Vue.use(VueRouter);
 const Pay = () => import(/* webpackChunkName: "Pay" */ '@/views/pay.vue')
-const Activity = () => import(/* webpackChunkName: "Pay" */ '@/views/activity.vue')
 const Vending = () => import('@/views/vendingMachine.vue')
-const Ad = () => import('@/views/activity_ad.vue')
-const ActivityCard = () => import('@/views/activity_card.vue')
-
+const LoginPage = () => import('@/views/login.vue')
 var router = new VueRouter({
   // 命名:组件名大驼峰、path/name小驼峰
   mode: 'history',
@@ -26,27 +19,43 @@ var router = new VueRouter({
       component: Pay
     },
     {
-      path: '/activity',
-      name: 'activity',
-      component: Activity
+      path: '/login',
+      name: 'login',
+      component: LoginPage
     },
     {
       path: '/vendingMachine',
       name: 'vendingMachine',
       component: Vending
     },
-    {
-      path: '/activity_ad',
-      name: 'activity_ad',
-      component: Ad
-    },
-    {
-      path: '/activity_card',
-      name: 'activity_card',
-      component: ActivityCard
-    }
   ]
 })
+
+// 路由守卫
+router.beforeEach((to,from,next) => {
+  if(process.env.VUE_APP_FLAG == 'development'){
+    Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
+    Cookie.set('phone_status','binded')
+    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC51c2VyY2VudGVyLnRkaWFueWkuY29tL3YxL3VzZXIvYXV0aC9hdXRoX2g1IiwiaWF0IjoxNTgzODA0NjM0LCJleHAiOjE1ODM4OTQ2MzQsIm5iZiI6MTU4MzgwNDYzNCwianRpIjoiR250ZXhnaXlLdzh5WDRpcSIsInN1YiI6NzY2NCwicHJ2IjoiNTg3ZWQ0ZWI0ZmY2YjBiMmQ4OTZhOWI3YjcxMDRlNzBhNWI3YTAwMCJ9.QS9HzOONoJEt2zAGCwlPKt3to1phZbotq0nymgW5PAI')
+  }
+    if (
+      Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
+      Cookie.get(process.env.VUE_APP_TOKEN) == ""
+    ) {
+      // 自己的页面
+      if(to.name == 'pay'){
+        Login();
+        return;
+      }
+      // 第三方的页面
+      if(to.name == 'vendingMachine'){
+        Login1();
+        return;
+      }
+    }
+  next()
+})
+
 
 // 为了解决 loading chunk failed 错误
 router.onError(error => {
@@ -67,15 +76,6 @@ router.onError(error => {
       }
       router.replace(targetPath);
       window.sessionStorage.setItem('LoadingChunkPath', targetPath);
-      const sa = window.sa;
-      if (sa && sa.track) {
-        sa.track('element_click', {
-          page_title: 'LoadingChunk',
-          element_type: 'view',
-          page_source: targetPath, // 当前路由
-          element_name: `刷新页面${LoadingChunk - 0}次` // 尝试 打开次数
-        });
-      }
     }
   } catch (e) {
     console.log(e);

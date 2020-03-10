@@ -1,6 +1,13 @@
 <template>
   <div class="payment">
-    <!-- <header>{{this.info.store_name}}</header> -->
+    <header v-if="info.reduction_money_list">
+      <i class="icon_tanhao"></i>
+      <span
+        v-for="(value,key) in info.reduction_money_list"
+        :key="key"
+        class="header_item"
+      >满{{key}}减{{value}}</span>
+    </header>
     <div class="area-AD">
       <img :src="ads.pic" alt />
     </div>
@@ -13,29 +20,21 @@
             <div>{{sum}}</div>
             <div class="like-input"></div>
           </span>
-          <!-- <input class="have-sum" type="text" :value="sum" v-if="!havesum" ref='input'/> -->
           <span @click="cleansum" v-if="!havesum">
-            <img src="../assets/quxiao.png" alt />
+            <img src="../assets/quxiao.png" />
           </span>
         </p>
       </div>
-      <div class="discount" @click="handlecoupons" v-if="havecoupon">
-        <p style="float:left">优惠券</p>
-        <!-- <p class="discount-tuijian" v-show="show_recommend">{{youhui}}</p> -->
-        <p class="jianshao">
-          <i style="font-size:14px"></i>
-          <span>{{coupon}}</span>
-          <img src="../assets/arro-right.png" />
-        </p>
-      </div>
-      <div class="manjian" v-show="isshow" @click="chooseMoneyOff">
-        <span>满减优惠</span>
-        <span class="manjian-rule" v-show="manjian_rule">不能与有门槛券同时叠加</span>
-        <span class="manjian-fudu flex">
-          满 {{this.key}} 减 {{this.key_value}}
-          <span class="choose_moneyoff" v-if="is_money_off"></span>
-          <span class="no_choose_moneyoff" v-else></span>
-        </span>
+      <!--      <div class="discount" @click="handlecoupons" v-if="youhui_text">-->
+      <div class="discount" @click="handlecoupons">
+        <p>优惠信息</p>
+        <div class="jianshao">
+          <div class="youhui_text">{{youhui_text}}</div>
+          <div class="jianshao_right">
+            <div v-if="sums">-￥ {{sums}}</div>
+            <img src="../assets/arro-right.png" />
+          </div>
+        </div>
       </div>
       <div class="amount">
         <span>合计：</span>
@@ -55,23 +54,32 @@
         :is_reduction_removed="is_money_off"
         :storename="info.store_name"
         :is_area="info.is_area"
+        :ids="ids"
+        :area_id="info.area_id"
+        :store_id="info.store_id"
       />
     </div>
 
-    <!-- 选择优惠券 -->
-    <div class="area-mask" v-if="is_show">
-      <div class="mask"></div>
+    <van-popup
+      round
+      closeable
+      v-model="is_show"
+      position="bottom"
+      :style="{ height: 'auto'}"
+      :close-on-click-overlay="false"
+    >
       <checkout-discount
-        :couponlist="couponlist"
+        v-if="is_show"
         :sum="sum"
         :spendable_coupons="spendable_coupons"
         :coupon_id="coupon_id"
+        :is_money_off="is_money_off"
         v-on:ListenToCoupon="getCouponsid"
+        v-on:ListenCloseCoupon="closeCoupon"
       />
-    </div>
+    </van-popup>
   </div>
 </template>
-
 <script>
 import XKeyboard from "../components/x-keyboard.vue";
 import CheckoutDiscount from "../components/checkout-discount.vue";
@@ -80,9 +88,8 @@ import { Compare, RemoveDup, accAdd, accSub } from "../utils/common.js";
 import { Login } from "../utils/handle_login.js";
 import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
-import { Cookie } from "../utils/common";
 import { Toast } from "vant";
-import { isString } from "util";
+import store from "../store/index";
 export default {
   data() {
     return {
@@ -105,7 +112,9 @@ export default {
       coupon: "",
       sums: 0,
       manjian_rule: false,
-      no_door: [] // 无门槛券的列表
+      no_door: [], // 无门槛券的列表,
+      ids: {},
+      youhui_text: ""
     };
   },
 
@@ -119,16 +128,16 @@ export default {
       if (a) {
         this.moneyOff();
         this.bestDiscount(a);
-        // this.amount = (parseInt(a * 10000) - parseInt(this.sums * 10000) - parseInt(this.key_value * 10000)) / 10000;
         let w = accSub(a, this.sums);
-        let b = accSub(w, this.key_value);
-        this.amount = b;
+        this.amount = w;
         if (this.amount < 0) {
           this.amount = 0;
         }
       } else {
         this.amount = 0;
         this.coupon_id = [];
+        this.youhui_text = "";
+        this.sums = 0;
       }
     },
     info: function() {
@@ -144,104 +153,52 @@ export default {
         }
         this.no_door = arr;
       }
-    },
-    is_money_off: function(a) {
-      if (a) {
-        // this.amount =
-        //   (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(this.sums * 10000)) / 10000;
-        let w = accSub(this.sum, this.key_value);
-        this.amount = accSub(w, this.sums);
-      } else {
-        // this.amount = (parseInt(this.sum * 10000) - parseInt(this.sums * 10000)) / 10000;
-        this.amount = accSub(this.sum, this.sums);
+      if (this.info.reduction_money_list) {
+        this.havecoupon = true;
       }
-      if (this.amount < 0) {
+    },
+    amount: function(a) {
+      if (a * 1 <= 0 || a == "") {
         this.amount = 0;
       }
     },
     coupon_id: function(a) {
       if (a.length) {
-        let sums = 0;
-        let arr = this.chooseList(this.couponlist, a);
-        for (let i in arr) {
-          // sums = (parseInt(arr[i].money * 10000) + parseInt(sums * 10000)) / 10000;
-          sums = accAdd(arr[i].money, sums);
-        }
-        this.coupon = "- " + sums + "元";
-        this.sums = sums;
         if (this.is_money_off) {
-          // this.amount =
-          // (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000) - parseInt(sums * 10000)) / 10000;
-          let w = accSub(this.sum, this.key_value);
-          this.amount = accSub(w, sums);
+          let w = accSub(this.sum, this.sums);
+          this.amount = w;
         } else {
-          // this.amount = (parseInt(this.sum * 10000) - parseInt(sums * 10000)) / 10000;
-          this.amount = accSub(this.sum, sums);
+          console.log(3);
+          this.amount = accSub(this.sum, this.sums);
         }
+        for (let i in this.couponlist) {
+          for (let z in a) {
+            this.couponlist[i].ischecked = false;
+            if (this.couponlist[i].coupons_id == a[z]) {
+              this.couponlist[i].ischecked = true;
+            }
+          }
+        }
+        store.dispatch("setCouponList", this.couponlist);
       } else {
-        this.sums = 0;
         if (this.is_money_off) {
-          // this.amount = (parseInt(this.sum * 10000) - parseInt(this.key_value * 10000)) / 10000;
-          this.amount = accSub(this.sum, this.key_value);
+          let w = accSub(this.sum, this.sums);
+          this.amount = w;
         } else {
           this.amount = this.sum;
         }
-        this.coupon = this.couponlist.length + "张";
-      }
-      if (this.amount < 0) {
-        this.amount = 0;
+        for (let i in this.couponlist) {
+          this.couponlist[i].ischecked = false;
+        }
       }
     }
   },
 
   created() {
-    let type = process.env.NODE_ENV;
-    if (type == "development") {
-      Cookie.set("test_open_id", "oy6pQ05896O22gUAljVH4uqvCnhU");
-      Cookie.set("unionid", "oH_aNw-EQhWUaNYFyTnID_7bONrw");
-      Cookie.set(
-        "test_token_auth",
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1NzM2MDg1NjAsImV4cCI6MTU3MzkwODU2MCwibmJmIjoxNTczNjA4NTYwLCJqdGkiOiJKUzFNekg4M2l5QU5JdjlHIiwic3ViIjo1MzQ1LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.0TlCbcrDFY2i7wGfB65EbHFw5yRSon_UE9u788B2Wig"
-      );
-    }
-    if (
-      Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
-      Cookie.get(process.env.VUE_APP_TOKEN) == ""
-    ) {
-      Login();
-      return;
-    }
     this.getStoreinfo();
   },
 
-  mounted() {
-    this.reduction_money_list = this.info.reduction_money_list;
-  },
-
   methods: {
-    // 是否选择满减
-    chooseMoneyOff() {
-      if (this.is_money_off) {
-        // 取消选择满减
-        this.manjian_rule = false;
-        this.is_money_off = 0;
-      } else {
-        // 选择满减
-        this.manjian_rule = true;
-        this.is_money_off = 1;
-        let id = [];
-        for (let i in this.couponlist) {
-          for (let a in this.coupon_id) {
-            if (this.couponlist[i].coupons_id == this.coupon_id[a]) {
-              if (this.couponlist[i].is_threshold != 2) {
-                id.push(this.couponlist[i].coupons_id);
-              }
-            }
-          }
-        }
-        this.coupon_id = id;
-      }
-    },
     haveSum() {
       this.havesum = !this.havesum;
     },
@@ -262,6 +219,10 @@ export default {
       this.sum = "";
       this.havesum = true;
       this.amount = 0;
+      this.sums = 0;
+      this.coupons_id = [];
+      this.is_money_off = 0;
+      this.youhui_text = "";
     },
     //  获取商店信息
     getStoreinfo() {
@@ -276,9 +237,21 @@ export default {
             requestGetAd({ position_id: 1, store_id: data.store_id }).then(
               res => {
                 this.ads = res.data;
+                if (res.data.adLogId) {
+                  this.ids = {
+                    store_id: data.store_id,
+                    adLogId: res.data.adLogId
+                  };
+                }
               }
             );
             this.info = data;
+            this.reduction_money_list = this.info.reduction_money_list;
+            store.dispatch(
+              "setCouponList",
+              this.info.coupons_required_products_list
+            );
+            store.dispatch("setMoneyOffList", this.info.reduction_money_list);
             if (getBrowserType() == "alipay") {
               try {
                 AlipayJSBridge.call("setTitle", {
@@ -301,7 +274,7 @@ export default {
             Login();
             console.log("未登录");
           }
-          console.log(err)
+          console.log(err);
           throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
@@ -315,7 +288,6 @@ export default {
         let manjian = this.info.reduction_money_list;
         for (let key in manjian) {
           if (this.sum * 1 >= key * 1) {
-            // this.manjian = manjian[key];
             this.key_value = manjian[key];
             this.key = key;
             this.isshow = true;
@@ -331,18 +303,6 @@ export default {
         }
       }
     },
-    // 返回已选择的优惠券列表
-    chooseList(list, id) {
-      let arr = [];
-      for (let i in list) {
-        for (let a in id) {
-          if (list[i].coupons_id == id[a]) {
-            arr.push(list[i]);
-          }
-        }
-      }
-      return arr;
-    },
 
     // 最佳优惠
     bestDiscount(sum) {
@@ -350,7 +310,7 @@ export default {
         // 存在优惠券
         let usable = []; //可以使用的优惠券
         for (let i = 0; i < this.couponlist.length; i++) {
-          if (sum >= this.couponlist[i].full_money) {
+          if (sum >= this.couponlist[i].full_money && sum != 0) {
             usable.push(this.couponlist[i]);
           }
         }
@@ -361,14 +321,42 @@ export default {
           console.log(2);
           this.spendable_coupons = [];
           this.coupon_id = [];
-          if (this.sum * 1 >= this.key * 1) {
+          if (this.sum * 1 >= this.key * 1 && this.key) {
             this.is_money_off = 1;
           }
         }
       } else {
-        if (this.sum * 1 >= this.key * 1) {
+        if (this.sum * 1 >= this.key * 1 && this.key) {
           this.is_money_off = 1;
+        } else {
+          this.is_money_off = 0;
         }
+      }
+      let num = 0;
+      let sums = 0;
+      if (this.coupon_id.length) {
+        console.log(323);
+        for (let i in this.couponlist) {
+          if (this.coupon_id) {
+            for (let a in this.coupon_id) {
+              if (this.coupon_id[a] == this.couponlist[i].coupons_id) {
+                sums = accAdd(sums, this.couponlist[i].money);
+              }
+            }
+          }
+        }
+        num++;
+      }
+      if (this.is_money_off) {
+        sums = accAdd(sums, this.key_value);
+        num++;
+      }
+      if (num) {
+        this.sums = sums;
+        this.youhui_text = "已选" + num + "项";
+      } else {
+        this.sums = 0;
+        this.youhui_text = "";
       }
     },
     /**
@@ -389,7 +377,8 @@ export default {
         }
       }
       arr.unshift(best[0]);
-      if (this.sum * 1 >= this.key * 1) {
+      if (this.sum * 1 >= this.key * 1 && this.key * 1 != 0) {
+        console.log(5);
         if (best[0].money * 1 <= this.key_value * 1) {
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
@@ -400,6 +389,7 @@ export default {
             this.is_money_off = 1;
           }
         } else {
+          console.log(6);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -408,6 +398,12 @@ export default {
           id.push(best[0].coupons_id);
           this.coupon_id = id;
         }
+      } else {
+        console.log(7);
+        this.is_money_off = 0;
+        arr.sort(Compare("money"));
+        id.push(arr[0].coupons_id);
+        this.coupon_id = id;
       }
 
       arr = RemoveDup(arr);
@@ -415,54 +411,50 @@ export default {
     },
 
     // 监听从优惠券组件传回的值
-    getCouponsid(id, sums) {
+    getCouponsid(id, sums, acticity) {
+      this.is_money_off = acticity;
       this.is_show = false;
       this.coupon_id = id;
       if (sums) {
         this.coupon = "-" + sums + "元";
         this.sums = sums;
+        let num = 0;
+        if (id.length) {
+          num = accAdd(num, id.length);
+        }
+        if (acticity) {
+          num++;
+        }
+        if (num) {
+          this.youhui_text = "已选" + num + "项";
+        }
       } else {
         this.sums = 0;
+        this.youhui_text = "";
         this.coupon = this.couponlist.length + "张";
       }
-      let is_ok = false;
-      for (let i in this.couponlist) {
-        for (let a in id) {
-          if (this.couponlist[i].coupons_id == id[a]) {
-            if (this.couponlist[i].is_threshold == 2) {
-              is_ok = true;
-            }
-          }
-        }
-      }
-      if (is_ok) {
-        this.is_money_off = 0;
-      } else {
-        if (this.sum*1 >= this.key*1) {
-          this.is_money_off = 1;
-        }
-      }
+    },
+
+    //    关闭优惠信息弹出层
+    closeCoupon() {
+      this.is_show = false;
     }
   }
 };
 </script>
 
 <style scoped>
-.choose_moneyoff {
+.header_item  {
   display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url("../assets/checked.png");
-  background-size: 100%;
-  margin-left: 10px;
+  margin-left: 4px;
 }
-.no_choose_moneyoff {
+.icon_tanhao {
+  width: 0.16rem;
+  height: 0.16rem;
   display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url("../assets/no-checked.png");
+  background: url("../assets/tanhao.png") no-repeat;
   background-size: 100%;
-  margin-left: 10px;
+  margin-right: 5px;
 }
 .manjian-rule {
   font-size: 12px;
@@ -526,14 +518,18 @@ export default {
 }
 
 header {
-  height: 47px;
-  font-size: 17px;
-  text-align: center;
-  line-height: 47px;
-  background: #fff;
+  height: 28px;
+  font-size: 13px;
+  line-height: 28px;
+  background: rgba(243, 108, 107, 0.2);
+  color: #ff3622;
+  padding-left: 0.12rem;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 .area-AD {
-  height: 1.54rem;
+  height: 2.25rem;
   width: 100%;
 }
 .area-AD img {
@@ -601,43 +597,48 @@ header {
 .input-price span img {
   width: 0.18rem;
 }
-.discount,
-.manjian {
-  height: 0.45rem;
-  line-height: 0.45rem;
+.discount {
+  height: 0.49rem;
   color: #313131;
-  font-size: 0.13rem;
+  font-size: 0.15rem;
+  font-weight: bold;
   margin: 0 0.11rem;
   border-bottom: 1px solid #ebebeb;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jianshao {
+  width: 2.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.youhui_text {
+  color: #bac3c7;
+  font-size: 0.12rem;
+}
+.jianshao_right {
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jianshao_right div {
+  margin-right: 0.1rem;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: unset;
 }
 .jianshao img {
+  height: 14px;
   width: 5px;
-  margin-top: -2px;
 }
-.discount-tuijian {
-  float: left;
-  font-size: 0.12rem;
-  line-height: 0.17rem;
-  width: auto;
-  padding: 0 0.04rem;
-  height: 0.17rem;
-  border: 1px solid #de1e13;
-  border-radius: 2px;
-  margin-top: 0.14rem;
-  margin-left: 0.09rem;
-  color: #de1e13;
-}
-.discount .jianshao,
-.manjian-fudu {
-  float: right;
-  height: 0.45rem;
-  line-height: 0.45rem;
-  font-size: 0.12rem;
-}
+
 .amount {
-  font-size: 0.13rem;
-  line-height: 0.45rem;
+  font-size: 0.15rem;
+  font-weight: bold;
+  line-height: 0.49rem;
   margin: 0 0.11rem;
   color: #313131;
 }

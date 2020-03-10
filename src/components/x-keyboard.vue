@@ -1,16 +1,16 @@
 <template>
   <div class="keyboard-box">
     <div class="number">
-      <ul>
+      <ul class="number-area">
         <li v-for="(item,idx) in kb.first" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
-      <ul>
+      <ul class="number-area">
         <li v-for="(item,idx) in kb.second" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
-      <ul>
+      <ul class="number-area">
         <li v-for="(item,idx) in kb.third" :key="idx" @click="inputNum">{{item}}</li>
       </ul>
-      <ul>
+      <ul class="number-area">
         <li style="width:1.82rem" @touchend="inputNum">0</li>
         <li @click="inputNum">.</li>
       </ul>
@@ -32,9 +32,14 @@
 <script>
 import { getUrlParams, getBrowserType } from "../utils/get_info";
 import { Cookie } from "../utils/common";
-import { requestWechatPayment, requestAlpayPayment } from "../api/api";
+import {
+  requestWechatPayment,
+  requestAlpayPayment,
+  adShareProfit
+} from "../api/api_pay";
 import { Dialog, Loading, Toast } from "vant";
 import { mapGetters } from "vuex";
+import { async } from "q";
 export default {
   data() {
     return {
@@ -64,7 +69,10 @@ export default {
     "coupon_id",
     "is_reduction_removed",
     "storename",
-    "is_area"
+    "is_area",
+    "ids",
+    "area_id",
+    "store_id"
   ],
   watch: {
     sum: function(newVal) {
@@ -83,7 +91,7 @@ export default {
     },
     is_reduction_removed: function(a) {
       this.activity = a;
-    },
+    }
   },
   methods: {
     inputNum(ev) {
@@ -194,21 +202,38 @@ export default {
                     signType: data.signType,
                     paySign: data.paySign
                   },
-                  function(res) {
+                  async function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
+                      // 广告分润
+                      console.log(_this.ids);
+                      if (amount * 1 >= 1) {
+                        if (_this.ids.store_id) {
+                          await adShareProfit({ ..._this.ids, order_sn });
+                        }
+                      }
+
                       // 统计
                       _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
-                      if (_this.is_area && amount*1 >= 3) {
-                        // if (_this.is_area) {
-                        _this.$router.push({
-                          name: "activity_card",
-                          params: message
-                        });
+
+                      // 跳到新的活动项目
+                      if (_this.is_area && amount * 1 >= 3) {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "collectCard?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       } else {
-                        _this.$router.push({
-                          name: "activity",
-                          params: message
-                        });
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       }
                     } else if (
                       res.err_msg == "get_brand_wcpay_request:cancel"
@@ -226,14 +251,26 @@ export default {
               } else if (code == 201) {
                 // 统计
                 _hmt.push(["_trackEvent", "微信支付", "支付成功"]);
-                if (this.is_area && amount*1 >= 3) {
-                // if (this.is_area) {
-                  _this.$router.push({
-                    name: "activity_card",
-                    params: message
-                  });
+
+                // 等待新的跳转路径（跳到新的活动项目）
+                if (this.is_area && amount * 1 >= 3) {
+                  location.href =
+                    process.env.VUE_APP_ACTIVITY +
+                      "collectCard?order_sn=" +
+                    order_sn +
+                    "&area_id=" +
+                    this.area_id +
+                    "&store_id=" +
+                    this.store_id;
                 } else {
-                  _this.$router.push({ name: "activity", params: message });
+                  location.href =
+                    process.env.VUE_APP_ACTIVITY +
+                    "?order_sn=" +
+                    order_sn +
+                    "&area_id=" +
+                    this.area_id +
+                    "&store_id=" +
+                    this.store_id;
                 }
               }
             })
@@ -278,20 +315,36 @@ export default {
                   {
                     tradeNO: data.alipayOrderSn
                   },
-                  res => {
+                  async res => {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
-                      if (_this.is_area && amount*1 >= 3) {
-                      // if (_this.is_area) {
-                        _this.$router.push({
-                          name: "activity_card",
-                          params: message
-                        });
+                      // 广告分润
+                      console.log(_this.ids);
+                      if (amount * 1 >= 1) {
+                        if (_this.ids.adLogId) {
+                          await adShareProfit({ ..._this.ids, order_sn });
+                        }
+                      }
+                      console.log("跳转？");
+                      if (_this.is_area && amount * 1 >= 3) {
+                        // if (_this.is_area) {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                            "collectCard?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       } else {
-                        _this.$router.push({
-                          name: "activity",
-                          params: message
-                        });
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
                       }
                       return {
                         message: "ok"
@@ -313,19 +366,40 @@ export default {
                 );
               } else if (code == 201) {
                 _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
-                if (this.is_area && amount*1 >= 3) {
-                // if (_this.is_area) {
-                  _this.$router.push({
-                    name: "activity_card",
-                    params: message
-                  });
-                } else {
-                  _this.$router.push({ name: "activity", params: message });
-                }
+
+                // 广告分润
+                // if (amount*1 >= 1){
+                //   adShareProfit({..._this.ids,order_sn})
+                // }
+
+                // 等待新的跳转路径（跳到新的活动项目）
+
+                if (_this.is_area && amount * 1 >= 3) {
+                        // if (_this.is_area) {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                            "collectCard?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
+                      } else {
+                        location.href =
+                          process.env.VUE_APP_ACTIVITY +
+                          "?order_sn=" +
+                          order_sn +
+                          "&area_id=" +
+                          _this.area_id +
+                          "&store_id=" +
+                          _this.store_id;
+                      }
+              }else if (code == 40004){
+                Dialog({ message: '亲，当前使用支付宝支付账户与收款商家账户相同，无法支付，请切换账号支付。' });
               }
             })
             .catch(err => {
-              // Toast("连接超时，请稍后重试");
+              console.log(err)
             });
         }
       }
@@ -352,15 +426,19 @@ export default {
 }
 .keyboard-box {
   width: 100%;
+  display: flex;
 }
 .van-dialog__header {
   font-weight: bold;
 }
+.number-area {
+  display: flex;
+}
 li {
   font-size: 0.17rem;
-  float: left;
+  /* float: left; */
   line-height: 0.5rem;
-  width: 0.89rem;
+  width: 0.88rem;
   /* height: .5rem; */
   height: 0.5rem;
   background: #fff;

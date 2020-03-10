@@ -5,7 +5,7 @@ import { FETCH_OK, NOT_SIGN, NOT_FIND, SERVER_ERROR } from "../utils/global"
 import store from "../store/index"
 import { Toast } from "vant"
 const config = {
-  baseURL: process.env.VUE_APP_BASE_DOMAIN,
+  baseURL: process.env.VUE_APP_BASE_USER,
   timeout: 10000,
   headers: {
     Accept: "application/json"
@@ -42,7 +42,7 @@ instance.interceptors.response.use(
     store.dispatch("ajaxAfter")
     const { code, message, response } = err
     if (code === 'ECONNABORTED' || message === 'Network Error') {
-        Toast('网络异常，请重新扫码支付');
+        Toast('网络异常');
     }
     // if(JSON.stringify(err).includes('timeout')){
     // }
@@ -51,7 +51,7 @@ instance.interceptors.response.use(
       const { status, data } = response
       switch (status) {
         case 400:
-          window.console.log("HTTP: 400")
+          Toast.fail(data.message)
           break
         case NOT_SIGN:
           import("../utils/handle_login").then(({ Login }) => {
