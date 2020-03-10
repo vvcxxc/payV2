@@ -60,7 +60,6 @@ export default {
           verify_code: this.code,
           from: type
         }).then(res => {
-          console.log(res);
           if (res.status_code == 200) {
             Toast.success("登录成功");
             // Cookie.set(process.env.VUE_APP_TOKEN,res.data.token)
@@ -68,6 +67,7 @@ export default {
             // Cookie.set('phone_status',res.data.status)
             //  this.$router.go(-1);//返回上一层
             let url = localStorage.getItem("url");
+            encodeURIComponent(url)
             location.href =
               process.env.VUE_APP_USER_API +
               "/v1/user/auth/relogin?phone=" +
