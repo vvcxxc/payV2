@@ -10,7 +10,7 @@
     "release": "vue-cli-service build --mode release"
   },
   "dependencies": {
-    "@sentry/browser": "^5.9.0",
+    "@sentry/browser": "^5.9.1",
     "@sentry/integrations": "^5.8.0",
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
