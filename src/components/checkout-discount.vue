@@ -5,19 +5,18 @@
       <div class="header-left signed" @click="check_show = true" v-if="!is_show">已登录</div>
       <div class="header-center">
         优惠信息
-        <img src="../assets/question_mark.png" @click="openTips">
+        <img src="../assets/question_mark.png" @click="openTips" />
       </div>
       <div class="header-right" @click="close">
-        <img src="../assets/header-close.png" >
+        <img src="../assets/header-close.png" />
       </div>
     </div>
     <!-- 满减头部 -->
     <div class="money_off" v-if="money_off_list">
       <i class="icon" />
-        <div v-for="(value,key) in money_off_list" :key="key">
-          <span>满{{key}}减{{value}}</span>
-        </div>
-
+      <div v-for="(value,key) in money_off_list" :key="key">
+        <span>满{{key}}减{{value}}</span>
+      </div>
     </div>
     <!-- 优惠栏 -->
     <div class="discount-tabs">
@@ -86,23 +85,24 @@
     <div class="confirm" @click="Confirm">确认</div>
 
     <!-- 提示信息-->
-   <van-overlay :show='tip_show' :z-index="1331" style="display:unset" @click="tip_show = false">
-     <div class="wrapper" @click.stop>
+    <van-overlay :show="tip_show" :z-index="1331" style="display:unset" @click="tip_show = false">
+      <div class="wrapper" @click.stop>
         <div class="tips-box">
           <div class="tips-title">优惠信息</div>
-          <div class="tips-text">
-            1.有门槛券和满减活动，只能选择一项；若需要更换优惠方式，请取消勾选后再做选择。
-          </div>
-          <div class="tips-text">
-            2.在支付宝与微信两个渠道上获取的券，可能会出现无法跨渠道使用的情况，请先登录同步卡券。
-          </div>
+          <div class="tips-text">1.有门槛券和满减活动，只能选择一项；若需要更换优惠方式，请取消勾选后再做选择。</div>
+          <div class="tips-text">2.在支付宝与微信两个渠道上获取的券，可能会出现无法跨渠道使用的情况，请先登录同步卡券。</div>
           <div class="tips-button" @click="tip_show = false">确认</div>
         </div>
-     </div>
-   </van-overlay>
+      </div>
+    </van-overlay>
 
-   <van-overlay :show='check_show' :z-index="1331" style="display:unset" @click="check_show = false">
-     <div class="wrapper" @click.stop>
+    <van-overlay
+      :show="check_show"
+      :z-index="1331"
+      style="display:unset"
+      @click="check_show = false"
+    >
+      <div class="wrapper" @click.stop>
         <div class="check-box">
           <div class="check-title">温馨提示</div>
           <div class="check-text">当前登录的账号为:{{phone}}</div>
@@ -112,14 +112,15 @@
             <div class="check-button-confirm" @click="checkoutPhone">切换账号</div>
           </div>
         </div>
-     </div>
-   </van-overlay>
+      </div>
+    </van-overlay>
   </div>
 </template>
 <script>
-import { Compare, RemoveDup,accAdd } from "../utils/common.js";
+import { Compare, RemoveDup, accAdd } from "../utils/common.js";
 import { mapGetters } from "vuex";
-import {Cookie} from '../utils/common'
+import { Cookie } from "../utils/common";
+import { getUserInfo } from "../api/api_user";
 export default {
   data() {
     return {
@@ -132,17 +133,25 @@ export default {
       is_ok: true, //
       tip_show: false,
       check_show: false,
-      phone: ''
+      phone: ""
     };
   },
 
   created() {
-    this.phone = Cookie.get('phone')
-    let phone_status = Cookie.get('phone_status');
-    if(phone_status != 'binded' && phone_status != 'bind_success' && phone_status != 'merge_success'){
-      this.is_show = true
-    }else {
-      this.is_show = false
+    let phone_status = Cookie.get("phone_status");
+    if (
+      phone_status != "binded" &&
+      phone_status != "bind_success" &&
+      phone_status != "merge_success"
+    ) {
+      this.is_show = true;
+     
+    } else {
+      this.is_show = false;
+       getUserInfo().then(res => {
+        console.log(res)
+        this.phone = res.data.phone
+      })
     }
   },
   computed: {
@@ -153,26 +162,26 @@ export default {
     list: function(a) {
       let num = 0;
       let id = [];
-      let sums = 0
+      let sums = 0;
       for (let i in a) {
         if (a[i].ischecked == true) {
           id.push(a[i].coupons_id);
           num++;
-          sums = accAdd(sums,a[i].money)
+          sums = accAdd(sums, a[i].money);
         }
       }
-      this.sums = sums
+      this.sums = sums;
       this.num = num;
       this.id = id;
     }
   },
   mounted() {
     this.is_activity = this.is_money_off;
-    let list = [...this.coupon_list]
-    for (let i in list){
-      for (let a in this.coupon_id){
-        if (this.coupon_id[a] == list[i].coupons_id){
-          list[i].ischecked = true
+    let list = [...this.coupon_list];
+    for (let i in list) {
+      for (let a in this.coupon_id) {
+        if (this.coupon_id[a] == list[i].coupons_id) {
+          list[i].ischecked = true;
         }
       }
     }
@@ -191,19 +200,25 @@ export default {
         let arr = [];
         if (list.length) {
           for (let i in list) {
-            if (list[i].full_money <= this.sum * 1 && list[i].is_threshold == 2) {
+            if (
+              list[i].full_money <= this.sum * 1 &&
+              list[i].is_threshold == 2
+            ) {
               arr.push(list[i]);
             }
           }
           if (arr.length) {
             arr.sort(Compare("money"));
-            for (let i in list){
-              if(list[i].coupons_id == arr[0].coupons_id){
-                list[i].ischecked = true
-                list[i].choose = 1
-              }else if (list[i].coupons_id != arr[0].coupons_id && list[i].is_threshold == 2){
+            for (let i in list) {
+              if (list[i].coupons_id == arr[0].coupons_id) {
+                list[i].ischecked = true;
+                list[i].choose = 1;
+              } else if (
+                list[i].coupons_id != arr[0].coupons_id &&
+                list[i].is_threshold == 2
+              ) {
                 list[i].ischecked = false;
-                list[i].choose = 0
+                list[i].choose = 0;
               }
             }
           }
@@ -224,14 +239,14 @@ export default {
       this.list = list;
     },
     // 跳转登录
-    login (){
-      localStorage.setItem('url',location.href)
-      this.$router.push({path: '/login'})
+    login() {
+      localStorage.setItem("url", location.href);
+      this.$router.push({ path: "/login" });
     },
     // 切换账号
     checkoutPhone() {
-      localStorage.setItem('url',location.href)
-      this.$router.push({path: '/login'})
+      localStorage.setItem("url", location.href);
+      this.$router.push({ path: "/login" });
     },
     // 判断是否有满减
     isMoneyOff() {
@@ -268,7 +283,7 @@ export default {
           list[i].ischecked = false;
           for (let a in id) {
             if (list[i].coupons_id == id[a]) {
-              console.log(2123)
+              console.log(2123);
               list[i].ischecked = true;
             }
           }
@@ -281,7 +296,7 @@ export default {
     // 判断选择的是否为有门槛券,并设置有门槛只能使用一张
     isThreshold(list) {
       let isok = false;
-      if(!this.is_activity){
+      if (!this.is_activity) {
         for (let i in list) {
           if (list[i].ischecked && list[i].is_threshold == 2) {
             list[i].choose = 1;
@@ -295,11 +310,11 @@ export default {
             }
           }
         }
-      }else {
-        for (let i in list){
-          if(list[i].is_threshold == 2){
-            list[i].choose = 0
-            list[i].ischecked = false
+      } else {
+        for (let i in list) {
+          if (list[i].is_threshold == 2) {
+            list[i].choose = 0;
+            list[i].ischecked = false;
           }
         }
       }
@@ -345,7 +360,7 @@ export default {
             list[i].choose = 0;
           }
         }
-        this.is_activity = 0
+        this.is_activity = 0;
       } else if (item.is_threshold == 2 && item.ischecked == false) {
         for (let i in list) {
           if (list[i].full_money * 1 <= this.sum) {
@@ -362,28 +377,28 @@ export default {
     //  点击确定，向父组件传值
     Confirm() {
       this.id = RemoveDup(this.id);
-      let sums = this.sums
-      if (this.is_activity){
-        console.log(this.key_value,'sss')
-        sums = accAdd(sums,this.key_value)
+      let sums = this.sums;
+      if (this.is_activity) {
+        console.log(this.key_value, "sss");
+        sums = accAdd(sums, this.key_value);
       }
-      if(this.is_ok){
-        this.$emit("ListenToCoupon", this.id,sums, this.is_activity);
-        this.is_ok = false
+      if (this.is_ok) {
+        this.$emit("ListenToCoupon", this.id, sums, this.is_activity);
+        this.is_ok = false;
       }
     },
     close() {
-      this.$emit('ListenCloseCoupon')
+      this.$emit("ListenCloseCoupon");
       this.is_ok = false;
     },
-  //  打开提示
+    //  打开提示
     openTips() {
-      this.tip_show = !this.tip_show
-      console.log(4123)
+      this.tip_show = !this.tip_show;
+      console.log(4123);
     }
   },
   beforeDestroy() {
-    if(this.is_ok){
+    if (this.is_ok) {
       this.is_ok = false;
       this.Confirm();
     }

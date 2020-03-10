@@ -21,3 +21,12 @@ http({
     phone: data
   }
 })
+
+/**
+ *  获取用户信息
+ * */ 
+export const getUserInfo = () =>
+http({
+  url: 'v1/user/user/user_info',
+  method: 'get',
+})
