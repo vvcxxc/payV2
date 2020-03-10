@@ -2,6 +2,7 @@
   <div class="checkout">
     <div class="checkout-header">
       <div class="header-left" @click="login" v-if="is_show">立即登录</div>
+      <div class="header-left signed" @click="check_show = true" v-if="!is_show">已登录</div>
       <div class="header-center">
         优惠信息
         <img src="../assets/question_mark.png" @click="openTips">
@@ -99,11 +100,24 @@
         </div>
      </div>
    </van-overlay>
+
+   <van-overlay :show='check_show' :z-index="1331" style="display:unset" @click="check_show = false">
+     <div class="wrapper" @click.stop>
+        <div class="check-box">
+          <div class="check-title">温馨提示</div>
+          <div class="check-text">当前登录的账号为:12312222222</div>
+          <div class="check-text">是否需要切换账号</div>
+          <div class="check-button-box">
+            <div class="check-button-cancel" @click="check_show = false">关闭</div>
+            <div class="check-button-confirm" @click="checkoutPhone">切换账号</div>
+          </div>
+        </div>
+     </div>
+   </van-overlay>
   </div>
 </template>
 <script>
-import { NewArrObj, Compare, RemoveDup,accAdd } from "../utils/common.js";
-import store from "../store/index";
+import { Compare, RemoveDup,accAdd } from "../utils/common.js";
 import { mapGetters } from "vuex";
 import {Cookie} from '../utils/common'
 export default {
@@ -116,14 +130,17 @@ export default {
       key_value: 0, //减多少
       is_activity: 0, //是否使用满减
       is_ok: true, //
-      tip_show: false
+      tip_show: false,
+      check_show: false
     };
   },
 
   created() {
     let phone_status = Cookie.get('phone_status');
-    if(phone_status == 'need_login'){
+    if(phone_status != 'binded' && phone_status != 'bind_success' && phone_status != 'merge_success'){
       this.is_show = true
+    }else {
+      this.is_show = false
     }
   },
   computed: {
@@ -206,6 +223,11 @@ export default {
     },
     // 跳转登录
     login (){
+      localStorage.setItem('url',location.href)
+      this.$router.push({path: '/login'})
+    },
+    // 切换账号
+    checkoutPhone() {
       localStorage.setItem('url',location.href)
       this.$router.push({path: '/login'})
     },
