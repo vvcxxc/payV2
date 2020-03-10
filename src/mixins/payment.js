@@ -17,17 +17,13 @@ export default {
       switch (type) {
         case WECHAT:
           result = await wechatPayment({ signature }).catch(err => {
-            console.log(err)
             throw Error('--- 微信支付出错 ---')
           })
           break
         default:
           result = await alipayPayment({ signature }).catch(err => {
-            console.log(err)
             throw Error('--- 支付宝支付出错 ---')
           })
-          console.log('ali result')
-          console.log(result)
       }
       return result
     }

@@ -282,7 +282,6 @@ export default {
           list[i].ischecked = false;
           for (let a in id) {
             if (list[i].coupons_id == id[a]) {
-              console.log(2123);
               list[i].ischecked = true;
             }
           }
@@ -378,7 +377,6 @@ export default {
       this.id = RemoveDup(this.id);
       let sums = this.sums;
       if (this.is_activity) {
-        console.log(this.key_value, "sss");
         sums = accAdd(sums, this.key_value);
       }
       if (this.is_ok) {
@@ -393,7 +391,6 @@ export default {
     //  打开提示
     openTips() {
       this.tip_show = !this.tip_show;
-      console.log(4123);
     }
   },
   beforeDestroy() {

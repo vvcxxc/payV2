@@ -22,7 +22,6 @@ instance.interceptors.request.use(
     return config
   },
   err => {
-    // console.log(err)
     store.dispatch("ajaxAfter")
     return Promise.error(err)
   }
