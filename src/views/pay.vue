@@ -25,7 +25,8 @@
           </span>
         </p>
       </div>
-      <div class="discount" @click="handlecoupons" v-if="youhui_text">
+      <!--      <div class="discount" @click="handlecoupons" v-if="youhui_text">-->
+      <div class="discount" @click="handlecoupons">
         <p>优惠信息</p>
         <div class="jianshao">
           <div class="youhui_text">{{youhui_text}}</div>
@@ -54,26 +55,28 @@
         :storename="info.store_name"
         :is_area="info.is_area"
         :ids="ids"
-        :area_id='info.area_id'
-        :store_id='info.store_id'
+        :area_id="info.area_id"
+        :store_id="info.store_id"
       />
     </div>
 
-    <van-popup 
+    <van-popup
       round
       closeable
       v-model="is_show"
       position="bottom"
       :style="{ height: 'auto'}"
+      :close-on-click-overlay="false"
     >
-        <checkout-discount
-          v-if="is_show"
-          :sum="sum"
-          :spendable_coupons="spendable_coupons"
-          :coupon_id="coupon_id"
-          :is_money_off='is_money_off'
-          v-on:ListenToCoupon="getCouponsid"
-        />
+      <checkout-discount
+        v-if="is_show"
+        :sum="sum"
+        :spendable_coupons="spendable_coupons"
+        :coupon_id="coupon_id"
+        :is_money_off="is_money_off"
+        v-on:ListenToCoupon="getCouponsid"
+        v-on:ListenCloseCoupon="closeCoupon"
+      />
     </van-popup>
   </div>
 </template>
@@ -85,10 +88,8 @@ import { Compare, RemoveDup, accAdd, accSub } from "../utils/common.js";
 import { Login } from "../utils/handle_login.js";
 import { storeInfo, requestGetAd } from "../api/api_pay";
 import "vant/lib/index.css";
-import { Cookie } from "../utils/common";
 import { Toast } from "vant";
-import store from "../store/index"
-import { mapGetters } from "vuex";
+import store from "../store/index";
 export default {
   data() {
     return {
@@ -113,7 +114,7 @@ export default {
       manjian_rule: false,
       no_door: [], // 无门槛券的列表,
       ids: {},
-      youhui_text: ''
+      youhui_text: ""
     };
   },
 
@@ -132,12 +133,11 @@ export default {
         if (this.amount < 0) {
           this.amount = 0;
         }
-
       } else {
         this.amount = 0;
         this.coupon_id = [];
-        this.youhui_text = '';
-        this.sums = 0
+        this.youhui_text = "";
+        this.sums = 0;
       }
     },
     info: function() {
@@ -153,42 +153,41 @@ export default {
         }
         this.no_door = arr;
       }
-      if (this.info.reduction_money_list){
+      if (this.info.reduction_money_list) {
         this.havecoupon = true;
       }
     },
     amount: function(a) {
-      if (a*1 <= 0 || a == ''){
-        this.amount = 0
+      if (a * 1 <= 0 || a == "") {
+        this.amount = 0;
       }
     },
     coupon_id: function(a) {
       if (a.length) {
         if (this.is_money_off) {
           let w = accSub(this.sum, this.sums);
-          this.amount = w
+          this.amount = w;
         } else {
-          console.log(3)
           this.amount = accSub(this.sum, this.sums);
         }
-        for (let i in this.couponlist){
-          for (let z in a){
-            this.couponlist[i].ischecked = false
-            if(this.couponlist[i].coupons_id == a[z]){
-              this.couponlist[i].ischecked = true
+        for (let i in this.couponlist) {
+          for (let z in a) {
+            this.couponlist[i].ischecked = false;
+            if (this.couponlist[i].coupons_id == a[z]) {
+              this.couponlist[i].ischecked = true;
             }
           }
         }
-        store.dispatch("setCouponList",this.couponlist)
-      }else{
+        store.dispatch("setCouponList", this.couponlist);
+      } else {
         if (this.is_money_off) {
           let w = accSub(this.sum, this.sums);
           this.amount = w;
         } else {
           this.amount = this.sum;
         }
-        for (let i in this.couponlist){
-          this.couponlist[i].ischecked = false
+        for (let i in this.couponlist) {
+          this.couponlist[i].ischecked = false;
         }
       }
     }
@@ -222,7 +221,7 @@ export default {
       this.sums = 0;
       this.coupons_id = [];
       this.is_money_off = 0;
-      this.youhui_text = ''
+      this.youhui_text = "";
     },
     //  获取商店信息
     getStoreinfo() {
@@ -247,8 +246,11 @@ export default {
             );
             this.info = data;
             this.reduction_money_list = this.info.reduction_money_list;
-            store.dispatch("setCouponList",this.info.coupons_required_products_list)
-            store.dispatch("setMoneyOffList",this.info.reduction_money_list)
+            store.dispatch(
+              "setCouponList",
+              this.info.coupons_required_products_list
+            );
+            store.dispatch("setMoneyOffList", this.info.reduction_money_list);
             if (getBrowserType() == "alipay") {
               try {
                 AlipayJSBridge.call("setTitle", {
@@ -269,9 +271,7 @@ export default {
         .catch(err => {
           if (err.status == 401) {
             Login();
-            console.log("未登录");
           }
-          console.log(err);
           throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
@@ -312,10 +312,8 @@ export default {
           }
         }
         if (usable.length) {
-          console.log(1);
           this.isMoney(usable);
         } else {
-          console.log(2);
           this.spendable_coupons = [];
           this.coupon_id = [];
           if (this.sum * 1 >= this.key * 1 && this.key) {
@@ -325,35 +323,34 @@ export default {
       } else {
         if (this.sum * 1 >= this.key * 1 && this.key) {
           this.is_money_off = 1;
-        }else{
-          this.is_money_off = 0
+        } else {
+          this.is_money_off = 0;
         }
       }
-      let num = 0
-      let sums = 0
-      if(this.coupon_id.length){
-        console.log(323)
-        for (let i in this.couponlist){
-          if(this.coupon_id){
-            for (let a in this.coupon_id){
-              if(this.coupon_id[a] == this.couponlist[i].coupons_id){
-                sums = accAdd(sums , this.couponlist[i].money)
+      let num = 0;
+      let sums = 0;
+      if (this.coupon_id.length) {
+        for (let i in this.couponlist) {
+          if (this.coupon_id) {
+            for (let a in this.coupon_id) {
+              if (this.coupon_id[a] == this.couponlist[i].coupons_id) {
+                sums = accAdd(sums, this.couponlist[i].money);
               }
             }
           }
         }
-        num ++
+        num++;
       }
-      if(this.is_money_off){
-        sums = accAdd(sums, this.key_value)
-        num ++
+      if (this.is_money_off) {
+        sums = accAdd(sums, this.key_value);
+        num++;
       }
-      if(num){
-        this.sums = sums
-        this.youhui_text = '已选'+num+'项'
-      }else{
-        this.sums = 0
-        this.youhui_text = ''
+      if (num) {
+        this.sums = sums;
+        this.youhui_text = "已选" + num + "项";
+      } else {
+        this.sums = 0;
+        this.youhui_text = "";
       }
     },
     /**
@@ -374,8 +371,7 @@ export default {
         }
       }
       arr.unshift(best[0]);
-      if (this.sum * 1 >= this.key * 1 && this.key*1 != 0) {
-        console.log(5)
+      if (this.sum * 1 >= this.key * 1 && this.key * 1 != 0) {
         if (best[0].money * 1 <= this.key_value * 1) {
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
@@ -386,7 +382,6 @@ export default {
             this.is_money_off = 1;
           }
         } else {
-          console.log(6)
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -395,12 +390,11 @@ export default {
           id.push(best[0].coupons_id);
           this.coupon_id = id;
         }
-      }else{
-        console.log(7)
+      } else {
         this.is_money_off = 0;
-        arr.sort(Compare('money'))
-        id.push(arr[0].coupons_id)
-        this.coupon_id = id
+        arr.sort(Compare("money"));
+        id.push(arr[0].coupons_id);
+        this.coupon_id = id;
       }
 
       arr = RemoveDup(arr);
@@ -409,27 +403,32 @@ export default {
 
     // 监听从优惠券组件传回的值
     getCouponsid(id, sums, acticity) {
-      this.is_money_off = acticity
+      this.is_money_off = acticity;
       this.is_show = false;
       this.coupon_id = id;
       if (sums) {
         this.coupon = "-" + sums + "元";
         this.sums = sums;
-        let num = 0
-        if(id.length){
-          num = accAdd(num, id.length)
+        let num = 0;
+        if (id.length) {
+          num = accAdd(num, id.length);
         }
-        if (acticity){
-          num ++
+        if (acticity) {
+          num++;
         }
-        if(num){
-          this.youhui_text = '已选' + num + '项'
+        if (num) {
+          this.youhui_text = "已选" + num + "项";
         }
       } else {
         this.sums = 0;
-        this.youhui_text = ''
+        this.youhui_text = "";
         this.coupon = this.couponlist.length + "张";
       }
+    },
+
+    //    关闭优惠信息弹出层
+    closeCoupon() {
+      this.is_show = false;
     }
   }
 };
@@ -598,17 +597,17 @@ header {
   border-bottom: 1px solid #ebebeb;
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
 }
 .jianshao {
   width: 2.75rem;
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
 }
 .youhui_text {
-  color: #BAC3C7;
-  font-size: .12rem
+  color: #bac3c7;
+  font-size: 0.12rem;
 }
 .jianshao_right {
   width: auto;
@@ -617,10 +616,10 @@ header {
   align-items: center;
 }
 .jianshao_right div {
-  margin-right: .1rem;
+  margin-right: 0.1rem;
   font-weight: bold;
   font-size: 14px;
-  line-height: unset
+  line-height: unset;
 }
 .jianshao img {
   height: 14px;

@@ -5,7 +5,7 @@ import { Cookie } from "../utils/common";
 Vue.use(VueRouter);
 const Pay = () => import(/* webpackChunkName: "Pay" */ '@/views/pay.vue')
 const Vending = () => import('@/views/vendingMachine.vue')
-
+const LoginPage = () => import('@/views/login.vue')
 var router = new VueRouter({
   // 命名:组件名大驼峰、path/name小驼峰
   mode: 'history',
@@ -19,6 +19,11 @@ var router = new VueRouter({
       component: Pay
     },
     {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
+    },
+    {
       path: '/vendingMachine',
       name: 'vendingMachine',
       component: Vending
@@ -30,7 +35,8 @@ var router = new VueRouter({
 router.beforeEach((to,from,next) => {
   if(process.env.VUE_APP_FLAG == 'development'){
     Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
-    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC5hcGkudGRpYW55aS5jb20vd2VjaGF0L3d4b2F1dGgiLCJpYXQiOjE1ODE0MDIyODcsImV4cCI6MTU4MTc2MjI4NywibmJmIjoxNTgxNDAyMjg3LCJqdGkiOiJUOGJqYWh6ZTBJY201ajY3Iiwic3ViIjo3NTcwLCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.ZIyZAaq4kLZYEBhRzk1I491cQEJP3rQz8lw2PMs_LBk')
+    Cookie.set('phone_status','binded')
+    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC51c2VyY2VudGVyLnRkaWFueWkuY29tL3YxL3VzZXIvYXV0aC9hdXRoX2g1IiwiaWF0IjoxNTgzODA0NjM0LCJleHAiOjE1ODM4OTQ2MzQsIm5iZiI6MTU4MzgwNDYzNCwianRpIjoiR250ZXhnaXlLdzh5WDRpcSIsInN1YiI6NzY2NCwicHJ2IjoiNTg3ZWQ0ZWI0ZmY2YjBiMmQ4OTZhOWI3YjcxMDRlNzBhNWI3YTAwMCJ9.QS9HzOONoJEt2zAGCwlPKt3to1phZbotq0nymgW5PAI')
   }
     if (
       Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
