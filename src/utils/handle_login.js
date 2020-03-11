@@ -10,6 +10,8 @@ export const Login = () => {
     // }
     let VUE_APP_AUTH_URL = process.env.VUE_APP_AUTH_URL
     let VUE_APP_USER_API = process.env.VUE_APP_USER_API
+    let VUE_APP_WX_APPID = process.env.VUE_APP_WX_APPID
+    let VUE_APP_ALI_APPID = process.env.VUE_APP_ALI_APPID
     let browsertype = getBrowserType();
     if (browsertype == "wechat") {
       let codeid = getUrlParams().code_id;
@@ -25,7 +27,7 @@ export const Login = () => {
       //   "http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=" +
       //   url +
       //   "&response_type=code&scope=snsapi_base&connect_redirect=1&state=STATE&state=STATE";
-      let urls = VUE_APP_AUTH_URL + 'index_xcx.html?appid=wxfe816c3a5440ce7a&redirect_uri='+url+'&response_type=code&scope=snsapi_base&connect_redirect=1&state=STATE&state=STATE';
+      let urls = VUE_APP_AUTH_URL + 'index_xcx.html?appid='+VUE_APP_WX_APPID+'&redirect_uri='+url+'&response_type=code&scope=snsapi_base&connect_redirect=1&state=STATE&state=STATE';
       return (window.location.href = urls);
     } else if (browsertype == "alipay") {
       // let url = process.env.VUE_APP_BASE_DOMAIN + "ali/getZfbUserInfo";
@@ -40,7 +42,7 @@ export const Login = () => {
       //   from +
       //   "&url=" +
       //   url;
-      let urls = VUE_APP_AUTH_URL + 'ali.html?appid=2018080960968490&redirect_uri='+url+'&scope=auth_base&state=STATE'
+      let urls = VUE_APP_AUTH_URL + 'ali.html?appid='+ VUE_APP_ALI_APPID +'&redirect_uri='+url+'&scope=auth_base&state=STATE'
       return window.location.href = urls;
     }
 }
