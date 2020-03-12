@@ -36,7 +36,7 @@ router.beforeEach((to,from,next) => {
   if(process.env.VUE_APP_FLAG == 'development'){
     Cookie.set('test_open_id','oy6pQ05896O22gUAljVH4uqvCnhU')
     Cookie.set('phone_status','binded')
-    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC51c2VyY2VudGVyLnRkaWFueWkuY29tL3YxL3VzZXIvYXV0aC9hdXRoX2g1IiwiaWF0IjoxNTgzODA0NjM0LCJleHAiOjE1ODM4OTQ2MzQsIm5iZiI6MTU4MzgwNDYzNCwianRpIjoiR250ZXhnaXlLdzh5WDRpcSIsInN1YiI6NzY2NCwicHJ2IjoiNTg3ZWQ0ZWI0ZmY2YjBiMmQ4OTZhOWI3YjcxMDRlNzBhNWI3YTAwMCJ9.QS9HzOONoJEt2zAGCwlPKt3to1phZbotq0nymgW5PAI')
+    Cookie.set('test_token_auth','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdGVzdC51c2VyY2VudGVyLnRkaWFueWkuY29tL3YxL3VzZXIvYXV0aC9hdXRoX2g1IiwiaWF0IjoxNTgzOTk4NDUzLCJleHAiOjE1ODQwODg0NTMsIm5iZiI6MTU4Mzk5ODQ1MywianRpIjoiNmdjWHNnWWtMZFllUVlnZyIsInN1YiI6MzY3NTUsInBydiI6IjU4N2VkNGViNGZmNmIwYjJkODk2YTliN2I3MTA0ZTcwYTViN2EwMDAifQ.YETnQUWqZOyDlH6V8nHDdWqOdml3DGDnzFQ9_xkjOyY')
   }
     if (
       Cookie.get(process.env.VUE_APP_TOKEN) == "undefined" ||
