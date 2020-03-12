@@ -10,7 +10,9 @@
         <input type="phone" v-model="phone" placeholder="请输入手机号" />
         <div class="code-button">
           <div v-if="is_code" @click="getPhoneCode">发送验证码</div>
-          <van-count-down v-if="!is_code" :time="60000" format="ss" @finish="is_code = true" />
+          <div v-if="!is_code" class="code-secend">
+            <van-count-down :time="60000" format="ss" @finish="is_code = true" />s后重新获取
+          </div>
         </div>
       </div>
       <div class="input-box">
