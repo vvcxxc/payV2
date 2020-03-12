@@ -17,7 +17,7 @@
       </div>
       <div class="input-box">
         <div class="input-label">验证码</div>
-        <input type="text" placeholder="请输入验证码" v-model="code" />
+        <input type="text" placeholder="请输入验证码" v-model="code" maxlength="6">
       </div>
     </div>
     <div style="width: 100%; padding: 0 .12rem">
