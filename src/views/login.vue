@@ -69,7 +69,7 @@ export default {
             encodeURIComponent(url)
             location.href =
               process.env.VUE_APP_USER_API +
-              "/v1/user/auth/relogin?phone=" +
+              "v1/user/auth/relogin?phone=" +
               this.phone +
               "&verify_code=" +
               this.code +
