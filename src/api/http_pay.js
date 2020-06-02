@@ -38,7 +38,6 @@ instance.interceptors.response.use(
     }
   },
   err => {
-    console.log(err)
     store.dispatch("ajaxAfter")
     const { code, message, response } = err
     if (code === 'ECONNABORTED' || message === 'Network Error') {

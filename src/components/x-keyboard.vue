@@ -39,7 +39,7 @@ import {
 } from "../api/api_pay";
 import { Dialog, Loading, Toast } from "vant";
 import { mapGetters } from "vuex";
-import { async } from "q";
+// import { async } from "q";
 export default {
   data() {
     return {
@@ -205,7 +205,6 @@ export default {
                   async function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                       // 广告分润
-                      console.log(_this.ids);
                       if (amount * 1 >= 1) {
                         if (_this.ids.store_id) {
                           await adShareProfit({ ..._this.ids, order_sn });
@@ -319,13 +318,11 @@ export default {
                     if (res.resultCode === "9000") {
                       _hmt.push(["_trackEvent", "支付宝支付", "支付成功"]);
                       // 广告分润
-                      console.log(_this.ids);
                       if (amount * 1 >= 1) {
                         if (_this.ids.adLogId) {
                           await adShareProfit({ ..._this.ids, order_sn });
                         }
                       }
-                      console.log("跳转？");
                       if (_this.is_area && amount * 1 >= 3) {
                         // if (_this.is_area) {
                         location.href =

@@ -8,26 +8,48 @@ import store from './store'
 import FastClick from 'fastclick';
 import Vconsole from 'vconsole'
 import {
-  Popup,Overlay, NavBar, CountDown
+  Popup,
+  Overlay,
+  NavBar,
+  CountDown,
+  Field
 } from 'vant';
 Vue.use(Popup);
 Vue.use(Overlay);
 Vue.use(NavBar);
 Vue.use(CountDown);
-
-(function() {
-  if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
-      handleFontSize();
+Vue.use(Field);
+let isIOS = !! navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+FastClick.prototype.focus = function (targetElement) {
+  var length;
+  // Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
+  if (isIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+    length = targetElement.value.length;
+    targetElement.focus();
+    targetElement.setSelectionRange(length, length);
   } else {
-      document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+    targetElement.focus();
   }
+
+};
+(function () {
+  if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+    handleFontSize();
+  } else {
+    document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+  }
+
   function handleFontSize() {
-      // 设置网页字体为默认大小
-      WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 });
-      // 重写设置网页字体大小的事件
-      WeixinJSBridge.on('menu:setfont', function() {
-          WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 });
+    // 设置网页字体为默认大小
+    WeixinJSBridge.invoke('setFontSizeCallback', {
+      'fontSize': 0
+    });
+    // 重写设置网页字体大小的事件
+    WeixinJSBridge.on('menu:setfont', function () {
+      WeixinJSBridge.invoke('setFontSizeCallback', {
+        'fontSize': 0
       });
+    });
   }
 })();
 

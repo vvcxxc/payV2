@@ -168,7 +168,6 @@ export default {
           let w = accSub(this.sum, this.sums);
           this.amount = w;
         } else {
-          console.log(3);
           this.amount = accSub(this.sum, this.sums);
         }
         for (let i in this.couponlist) {
@@ -272,9 +271,7 @@ export default {
         .catch(err => {
           if (err.status == 401) {
             Login();
-            console.log("未登录");
           }
-          console.log(err);
           throw Error("--- 获取店铺基本信息出错 ---");
         });
     },
@@ -315,10 +312,8 @@ export default {
           }
         }
         if (usable.length) {
-          console.log(1);
           this.isMoney(usable);
         } else {
-          console.log(2);
           this.spendable_coupons = [];
           this.coupon_id = [];
           if (this.sum * 1 >= this.key * 1 && this.key) {
@@ -335,7 +330,6 @@ export default {
       let num = 0;
       let sums = 0;
       if (this.coupon_id.length) {
-        console.log(323);
         for (let i in this.couponlist) {
           if (this.coupon_id) {
             for (let a in this.coupon_id) {
@@ -378,7 +372,6 @@ export default {
       }
       arr.unshift(best[0]);
       if (this.sum * 1 >= this.key * 1 && this.key * 1 != 0) {
-        console.log(5);
         if (best[0].money * 1 <= this.key_value * 1) {
           if (this.no_door.length) {
             this.no_door.sort(Compare("money"));
@@ -389,7 +382,6 @@ export default {
             this.is_money_off = 1;
           }
         } else {
-          console.log(6);
           if (best[0].is_threshold == 1) {
             this.is_money_off = 1;
           } else {
@@ -399,7 +391,6 @@ export default {
           this.coupon_id = id;
         }
       } else {
-        console.log(7);
         this.is_money_off = 0;
         arr.sort(Compare("money"));
         id.push(arr[0].coupons_id);

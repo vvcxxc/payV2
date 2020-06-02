@@ -10,12 +10,14 @@
         <input type="phone" v-model="phone" placeholder="请输入手机号" />
         <div class="code-button">
           <div v-if="is_code" @click="getPhoneCode">发送验证码</div>
-          <van-count-down v-if="!is_code" :time="60000" format="ss" @finish="is_code = true" />
+          <div v-if="!is_code" class="code-secend">
+            <van-count-down :time="60000" format="ss" @finish="is_code = true" />s后重新获取
+          </div>
         </div>
       </div>
       <div class="input-box">
         <div class="input-label">验证码</div>
-        <input type="text" placeholder="请输入验证码" v-model="code" />
+        <input type="text" placeholder="请输入验证码" v-model="code" maxlength="6">
       </div>
     </div>
     <div style="width: 100%; padding: 0 .12rem">
@@ -26,7 +28,7 @@
 <script>
 import { phoneLogin, getCode } from "../api/api_user";
 import { Toast } from "vant";
-import { Cookie } from "../utils/common";
+
 import { getBrowserType } from "../utils/get_info";
 export default {
   data() {
@@ -60,17 +62,14 @@ export default {
           verify_code: this.code,
           from: type
         }).then(res => {
-          console.log(res);
           if (res.status_code == 200) {
             Toast.success("登录成功");
-            // Cookie.set(process.env.VUE_APP_TOKEN,res.data.token)
-            // Cookie.set('expires_in',res.data.expires_in)
-            // Cookie.set('phone_status',res.data.status)
-            //  this.$router.go(-1);//返回上一层
+            
             let url = localStorage.getItem("url");
+            encodeURIComponent(url)
             location.href =
               process.env.VUE_APP_USER_API +
-              "/v1/user/auth/relogin?phone=" +
+              "v1/user/auth/relogin?phone=" +
               this.phone +
               "&verify_code=" +
               this.code +
